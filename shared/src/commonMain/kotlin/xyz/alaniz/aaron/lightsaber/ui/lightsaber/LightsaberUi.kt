@@ -1,0 +1,184 @@
+package xyz.alaniz.aaron.lightsaber.ui.lightsaber
+
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawOutline
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.slack.circuit.runtime.CircuitContext
+import com.slack.circuit.runtime.screen.Screen
+import com.slack.circuit.runtime.ui.Ui
+import com.slack.circuit.runtime.ui.ui
+import me.tatarka.inject.annotations.Inject
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
+
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) {
+    LightsaberTheme {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+        ) {
+            val lightSaberHandlePainter = painterResource(res = "drawable/lightsaber_handle.xml")
+            val lightSaberHandleWidth = 110.dp
+            val lightSaberHeightDp = 480.dp
+            val lightSaberHeightPx = with(LocalDensity.current) { lightSaberHeightDp.toPx() }
+            val bladeState = lightsaberState.bladeState
+            val height = remember { Animatable(0f) }
+            val targetHeight =
+                if (bladeState == BladeState.Activating) lightSaberHeightPx else 0f
+
+            if (bladeState == BladeState.Activating ||
+                bladeState == BladeState.Deactivating
+            ) {
+                LaunchedEffect(key1 = bladeState, block = {
+                    height.animateTo(targetHeight, animationSpec = tween(500)) {
+                        when {
+                            this.value == targetHeight && this.value == 0f -> {
+                                lightsaberState.onEvent(LightsaberEvent.LightsaberDeactivated)
+                            }
+
+                            this.value == targetHeight && this.value == lightSaberHeightPx -> {
+                                lightsaberState.onEvent(LightsaberEvent.LightsaberActivated)
+                            }
+                        }
+                    }
+                })
+            }
+            Column(
+                modifier = Modifier
+                    .align(alignment = Alignment.BottomCenter)
+                    .width(width = lightSaberHandleWidth)
+                    .padding(all = 16.dp)
+            ) {
+                if (bladeState != BladeState.Initializing &&
+                    bladeState != BladeState.Deactivated
+                ) {
+                    LightsaberBlade(
+                        modifier = Modifier
+                            .align(alignment = Alignment.CenterHorizontally)
+                            .offset(x = 0.dp, y = 16.dp),
+                        lightsaberBladeCurrentHeight = height.value,
+                        lightsaberBladeTotalHeight = lightSaberHeightDp
+                    )
+                }
+
+                Image(
+                    painter = lightSaberHandlePainter,
+                    contentDescription = "lightsaber handle",
+                    Modifier
+                        .clickable(
+                            interactionSource = MutableInteractionSource(),
+                            indication = null,
+                            enabled = bladeState != BladeState.Initializing
+                        ) {
+                            when (bladeState) {
+                                BladeState.Deactivated -> lightsaberState.onEvent(LightsaberEvent.LightsaberActivating)
+                                BladeState.Activating, BladeState.Activated,
+                                BladeState.Deactivating -> lightsaberState.onEvent(LightsaberEvent.LightsaberDeactivating)
+
+                                BladeState.Initializing -> {
+                                    error("Should not allow clicking before lightsaber is initialized")
+                                }
+                            }
+                        }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun LightsaberBlade(
+    modifier: Modifier = Modifier,
+    lightsaberBladeCurrentHeight: Float,
+    lightsaberBladeTotalHeight: Dp,
+) {
+    val lightsaberBladeWidth = 20.dp
+    val blurSize = 4.dp
+    Box(
+        modifier = modifier
+            .width(width = lightsaberBladeWidth + blurSize)
+            .height(height = lightsaberBladeTotalHeight + blurSize)
+            .blur(radius = blurSize)
+            .drawWithCache {
+                val lightSaberBladeSize = Size(
+                    width = (lightsaberBladeWidth - blurSize).toPx(),
+                    height = lightsaberBladeCurrentHeight
+                )
+                val lightSaberBladeRadius = CornerRadius(30.dp.toPx(), 30.dp.toPx())
+                val roundRect = RoundRect(
+                    rect = Rect(
+                        offset = Offset(
+                            x = blurSize.toPx(),
+                            y = -(lightSaberBladeSize.height)
+                        ),
+                        size = lightSaberBladeSize,
+                    ).translate(0f, this.size.height),
+                    topLeft = lightSaberBladeRadius,
+                    topRight = lightSaberBladeRadius
+                )
+                val path = Path().apply {
+                    addRoundRect(
+                        roundRect
+                    )
+                }
+                onDrawWithContent {
+                    drawPath(path, color = Color.White)
+                    drawOutline(
+                        outline = Outline.Rounded(roundRect),
+                        style = Stroke(width = 8f),
+                        color = Color.Green
+                    )
+                }
+            }
+    ) {
+    }
+}
+
+@Inject
+class LightsaberUiFactory : Ui.Factory {
+    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
+        return when (screen) {
+            is LightsaberScreen -> ui<LightsaberState> { state, modifier ->
+                Lightsaber(
+                    state,
+                    modifier
+                )
+            }
+
+            else -> null
+        }
+    }
+}
