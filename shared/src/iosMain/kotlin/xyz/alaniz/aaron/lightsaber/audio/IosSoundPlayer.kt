@@ -54,6 +54,9 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
     }
 
     override fun play(soundResource: SoundResource, loop: Boolean) {
+        check(::soundResourceToPlayerNodeMap.isInitialized) {
+            "Cannot play without loading sound resources."
+        }
         val (buffer, playerNode) = requireNotNull(soundResourceToPlayerNodeMap[soundResource])
         val options: AVAudioPlayerNodeBufferOptions = if (loop) 1u else 0u
 
