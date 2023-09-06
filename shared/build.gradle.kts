@@ -38,6 +38,11 @@ kotlin {
                 implementation(libs.circuit.foundation)
             }
         }
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
         val androidMain by getting {
             dependencies {
                 api(libs.androidx.activity.compose)
