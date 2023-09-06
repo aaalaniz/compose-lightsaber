@@ -1,0 +1,58 @@
+name: Lightsaber CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: lightsaber-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-shared:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
+
+      - name: Build Shared
+        # TODO Understand why compileIosMainKotlinMetadata fails every time
+        run: ./gradlew shared:build -x compileIosMainKotlinMetadata
+
+  build-androidApp:
+    runs-on: macos-latest
+    needs: build-shared
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
+
+      - name: Build Android App
+        run: ./gradlew androidApp:build
+
+  build-debug-iosApp:
+    runs-on: macos-latest
+    needs: build-shared
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
+
+      - name: Sync Shared Framework
+        run: ./gradlew shared:podInstall shared:syncFramework
+
+      - name: Build Debug iOS App
+        run: xcodebuild -workspace ./iosApp/iosApp.xcworkspace -scheme iosApp -configuration Debug |
+          OBJROOT=./build/ios SYMROOT=./build/ios -sdk iphonesimulator -arch arm64 |
+          -allowProvisioningDeviceRegistration -allowProvisioningUpdates
+
+  test-shared:
+    runs-on: macos-latest
+    needs: build-shared
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
+
+      - name: Unit Test Shared
+        run: ./gradlew shared:cleanAllTests shared:allTests
