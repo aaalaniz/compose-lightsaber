@@ -62,6 +62,15 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
         }
         val iosTest by getting
+        val iosX64Test by getting {
+            dependsOn(iosTest)
+        }
+        val iosArm64Test by getting {
+            dependsOn(iosTest)
+        }
+        val iosSimulatorArm64Test by getting {
+            dependsOn(iosTest)
+        }
     }
 }
 

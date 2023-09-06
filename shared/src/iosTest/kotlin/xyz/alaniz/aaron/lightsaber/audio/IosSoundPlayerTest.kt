@@ -13,7 +13,7 @@ class IosSoundPlayerTest {
 
     @Test
     fun `play without loading throws exception`() {
-        assertFailsWith<IllegalArgumentException> {
+        assertFailsWith<IllegalStateException> {
             iosSoundPlayer.play(soundResource = soundResource, loop = false)
         }
     }
