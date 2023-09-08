@@ -1,0 +1,7 @@
+appId: xyz.alaniz.aaron.Lightsaber
+---
+- launchApp
+- tapOn: "lightsaber handle"
+- assertVisible: "lightsaber blade"
+- tapOn: "lightsaber handle"
+- assertNotVisible: "lightsaber blade"
