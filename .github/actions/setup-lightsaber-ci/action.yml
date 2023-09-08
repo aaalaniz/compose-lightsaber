@@ -1,0 +1,20 @@
+name: Setup Lightsaber CI
+description: Setup Lightsaber CI
+runs:
+  using: "composite"
+  steps:
+    - name: Setup JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: 17
+        distribution: zulu
+        cache: 'gradle'
+    - name: Setup build cache
+      uses: actions/cache@v3
+      with:
+        key: build-${{ github.sha }}
+        path: |
+          # iOS build cache
+          ./build
+          ./shared/build
+          ./androidApp/build
