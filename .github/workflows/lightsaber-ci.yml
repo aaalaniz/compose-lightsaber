@@ -44,8 +44,7 @@ jobs:
 
       - name: Build Debug iOS App
         run: xcodebuild -workspace ./iosApp/iosApp.xcworkspace -scheme iosApp -configuration Debug |
-          OBJROOT=./build/ios SYMROOT=./build/ios -sdk iphonesimulator -arch arm64 |
-          -allowProvisioningDeviceRegistration -allowProvisioningUpdates
+          OBJROOT=./build/ios SYMROOT=./build/ios -arch arm64 -allowProvisioningUpdates
 
   test-shared:
     runs-on: macos-latest
