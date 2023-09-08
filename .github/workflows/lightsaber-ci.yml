@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
 
-      - name: Sync Shared Framework
+      - name: Shared Pod Install
         run: ./gradlew shared:podInstall
 
       - name: Build Debug iOS App
