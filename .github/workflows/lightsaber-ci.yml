@@ -40,7 +40,7 @@ jobs:
       - uses: ./.github/actions/setup-lightsaber-ci
 
       - name: Sync Shared Framework
-        run: ./gradlew shared:podInstall shared:syncFramework
+        run: ./gradlew shared:podInstall
 
       - name: Build Debug iOS App
         run: xcodebuild -workspace ./iosApp/iosApp.xcworkspace -scheme iosApp -configuration Debug |
