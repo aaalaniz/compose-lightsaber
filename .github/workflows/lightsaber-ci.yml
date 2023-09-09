@@ -16,7 +16,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./github/actions/setup-lightsaber-ci
+      - uses: ./.github/actions/setup-lightsaber-ci
 
       - name: Build Shared
         # TODO Understand why compileIosMainKotlinMetadata fails every time
@@ -27,7 +27,7 @@ jobs:
     needs: build-shared
     steps:
       - uses: actions/checkout@v3
-      - uses: ./github/actions/setup-lightsaber-ci
+      - uses: ./.github/actions/setup-lightsaber-ci
 
       - name: Build Android App
         run: ./gradlew androidApp:build
@@ -37,7 +37,7 @@ jobs:
     needs: build-shared
     steps:
       - uses: actions/checkout@v3
-      - uses: ./github/actions/setup-lightsaber-ci
+      - uses: ./.github/actions/setup-lightsaber-ci
 
       - name: Shared Pod Install
         run: ./gradlew shared:podInstall
@@ -52,7 +52,7 @@ jobs:
     needs: build-shared
     steps:
       - uses: actions/checkout@v3
-      - uses: ./github/actions/setup-lightsaber-ci
+      - uses: ./.github/actions/setup-lightsaber-ci
 
       - name: Unit Test Shared
         run: ./gradlew shared:cleanAllTests shared:allTests
@@ -62,7 +62,7 @@ jobs:
     needs: build-androidApp
     steps:
       - uses: actions/checkout@v3
-      - uses: ./github/actions/setup-lightsaber-ci
+      - uses: ./.github/actions/setup-lightsaber-ci
 
       - name: Check cache
         run: ls androidApp/build
