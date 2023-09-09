@@ -62,27 +62,9 @@ jobs:
     needs: build-androidApp
     steps:
       - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
 
-      - name: Maestro Cache
-        uses: actions/cache@v3
+      - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
         with:
-          key: maestro
-          path: $HOME./maestro
-
-      - name: AVD Cache
-        uses: actions/cache@v3
-        with:
-          key: avd
-          path: $HOME./avd
-
-      - name: Install or Upgrade Maestro
-        run: curl -Ls "https://get.maestro.mobile.dev" | bash
-
-      - name: Add maestro to path
-        run: echo "$HOME/.maestro/bin" >> $GITHUB_PATH
-
-      - name: Start Android Emulator
-        run: maestro start-device --os-version 33 --platform android
-
-      - name: Run Android E2E Tests
-        run: maestro test e2eTests
+          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+          app-file: ./androidApp/build/outputs/apk/debug/androidApp-debug.apk
