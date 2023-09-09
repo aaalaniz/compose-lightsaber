@@ -79,7 +79,7 @@ jobs:
         run: curl -Ls "https://get.maestro.mobile.dev" | bash
 
       - name: Add maestro to path
-        run: export PATH="$PATH":"$HOME/.maestro/bin"
+        run: echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
       - name: Start Android Emulator
         run: maestro start-device --os-version 33 --platform android
