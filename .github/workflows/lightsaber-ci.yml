@@ -56,3 +56,15 @@ jobs:
 
       - name: Unit Test Shared
         run: ./gradlew shared:cleanAllTests shared:allTests
+
+  e2e-test-androidApp:
+    runs-on: macos-latest
+    needs: build-androidApp
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
+
+      - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
+        with:
+          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+          app-file: androidApp/build/outputs/apk/debug/androidApp-debug.apk

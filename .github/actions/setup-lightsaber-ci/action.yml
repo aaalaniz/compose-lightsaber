@@ -9,12 +9,23 @@ runs:
         java-version: 17
         distribution: zulu
         cache: 'gradle'
-    - name: Setup build cache
+    - name: Shared Build Cache
       uses: actions/cache@v3
       with:
-        key: build-${{ github.sha }}
+        key: build-shared-${{ github.sha }}
         path: |
-          # iOS build cache
-          ./build
-          ./shared/build
-          ./androidApp/build
+          shared/build
+
+    - name: Android App Build Cache
+      uses: actions/cache@v3
+      with:
+        key: build-android-${{ github.sha }}
+        path: |
+          androidApp/build
+
+    - name: iOS App Build Cache
+      uses: actions/cache@v3
+      with:
+        key: build-ios-${{ github.sha }}
+        path: |
+          build

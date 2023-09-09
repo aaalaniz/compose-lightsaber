@@ -30,6 +30,8 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.runtime.CircuitContext
@@ -129,6 +131,9 @@ private fun LightsaberBlade(
     val blurSize = 4.dp
     Box(
         modifier = modifier
+            .semantics {
+                contentDescription = "lightsaber blade"
+            }
             .width(width = lightsaberBladeWidth + blurSize)
             .height(height = lightsaberBladeTotalHeight + blurSize)
             .blur(radius = blurSize)
