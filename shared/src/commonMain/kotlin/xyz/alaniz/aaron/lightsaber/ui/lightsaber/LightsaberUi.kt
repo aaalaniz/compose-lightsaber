@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -52,6 +56,9 @@ fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) 
             modifier = modifier
                 .fillMaxSize()
         ) {
+            SettingsIcon(modifier = modifier.align(Alignment.TopEnd).padding(16.dp)) {
+                lightsaberState.onEvent(LightsaberEvent.SettingsSelected)
+            }
             val lightSaberHandlePainter = painterResource(res = "drawable/lightsaber_handle.xml")
             val lightSaberHandleWidth = 110.dp
             val lightSaberHeightDp = 480.dp
@@ -92,7 +99,8 @@ fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) 
                             .align(alignment = Alignment.CenterHorizontally)
                             .offset(x = 0.dp, y = 16.dp),
                         lightsaberBladeCurrentHeight = height.value,
-                        lightsaberBladeTotalHeight = lightSaberHeightDp
+                        lightsaberBladeTotalHeight = lightSaberHeightDp,
+                        bladeColor = lightsaberState.bladeColor
                     )
                 }
 
@@ -122,10 +130,20 @@ fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) 
 }
 
 @Composable
+private fun SettingsIcon(modifier: Modifier = Modifier, onSettingsClicked: () -> Unit) {
+    IconButton(onClick = {
+        onSettingsClicked()
+    }, modifier = modifier) {
+        Icon(imageVector = Icons.Filled.Settings, contentDescription = "settings icon")
+    }
+}
+
+@Composable
 private fun LightsaberBlade(
     modifier: Modifier = Modifier,
     lightsaberBladeCurrentHeight: Float,
     lightsaberBladeTotalHeight: Dp,
+    bladeColor: Color
 ) {
     val lightsaberBladeWidth = 20.dp
     val blurSize = 4.dp
@@ -164,7 +182,7 @@ private fun LightsaberBlade(
                     drawOutline(
                         outline = Outline.Rounded(roundRect),
                         style = Stroke(width = 8f),
-                        color = Color.Green
+                        color = bladeColor
                     )
                 }
             }
