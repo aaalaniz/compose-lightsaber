@@ -1,0 +1,12 @@
+appId: xyz.alaniz.aaron.Lightsaber
+---
+- launchApp
+- tapOn: "lightsaber handle"
+- assertVisible: "lightsaber blade"
+- tapOn: "settings icon"
+- assertVisible: "Settings"
+- tapOn: "exit settings"
+- assertNotVisible: "lightsaber blade"
+- assertVisible: "lightsaber handle"
+- tapOn: "lightsaber handle"
+- assertVisible: "lightsaber blade"

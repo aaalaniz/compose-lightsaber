@@ -8,7 +8,10 @@ import me.tatarka.inject.annotations.Provides
 import xyz.alaniz.aaron.lightsaber.ui.common.InitialScreen
 import xyz.alaniz.aaron.lightsaber.ui.lightsaber.LightsaberPresenterFactory
 import xyz.alaniz.aaron.lightsaber.ui.lightsaber.LightsaberUiFactory
+import xyz.alaniz.aaron.lightsaber.ui.settings.SettingsPresenterFactory
+import xyz.alaniz.aaron.lightsaber.ui.settings.SettingsUiFactory
 
+@AppScope
 abstract class ApplicationComponent {
     abstract val initialScreen: InitialScreen
     abstract val circuit: Circuit
@@ -19,6 +22,12 @@ abstract class ApplicationComponent {
         @IntoSet @Provides get() = this
 
     protected val LightsaberUiFactory.bind: Ui.Factory
+        @IntoSet @Provides get() = this
+
+    protected val SettingsPresenterFactory.bind: Presenter.Factory
+        @IntoSet @Provides get() = this
+
+    protected val SettingsUiFactory.bind: Ui.Factory
         @IntoSet @Provides get() = this
 
     @Provides

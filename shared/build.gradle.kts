@@ -37,6 +37,9 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(libs.kotlin.inject.runtime)
                 implementation(libs.circuit.foundation)
+                implementation(libs.circuitx.gesture.navigation)
+                implementation(libs.androidx.datastore.preferences.core)
+                implementation(libs.androidx.datastore.core.okio)
             }
         }
         val commonTest by getting {

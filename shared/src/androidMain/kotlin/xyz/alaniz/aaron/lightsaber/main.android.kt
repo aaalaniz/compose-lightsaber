@@ -7,10 +7,16 @@ import xyz.alaniz.aaron.lightsaber.di.AndroidApplicationComponent
 import xyz.alaniz.aaron.lightsaber.di.ApplicationComponent
 import xyz.alaniz.aaron.lightsaber.di.AppContext
 import xyz.alaniz.aaron.lightsaber.di.create
+import xyz.alaniz.aaron.lightsaber.di.dataStoreFileName
 
 @Composable
 fun MainView(appContext: Context) {
-    val component: ApplicationComponent =
-        remember { AndroidApplicationComponent::class.create(AppContext(appContext)) }
-    App(applicationComponent = component)
+    val dataStorePath = appContext.filesDir.resolve(dataStoreFileName).absolutePath
+    App { scope ->
+        AndroidApplicationComponent::class.create(
+            appScope = scope,
+            dataStorePath = dataStorePath,
+            appContext = AppContext(appContext)
+        )
+    }
 }
