@@ -83,28 +83,19 @@ class LightsaberPresenter(
         val bladeState = remember {
             mutableStateOf(BladeState.Initializing)
         }
-        val scope = rememberCoroutineScope()
         var playIdleSoundJob: Job? = remember { null }
         val settings = settingsRepository.lightsaberSettings.collectAsState()
 
-        DisposableEffect(Unit) {
-            scope.launch {
-                soundPlayer.load(sounds = lightsaberSoundEffects)
-                bladeState.value = BladeState.Deactivated
-            }
-
-            onDispose {
-                soundPlayer.release()
-            }
-        }
-
         LaunchedEffect(bladeState.value) {
             when (bladeState.value) {
-                BladeState.Initializing, BladeState.Deactivated -> noop()
+                BladeState.Initializing -> {
+                    soundPlayer.load(sounds = lightsaberSoundEffects)
+                    bladeState.value = BladeState.Deactivated
+                }
+                BladeState.Deactivated -> noop()
                 BladeState.Activating -> {
                     soundPlayer.play(soundResource = lightsaberActivateSound, loop = false)
                 }
-
                 BladeState.Activated -> {
                     soundPlayer.play(soundResource = lightsaberIdleSound, loop = true)
                     swingEvents.collect {
@@ -148,6 +139,8 @@ class LightsaberPresenter(
                     BladeState.Deactivating
 
                 LightsaberEvent.SettingsSelected -> {
+                    playIdleSoundJob?.cancel()
+                    soundPlayer.release()
                     navigator.goTo(settingsScreen)
                 }
             }
