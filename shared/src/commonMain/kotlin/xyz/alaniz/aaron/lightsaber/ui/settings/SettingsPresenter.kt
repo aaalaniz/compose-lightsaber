@@ -38,7 +38,7 @@ data class SettingsState(
 @Inject
 class SettingsPresenter(
     private val settingsRepository: SettingsRepository,
-    @Assisted private val navigator: Navigator
+    private val navigator: Navigator
 ) :
     Presenter<SettingsState> {
 
@@ -70,10 +70,8 @@ class SettingsPresenter(
 }
 
 @Inject
-class SettingsPresenterFactory(private val createPresenter: (Navigator) -> SettingsPresenter) :
+class SettingsPresenterFactory(private val settingsPresenter: SettingsPresenter) :
     Presenter.Factory {
-
-    private lateinit var settingsPresenter: SettingsPresenter
 
     override fun create(
         screen: Screen,
@@ -82,9 +80,6 @@ class SettingsPresenterFactory(private val createPresenter: (Navigator) -> Setti
     ): Presenter<*>? {
         return when (screen) {
             is SettingsScreen -> {
-                if (::settingsPresenter.isInitialized.not()) {
-                    settingsPresenter = createPresenter(navigator)
-                }
                 presenterOf { settingsPresenter.present() }
             }
 

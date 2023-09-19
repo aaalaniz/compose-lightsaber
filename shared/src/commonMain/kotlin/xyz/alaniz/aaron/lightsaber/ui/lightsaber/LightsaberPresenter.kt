@@ -56,7 +56,7 @@ class LightsaberPresenter(
     private val soundPlayer: SoundPlayer,
     private val settingsScreen: SettingsScreen,
     private val settingsRepository: SettingsRepository,
-    @Assisted private val navigator: Navigator
+    private val navigator: Navigator
 ) :
     Presenter<LightsaberState> {
     private val lightsaberActivateSound =
@@ -149,10 +149,9 @@ class LightsaberPresenter(
 }
 
 @Inject
-class LightsaberPresenterFactory(private val createPresenter: (Navigator) -> LightsaberPresenter) :
+class LightsaberPresenterFactory(private val lightsaberPresenter: LightsaberPresenter) :
     Presenter.Factory {
 
-    private lateinit var lightsaberPresenter: LightsaberPresenter
     override fun create(
         screen: Screen,
         navigator: Navigator,
@@ -160,9 +159,6 @@ class LightsaberPresenterFactory(private val createPresenter: (Navigator) -> Lig
     ): Presenter<*>? {
         return when (screen) {
             is LightsaberScreen -> {
-                if (::lightsaberPresenter.isInitialized.not()) {
-                    lightsaberPresenter = createPresenter(navigator)
-                }
                 presenterOf { lightsaberPresenter.present() }
             }
 

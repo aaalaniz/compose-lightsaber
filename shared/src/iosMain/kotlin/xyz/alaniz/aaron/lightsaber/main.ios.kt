@@ -1,17 +1,15 @@
 package xyz.alaniz.aaron.lightsaber
 
-import androidx.compose.runtime.remember
 import androidx.compose.ui.window.ComposeUIViewController
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.coroutines.MainScope
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
-import xyz.alaniz.aaron.lightsaber.di.ApplicationComponent
 import xyz.alaniz.aaron.lightsaber.di.IosApplicationComponent
 import xyz.alaniz.aaron.lightsaber.di.create
 import xyz.alaniz.aaron.lightsaber.di.dataStoreFileName
+import xyz.alaniz.aaron.lightsaber.ui.lightsaber.IosLightsaberScreen
 
 @OptIn(ExperimentalForeignApi::class)
 fun MainViewController() = ComposeUIViewController {
@@ -23,7 +21,11 @@ fun MainViewController() = ComposeUIViewController {
         error = null,
     )
     val dataStorePath = requireNotNull(documentDirectory).path + "/$dataStoreFileName"
-    App { scope ->
-        IosApplicationComponent::class.create(appScope = scope, dataStorePath = dataStorePath)
+    App(initialScreen = IosLightsaberScreen) { scope, navigator ->
+        IosApplicationComponent::class.create(
+            navigator = navigator,
+            appScope = scope,
+            dataStorePath = dataStorePath
+        )
     }
 }
