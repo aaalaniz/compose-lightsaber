@@ -89,6 +89,7 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
             }
             soundResourceToPlayerNodeMap.clear()
         }
+        playingSounds.clear()
 
         audioEngine.stop()
     }

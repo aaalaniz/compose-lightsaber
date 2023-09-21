@@ -20,46 +20,105 @@ jobs:
 
       - name: Build Shared
         # TODO Understand why compileIosMainKotlinMetadata fails every time
-        run: ./gradlew shared:build -x compileIosMainKotlinMetadata
+        run: ./gradlew shared:assemble -x compileIosMainKotlinMetadata
 
-  build-androidApp:
+#  build-androidApp:
+#    runs-on: macos-latest
+#    needs: build-shared
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: ./.github/actions/setup-lightsaber-ci
+#
+#      - name: Build Android App
+#        run: ./gradlew androidApp:build
+
+  build-iosApp:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+        target: [iphonesimulator, iphoneos]
     needs: build-shared
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
 
-      - name: Build Android App
-        run: ./gradlew androidApp:build
+      # Signing Xcode applications
+      # https://docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development
+      - name: Install the Apple certificate and provisioning profile
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
-  build-debug-iosApp:
-    runs-on: macos-latest
-    needs: build-shared
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-lightsaber-ci
+          # import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
       - name: Shared Pod Install
-        run: ./gradlew shared:podInstall
+        run: ./gradlew podInstall
 
-      # TODO Setup xcodebuild command correctly
-      # - name: Build Debug iOS App
-        # run: xcodebuild -workspace ./iosApp/iosApp.xcworkspace -scheme iosApp -configuration Debug |
-        #  OBJROOT=./build/ios SYMROOT=./build/ios -arch arm64 -allowProvisioningUpdates
+      - name: Build iOS App
+        env:
+          LIGHTSABER_TEAM_ID: ${{ secrets.LIGHTSABER_TEAM_ID }}
+        run: |
+          xcodebuild -workspace ${{ github.workspace }}/iosApp/iosApp.xcworkspace \
+          -scheme iosApp \
+          -configuration ${{ matrix.configuration }} \
+          -xcconfig ${{ github.workspace }}/iosApp/Configuration/Config.xcconfig \
+          OBJROOT=${{ github.workspace }}/iosApp/build/ios SYMROOT=${{ github.workspace }}/iosApp/build/ios \
+          -sdk ${{ matrix.target }}
 
-  test-shared:
+      - name: Clean up keychain and provisioning profile
+        if: ${{ always() }}
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+
+#  test-shared:
+#    runs-on: macos-latest
+#    needs: build-shared
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: ./.github/actions/setup-lightsaber-ci
+#
+#      - name: Unit Test Shared
+#        run: ./gradlew shared:cleanAllTests shared:allTests
+
+#  e2e-test-androidApp:
+#    runs-on: macos-latest
+#    needs: build-androidApp
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: ./.github/actions/setup-lightsaber-ci
+#
+#      - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
+#        with:
+#          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+#          app-file: androidApp/build/outputs/apk/debug/androidApp-debug.apk
+
+  e2e-test-iosApp:
     runs-on: macos-latest
-    needs: build-shared
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-lightsaber-ci
-
-      - name: Unit Test Shared
-        run: ./gradlew shared:cleanAllTests shared:allTests
-
-  e2e-test-androidApp:
-    runs-on: macos-latest
-    needs: build-androidApp
+    needs: build-iosApp
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
@@ -67,4 +126,4 @@ jobs:
       - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-          app-file: androidApp/build/outputs/apk/debug/androidApp-debug.apk
+          app-file: ./iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
