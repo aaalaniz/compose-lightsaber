@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
@@ -52,78 +53,86 @@ import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 @Composable
 fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) {
     LightsaberTheme {
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-        ) {
-            SettingsIcon(modifier = modifier.align(Alignment.TopEnd).padding(16.dp)) {
-                lightsaberState.onEvent(LightsaberEvent.SettingsSelected)
-            }
-            val lightSaberHandlePainter = painterResource(res = "drawable/lightsaber_handle.xml")
-            val lightSaberHandleWidth = 110.dp
-            val lightSaberHeightDp = 480.dp
-            val lightSaberHeightPx = with(LocalDensity.current) { lightSaberHeightDp.toPx() }
-            val bladeState = lightsaberState.bladeState
-            val height = remember { Animatable(0f) }
-            val targetHeight =
-                if (bladeState == BladeState.Activating) lightSaberHeightPx else 0f
-
-            if (bladeState == BladeState.Activating ||
-                bladeState == BladeState.Deactivating
+        Scaffold {
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
             ) {
-                LaunchedEffect(key1 = bladeState, block = {
-                    height.animateTo(targetHeight, animationSpec = tween(500)) {
-                        when {
-                            this.value == targetHeight && this.value == 0f -> {
-                                lightsaberState.onEvent(LightsaberEvent.LightsaberDeactivated)
-                            }
-
-                            this.value == targetHeight && this.value == lightSaberHeightPx -> {
-                                lightsaberState.onEvent(LightsaberEvent.LightsaberActivated)
-                            }
-                        }
-                    }
-                })
-            }
-            Column(
-                modifier = Modifier
-                    .align(alignment = Alignment.BottomCenter)
-                    .width(width = lightSaberHandleWidth)
-                    .padding(all = 16.dp)
-            ) {
-                if (bladeState != BladeState.Initializing &&
-                    bladeState != BladeState.Deactivated
-                ) {
-                    LightsaberBlade(
-                        modifier = Modifier
-                            .align(alignment = Alignment.CenterHorizontally)
-                            .offset(x = 0.dp, y = 16.dp),
-                        lightsaberBladeCurrentHeight = height.value,
-                        lightsaberBladeTotalHeight = lightSaberHeightDp,
-                        bladeColor = lightsaberState.bladeColor
-                    )
+                SettingsIcon(modifier = modifier.align(Alignment.TopEnd).padding(16.dp)) {
+                    lightsaberState.onEvent(LightsaberEvent.SettingsSelected)
                 }
+                val lightSaberHandlePainter =
+                    painterResource(res = "drawable/lightsaber_handle.xml")
+                val lightSaberHandleWidth = 110.dp
+                val lightSaberHeightDp = 480.dp
+                val lightSaberHeightPx = with(LocalDensity.current) { lightSaberHeightDp.toPx() }
+                val bladeState = lightsaberState.bladeState
+                val height = remember { Animatable(0f) }
+                val targetHeight =
+                    if (bladeState == BladeState.Activating) lightSaberHeightPx else 0f
 
-                Image(
-                    painter = lightSaberHandlePainter,
-                    contentDescription = "lightsaber handle",
-                    Modifier
-                        .clickable(
-                            interactionSource = MutableInteractionSource(),
-                            indication = null,
-                            enabled = bladeState != BladeState.Initializing
-                        ) {
-                            when (bladeState) {
-                                BladeState.Deactivated -> lightsaberState.onEvent(LightsaberEvent.LightsaberActivating)
-                                BladeState.Activating, BladeState.Activated,
-                                BladeState.Deactivating -> lightsaberState.onEvent(LightsaberEvent.LightsaberDeactivating)
+                if (bladeState == BladeState.Activating ||
+                    bladeState == BladeState.Deactivating
+                ) {
+                    LaunchedEffect(key1 = bladeState, block = {
+                        height.animateTo(targetHeight, animationSpec = tween(500)) {
+                            when {
+                                this.value == targetHeight && this.value == 0f -> {
+                                    lightsaberState.onEvent(LightsaberEvent.LightsaberDeactivated)
+                                }
 
-                                BladeState.Initializing -> {
-                                    error("Should not allow clicking before lightsaber is initialized")
+                                this.value == targetHeight && this.value == lightSaberHeightPx -> {
+                                    lightsaberState.onEvent(LightsaberEvent.LightsaberActivated)
                                 }
                             }
                         }
-                )
+                    })
+                }
+                Column(
+                    modifier = Modifier
+                        .align(alignment = Alignment.BottomCenter)
+                        .width(width = lightSaberHandleWidth)
+                        .padding(all = 16.dp)
+                ) {
+                    if (bladeState != BladeState.Initializing &&
+                        bladeState != BladeState.Deactivated
+                    ) {
+                        LightsaberBlade(
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
+                                .offset(x = 0.dp, y = 16.dp),
+                            lightsaberBladeCurrentHeight = height.value,
+                            lightsaberBladeTotalHeight = lightSaberHeightDp,
+                            bladeColor = lightsaberState.bladeColor
+                        )
+                    }
+
+                    Image(
+                        painter = lightSaberHandlePainter,
+                        contentDescription = "lightsaber handle",
+                        Modifier
+                            .clickable(
+                                interactionSource = MutableInteractionSource(),
+                                indication = null,
+                                enabled = bladeState != BladeState.Initializing
+                            ) {
+                                when (bladeState) {
+                                    BladeState.Deactivated -> lightsaberState.onEvent(
+                                        LightsaberEvent.LightsaberActivating
+                                    )
+
+                                    BladeState.Activating, BladeState.Activated,
+                                    BladeState.Deactivating -> lightsaberState.onEvent(
+                                        LightsaberEvent.LightsaberDeactivating
+                                    )
+
+                                    BladeState.Initializing -> {
+                                        error("Should not allow clicking before lightsaber is initialized")
+                                    }
+                                }
+                            }
+                    )
+                }
             }
         }
     }

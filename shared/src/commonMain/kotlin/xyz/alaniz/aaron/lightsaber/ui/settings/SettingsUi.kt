@@ -54,6 +54,7 @@ fun Settings(settingsState: SettingsState, modifier: Modifier = Modifier) {
                     title = {
                         Text("Settings")
                     },
+                    elevation = 0.dp,
                     navigationIcon = {
                         IconButton(onClick = {
                             settingsState.onEvent(SettingsEvent.SettingsExited)
