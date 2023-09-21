@@ -17,6 +17,7 @@ import platform.AVFAudio.AVAudioPlayerNodeBufferOptions
 class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
     private lateinit var soundResourceToPlayerNodeMap: MutableMap<SoundResource,
             Pair<AVAudioPCMBuffer, AVAudioPlayerNode>>
+    private val playingSounds: MutableSet<SoundResource> = mutableSetOf()
 
     override suspend fun load(sounds: Set<SoundResource>) {
         soundResourceToPlayerNodeMap = sounds.associateWith { soundResource ->
@@ -57,15 +58,18 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
         check(::soundResourceToPlayerNodeMap.isInitialized) {
             "Cannot play without loading sound resources."
         }
+        if (playingSounds.contains(soundResource)) return
         val (buffer, playerNode) = requireNotNull(soundResourceToPlayerNodeMap[soundResource])
         val options: AVAudioPlayerNodeBufferOptions = if (loop) 1u else 0u
 
+        playingSounds.add(soundResource)
         playerNode.scheduleBuffer(
             buffer = buffer,
             atTime = null,
-            options = options,
-            completionHandler = null
-        )
+            options = options
+        ) {
+            playingSounds.remove(soundResource)
+        }
         playerNode.play()
     }
 
