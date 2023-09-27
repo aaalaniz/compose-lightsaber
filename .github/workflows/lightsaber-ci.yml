@@ -22,15 +22,15 @@ jobs:
         # TODO Understand why compileIosMainKotlinMetadata fails every time
         run: ./gradlew shared:assemble -x compileIosMainKotlinMetadata
 
-#  build-androidApp:
-#    runs-on: macos-latest
-#    needs: build-shared
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: ./.github/actions/setup-lightsaber-ci
-#
-#      - name: Build Android App
-#        run: ./gradlew androidApp:build
+  build-androidApp:
+    runs-on: macos-latest
+    needs: build-shared
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
+
+      - name: Build Android App
+        run: ./gradlew androidApp:build
 
   build-iosApp:
     runs-on: macos-latest
@@ -94,27 +94,27 @@ jobs:
           security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
 
-#  test-shared:
-#    runs-on: macos-latest
-#    needs: build-shared
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: ./.github/actions/setup-lightsaber-ci
-#
-#      - name: Unit Test Shared
-#        run: ./gradlew shared:cleanAllTests shared:allTests
+  test-shared:
+    runs-on: macos-latest
+    needs: build-shared
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
 
-#  e2e-test-androidApp:
-#    runs-on: macos-latest
-#    needs: build-androidApp
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: ./.github/actions/setup-lightsaber-ci
-#
-#      - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
-#        with:
-#          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-#          app-file: androidApp/build/outputs/apk/debug/androidApp-debug.apk
+      - name: Unit Test Shared
+        run: ./gradlew shared:cleanAllTests shared:allTests
+
+  e2e-test-androidApp:
+    runs-on: macos-latest
+    needs: build-androidApp
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
+
+      - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
+        with:
+          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+          app-file: androidApp/build/outputs/apk/debug/androidApp-debug.apk
 
   e2e-test-iosApp:
     runs-on: macos-latest
