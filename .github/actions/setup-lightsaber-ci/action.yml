@@ -23,9 +23,30 @@ runs:
         path: |
           androidApp/build
 
-    - name: iOS App Build Cache
+    - name: iOS App Debug iphoneos Build Cache
       uses: actions/cache@v3
       with:
-        key: build-ios-${{ github.sha }}
+        key: build-ios-debug-iphoneos-${{ github.sha }}
         path: |
-          build
+          iosApp/build/ios/Debug-iphoneos
+
+    - name: iOS App Release iphoneos Build Cache
+      uses: actions/cache@v3
+      with:
+        key: build-ios-release-iphoneos-${{ github.sha }}
+        path: |
+          iosApp/build/ios/Release-iphoneos
+
+    - name: iOS App Debug iphonesimulator Build Cache
+      uses: actions/cache@v3
+      with:
+        key: build-ios-debug-iphonesimulator-${{ github.sha }}
+        path: |
+          iosApp/build/ios/Debug-iphonesimulator
+
+    - name: iOS App Release iphonesimulator Build Cache
+      uses: actions/cache@v3
+      with:
+        key: build-ios-release-iphonesimulator-${{ github.sha }}
+        path: |
+          iosApp/build/ios/Release-iphonesimulator
