@@ -85,10 +85,8 @@ jobs:
           -scheme iosApp \
           -configuration ${{ matrix.configuration }} \
           -xcconfig ${{ github.workspace }}/iosApp/Configuration/Config.xcconfig \
-          OBJROOT=${{ github.workspace }}/iosApp/build/ios \
-          SYMROOT=${{ github.workspace }}/iosApp/build/ios \
-          -sdk ${{ matrix.target }} \
-          -allowProvisioningDeviceRegistration -allowProvisioningUpdates
+          OBJROOT=${{ github.workspace }}/iosApp/build/ios SYMROOT=${{ github.workspace }}/iosApp/build/ios \
+          -sdk ${{ matrix.target }}
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
