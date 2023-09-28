@@ -82,7 +82,7 @@ fun Settings(settingsState: SettingsState, modifier: Modifier = Modifier) {
                     /**
                      * TODO Populate the version information from the platforms
                      */
-                    TextOnlySetting("Version", "1.0.0")
+                    TextOnlySetting("Version", "0.1.0")
                 }
             }
         }
