@@ -26,9 +26,9 @@ fun App(initialScreen: Screen, createAppComponent: (CoroutineScope, Navigator) -
 
     CircuitCompositionLocals(appComponent.circuit) {
         NavigableCircuitContent(
-            navigator = navigator, backstack = backstack, decoration = GestureNavigationDecoration(
+            navigator = navigator, backstack = backstack, decoration = GestureNavigationDecoration {
                 navigator::pop
-            )
+            }
         )
     }
 }
