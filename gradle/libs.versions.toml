@@ -5,11 +5,11 @@ agp = "8.1.0"
 compose = "1.5.11"
 ksp = "1.9.21-1.0.15"
 kotlin-inject = "0.6.3"
-circuit = "0.16.1"
+circuit = "0.17.0"
 androidx-activity-compose = "1.8.1"
 androidx-appcompat = "1.6.1"
 androidx-core-ktx = "1.12.0"
-datastore-version = "1.1.0-alpha06"
+datastore-version = "1.1.0-alpha07"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
