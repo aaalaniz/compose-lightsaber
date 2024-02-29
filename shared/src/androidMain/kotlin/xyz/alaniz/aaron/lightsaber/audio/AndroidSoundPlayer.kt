@@ -36,7 +36,7 @@ class AndroidSoundPlayer(
 
             soundResourceToStreamIdMap = sounds.associateWith { sound ->
                 val resourceId = context.resources.getIdentifier(
-                    sound.name, sound.directory, context.packageName
+                    sound.name, "raw", context.packageName
                 )
                 SoundIds(loadId = soundPool.load(context, resourceId, 1))
             }.toMutableMap()

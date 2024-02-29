@@ -2,7 +2,6 @@ package xyz.alaniz.aaron.lightsaber.audio
 
 import kotlinx.cinterop.ExperimentalForeignApi
 import me.tatarka.inject.annotations.Inject
-import org.jetbrains.compose.resources.resource
 import platform.Foundation.NSBundle
 import platform.Foundation.NSURL
 import platform.AVFAudio.AVAudioEngine
