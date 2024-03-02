@@ -16,7 +16,7 @@ import xyz.alaniz.aaron.lightsaber.di.ApplicationComponent
 @Composable
 fun App(initialScreen: Screen, createAppComponent: (CoroutineScope, Navigator) -> ApplicationComponent) {
     val scope = rememberCoroutineScope()
-    val backstack = rememberSaveableBackStack { push(initialScreen) }
+    val backstack = rememberSaveableBackStack(root = initialScreen)
     val navigator = rememberCircuitNavigator(backstack) {
         /**
          * TODO handle root pops
@@ -26,7 +26,7 @@ fun App(initialScreen: Screen, createAppComponent: (CoroutineScope, Navigator) -
 
     CircuitCompositionLocals(appComponent.circuit) {
         NavigableCircuitContent(
-            navigator = navigator, backstack = backstack, decoration = GestureNavigationDecoration {
+            navigator = navigator, backStack = backstack, decoration = GestureNavigationDecoration {
                 navigator::pop
             }
         )

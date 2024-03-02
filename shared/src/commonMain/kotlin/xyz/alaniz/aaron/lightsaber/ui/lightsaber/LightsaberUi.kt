@@ -43,6 +43,8 @@ import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
+import lightsaber.shared.generated.resources.Res
+import lightsaber.shared.generated.resources.lightsaber_handle
 import me.tatarka.inject.annotations.Inject
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -62,7 +64,7 @@ fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) 
                     lightsaberState.onEvent(LightsaberEvent.SettingsSelected)
                 }
                 val lightSaberHandlePainter =
-                    painterResource(res = "drawable/lightsaber_handle.xml")
+                    painterResource(resource = Res.drawable.lightsaber_handle)
                 val lightSaberHandleWidth = 110.dp
                 val lightSaberHeightDp = 480.dp
                 val lightSaberHeightPx = with(LocalDensity.current) { lightSaberHeightDp.toPx() }

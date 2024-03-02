@@ -9,8 +9,6 @@ plugins {
 
 kotlin {
     androidTarget()
-
-    ios()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -28,7 +26,7 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -42,37 +40,17 @@ kotlin {
                 implementation(libs.androidx.datastore.core.okio)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
             }
         }
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 api(libs.androidx.activity.compose)
                 api(libs.androidx.appcompat)
                 api(libs.androidx.core.ktx)
             }
-        }
-        val androidUnitTest by getting
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by getting {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-        }
-        val iosTest by getting
-        val iosX64Test by getting {
-            dependsOn(iosTest)
-        }
-        val iosArm64Test by getting {
-            dependsOn(iosTest)
-        }
-        val iosSimulatorArm64Test by getting {
-            dependsOn(iosTest)
         }
     }
 }
@@ -82,12 +60,11 @@ android {
     namespace = "xyz.alaniz.aaron.lightsaber"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/composeResources/files")
 
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
+        lint.targetSdk = (findProperty("android.targetSdk") as String).toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -109,4 +86,15 @@ dependencies {
     add("kspIosX64", libs.kotlin.inject.ksp)
     add("kspIosArm64", libs.kotlin.inject.ksp)
     add("kspIosSimulatorArm64", libs.kotlin.inject.ksp)
+}
+
+/**
+ * A workaround for iOS release builds of Circuit
+ *
+ * https://youtrack.jetbrains.com/issue/KT-64508/IndexOutOfBoundsException-in-Konan-StaticInitializersOptimization
+ */
+kotlin.targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+    binaries.all {
+        freeCompilerArgs += "-Xdisable-phases=RemoveRedundantCallsToStaticInitializersPhase"
+    }
 }
