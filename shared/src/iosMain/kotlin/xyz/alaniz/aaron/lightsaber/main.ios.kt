@@ -1,5 +1,7 @@
 package xyz.alaniz.aaron.lightsaber
 
+import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.ui.platform.AccessibilitySyncOptions
 import androidx.compose.ui.window.ComposeUIViewController
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
@@ -11,8 +13,21 @@ import xyz.alaniz.aaron.lightsaber.di.create
 import xyz.alaniz.aaron.lightsaber.di.dataStoreFileName
 import xyz.alaniz.aaron.lightsaber.ui.lightsaber.IosLightsaberScreen
 
-@OptIn(ExperimentalForeignApi::class)
-fun MainViewController() = ComposeUIViewController {
+@OptIn(ExperimentalForeignApi::class, ExperimentalComposeApi::class)
+fun MainViewController() = ComposeUIViewController(configure = {
+    /**
+     * TODO Update this to only sync the accessibility tree for debug builds
+     */
+    accessibilitySyncOptions = AccessibilitySyncOptions.Always(debugLogger = null)
+
+    /**
+     * TODO Understand why this needs to be false for Maestro tests to pass
+     *
+     * The default value for this is true, but then the accessibility tree mappings include an
+     * offset for the status bar
+     */
+    platformLayers = false
+}) {
     val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
         inDomain = NSUserDomainMask,
