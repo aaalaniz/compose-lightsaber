@@ -19,6 +19,14 @@ fun MainViewController() = ComposeUIViewController(configure = {
      * TODO Update this to only sync the accessibility tree for debug builds
      */
     accessibilitySyncOptions = AccessibilitySyncOptions.Always(debugLogger = null)
+
+    /**
+     * TODO Understand why this needs to be false for Maestro tests to pass
+     *
+     * The default value for this is true, but then the accessibility tree mappings include an
+     * offset for the status bar
+     */
+    platformLayers = false
 }) {
     val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
