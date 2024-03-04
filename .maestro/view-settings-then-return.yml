@@ -8,4 +8,5 @@ appId: xyz.alaniz.aaron.Lightsaber
 - assertNotVisible: "lightsaber blade"
 - assertVisible: "lightsaber handle"
 - tapOn: "lightsaber handle"
+- waitForAnimationToEnd
 - assertVisible: "lightsaber blade"
