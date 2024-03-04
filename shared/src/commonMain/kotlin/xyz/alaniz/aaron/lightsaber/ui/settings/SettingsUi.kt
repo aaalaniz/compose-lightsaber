@@ -25,7 +25,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,9 +41,19 @@ import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
+import lightsaber.shared.generated.resources.Res
+import lightsaber.shared.generated.resources.settings_screen_about_group
+import lightsaber.shared.generated.resources.settings_screen_app_bar_back
+import lightsaber.shared.generated.resources.settings_screen_app_bar_title
+import lightsaber.shared.generated.resources.settings_screen_lightsaber_blade_color
+import lightsaber.shared.generated.resources.settings_screen_lightsaber_group
+import lightsaber.shared.generated.resources.settings_screen_version
 import me.tatarka.inject.annotations.Inject
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun Settings(settingsState: SettingsState, modifier: Modifier = Modifier) {
     LightsaberTheme {
@@ -52,14 +62,17 @@ fun Settings(settingsState: SettingsState, modifier: Modifier = Modifier) {
             topBar = {
                 TopAppBar(
                     title = {
-                        Text("Settings")
+                        Text(stringResource(Res.string.settings_screen_app_bar_title))
                     },
                     elevation = 0.dp,
                     navigationIcon = {
                         IconButton(onClick = {
                             settingsState.onEvent(SettingsEvent.SettingsExited)
                         }) {
-                            Icon(Icons.Filled.ArrowBack, "exit settings")
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                stringResource(Res.string.settings_screen_app_bar_back)
+                            )
                         }
                     })
             }
@@ -70,7 +83,7 @@ fun Settings(settingsState: SettingsState, modifier: Modifier = Modifier) {
                     .padding(it)
                     .padding(8.dp)
             ) {
-                SettingsGroup(name = "Lightsaber") {
+                SettingsGroup(name = stringResource(Res.string.settings_screen_lightsaber_group)) {
                     LightsaberBladeColorDropdownMenu(
                         currentColor = settingsState.bladeColor,
                         colors = settingsState.bladeColorOptions
@@ -78,11 +91,11 @@ fun Settings(settingsState: SettingsState, modifier: Modifier = Modifier) {
                         settingsState.onEvent(SettingsEvent.BladeColorUpdate(newBladeColor = item))
                     }
                 }
-                SettingsGroup(name = "About") {
+                SettingsGroup(name = stringResource(Res.string.settings_screen_about_group)) {
                     /**
                      * TODO Populate the version information from the platforms
                      */
-                    TextOnlySetting("Version", "0.1.0")
+                    TextOnlySetting(stringResource(Res.string.settings_screen_version), "0.1.0")
                 }
             }
         }
@@ -132,6 +145,7 @@ fun TextOnlySetting(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun LightsaberBladeColorDropdownMenu(
     currentColor: Color,
@@ -148,7 +162,7 @@ fun LightsaberBladeColorDropdownMenu(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Blade Color",
+                text = stringResource(Res.string.settings_screen_lightsaber_blade_color),
                 textAlign = TextAlign.Start,
                 overflow = TextOverflow.Ellipsis,
             )
