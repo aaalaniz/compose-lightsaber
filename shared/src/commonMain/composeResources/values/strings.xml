@@ -1,0 +1,14 @@
+<resources>
+    <!-- Lightsaber Screen -->
+    <string name="lightsaber_screen_settings_icon">settings icon</string>
+    <string name="lightsaber_screen_lightsaber_blade">lightsaber blade</string>
+    <string name="lightsaber_screen_lightsaber_handle">lightsaber handle</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_screen_app_bar_title">Settings</string>
+    <string name="settings_screen_app_bar_back">exit settings</string>
+    <string name="settings_screen_lightsaber_group">Lightsaber</string>
+    <string name="settings_screen_lightsaber_blade_color">Blade Color</string>
+    <string name="settings_screen_about_group">About</string>
+    <string name="settings_screen_version">Version</string>
+</resources>

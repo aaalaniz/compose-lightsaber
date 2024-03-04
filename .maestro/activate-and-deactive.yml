@@ -2,6 +2,7 @@ appId: xyz.alaniz.aaron.Lightsaber
 ---
 - launchApp
 - tapOn: "lightsaber handle"
+- waitForAnimationToEnd
 - assertVisible: "lightsaber blade"
 - tapOn: "lightsaber handle"
 - assertNotVisible: "lightsaber blade"

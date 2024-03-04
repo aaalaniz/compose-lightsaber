@@ -45,9 +45,13 @@ import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import lightsaber.shared.generated.resources.Res
 import lightsaber.shared.generated.resources.lightsaber_handle
+import lightsaber.shared.generated.resources.lightsaber_screen_lightsaber_blade
+import lightsaber.shared.generated.resources.lightsaber_screen_lightsaber_handle
+import lightsaber.shared.generated.resources.lightsaber_screen_settings_icon
 import me.tatarka.inject.annotations.Inject
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 
 
@@ -111,7 +115,7 @@ fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) 
 
                     Image(
                         painter = lightSaberHandlePainter,
-                        contentDescription = "lightsaber handle",
+                        contentDescription = stringResource(Res.string.lightsaber_screen_lightsaber_handle),
                         Modifier
                             .clickable(
                                 interactionSource = MutableInteractionSource(),
@@ -140,15 +144,20 @@ fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) 
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun SettingsIcon(modifier: Modifier = Modifier, onSettingsClicked: () -> Unit) {
     IconButton(onClick = {
         onSettingsClicked()
     }, modifier = modifier) {
-        Icon(imageVector = Icons.Filled.Settings, contentDescription = "settings icon")
+        Icon(
+            imageVector = Icons.Filled.Settings,
+            contentDescription = stringResource(Res.string.lightsaber_screen_settings_icon)
+        )
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun LightsaberBlade(
     modifier: Modifier = Modifier,
@@ -158,10 +167,12 @@ private fun LightsaberBlade(
 ) {
     val lightsaberBladeWidth = 20.dp
     val blurSize = 4.dp
+    val lightsaberBladeDescription =
+        stringResource(Res.string.lightsaber_screen_lightsaber_blade)
     Box(
         modifier = modifier
             .semantics {
-                contentDescription = "lightsaber blade"
+                contentDescription = lightsaberBladeDescription
             }
             .width(width = lightsaberBladeWidth + blurSize)
             .height(height = lightsaberBladeTotalHeight + blurSize)
