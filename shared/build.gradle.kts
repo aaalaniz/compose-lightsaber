@@ -21,6 +21,8 @@ kotlin {
                 debugImplementation(libs.androidx.compose.ui.test.manifest)
             }
         }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        unitTestVariant.sourceSetTree.set(KotlinSourceSetTree.unitTest)
     }
     iosX64()
     iosArm64()
