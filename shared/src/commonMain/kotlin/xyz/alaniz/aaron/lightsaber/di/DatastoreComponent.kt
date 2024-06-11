@@ -5,7 +5,6 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import kotlinx.coroutines.CoroutineScope
 import me.tatarka.inject.annotations.Component
-import me.tatarka.inject.annotations.KmpComponentCreate
 import me.tatarka.inject.annotations.Provides
 import okio.Path.Companion.toPath
 
@@ -23,9 +22,5 @@ abstract class DatastoreComponent(
             dataStorePath.toPath()
         }
     }
-
     companion object
 }
-
-@KmpComponentCreate
-expect fun DatastoreComponent.Companion.create(scope: CoroutineScope, dataStorePath: String): DatastoreComponent
