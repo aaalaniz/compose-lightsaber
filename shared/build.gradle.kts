@@ -107,14 +107,3 @@ dependencies {
     add("kspIosArm64", libs.kotlin.inject.ksp)
     add("kspIosSimulatorArm64", libs.kotlin.inject.ksp)
 }
-
-/**
- * A workaround for iOS release builds of Circuit
- *
- * https://youtrack.jetbrains.com/issue/KT-64508/IndexOutOfBoundsException-in-Konan-StaticInitializersOptimization
- */
-kotlin.targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
-    binaries.all {
-        freeCompilerArgs += "-Xdisable-phases=RemoveRedundantCallsToStaticInitializersPhase"
-    }
-}
