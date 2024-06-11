@@ -2,6 +2,7 @@ package xyz.alaniz.aaron.lightsaber.di
 
 import kotlinx.coroutines.flow.Flow
 import me.tatarka.inject.annotations.Component
+import me.tatarka.inject.annotations.KmpComponentCreate
 import me.tatarka.inject.annotations.Provides
 import xyz.alaniz.aaron.lightsaber.motion.IosSwingDetector
 import xyz.alaniz.aaron.lightsaber.motion.SwingEvent
@@ -21,4 +22,9 @@ abstract class IosMotionComponent {
 
     internal val IosSwingDetector.bind: Flow<SwingEvent>
         @Provides get() = this.swings
+
+    companion object
 }
+
+@KmpComponentCreate
+expect fun IosMotionComponent.Companion.create(): IosMotionComponent

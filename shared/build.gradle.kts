@@ -1,3 +1,4 @@
+import com.google.devtools.ksp.gradle.KspTaskMetadata
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
@@ -5,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.plugin.parcelize)
     alias(libs.plugins.kotlin.native.cocoapods)
@@ -48,7 +50,7 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation(libs.kotlin.inject.runtime)
+                implementation(libs.kotlin.inject.runtime.kmp)
                 implementation(libs.circuit.foundation)
                 implementation(libs.circuitx.gesture.navigation)
                 implementation(libs.androidx.datastore.preferences.core)

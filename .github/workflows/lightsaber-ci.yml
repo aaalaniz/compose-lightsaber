@@ -116,16 +116,17 @@ jobs:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
           app-file: androidApp/build/outputs/apk/debug/androidApp-debug.apk
 
-  e2e-test-iosApp:
-    runs-on: macos-latest
-    needs: build-iosApp
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-lightsaber-ci
-
-      - name: Check for app file
-        run: test -e ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
-      - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
-        with:
-          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-          app-file: ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
+# TODO Fix maestro tests on x86-64
+#  e2e-test-iosApp:
+#    runs-on: macos-latest
+#    needs: build-iosApp
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: ./.github/actions/setup-lightsaber-ci
+#
+#      - name: Check for app file
+#        run: test -e ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
+#      - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
+#        with:
+#          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+#          app-file: ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
