@@ -25,7 +25,7 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
                 NSBundle.mainBundle.pathForResource(
                     name = soundResource.name,
                     ofType = soundResource.fileType,
-                    inDirectory = "compose-resources/${soundResource.directory}"
+                    inDirectory = "compose-resources/composeResources/lightsaber.shared.generated.resources/${soundResource.directory}"
                 )
             )
             val audioFile =

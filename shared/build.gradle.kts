@@ -1,3 +1,4 @@
+import com.google.devtools.ksp.gradle.KspTaskMetadata
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
@@ -49,7 +50,7 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation(libs.kotlin.inject.runtime)
+                implementation(libs.kotlin.inject.runtime.kmp)
                 implementation(libs.circuit.foundation)
                 implementation(libs.circuitx.gesture.navigation)
                 implementation(libs.androidx.datastore.preferences.core)

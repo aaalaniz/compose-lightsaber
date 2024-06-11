@@ -37,7 +37,7 @@ fun MainViewController() = ComposeUIViewController(configure = {
     )
     val dataStorePath = requireNotNull(documentDirectory).path + "/$dataStoreFileName"
     App(initialScreen = IosLightsaberScreen) { scope, navigator ->
-        IosApplicationComponent::class.create(
+        IosApplicationComponent.create(
             navigator = navigator,
             appScope = scope,
             dataStorePath = dataStorePath
