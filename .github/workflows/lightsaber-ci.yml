@@ -124,8 +124,8 @@ jobs:
       - uses: ./.github/actions/setup-lightsaber-ci
 
       - name: Check for app file
-        run: test -e ./iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
+        run: test -e ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
       - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-          app-file: ./iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
+          app-file: ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
