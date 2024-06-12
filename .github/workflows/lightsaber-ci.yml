@@ -124,10 +124,18 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
 
+      - name: List Release files
+        run: ls -ltra ./iosApp/build/ios/Release-iphonesimulator/
+
+      - name: List Debug files
+        run: ls -ltra ./iosApp/build/ios/Debug-iphonesimulator/
+
       - name: Check for app file
         run: test -e ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
+
       - uses: mobile-dev-inc/action-maestro-cloud@v1.8.1
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
           app-file: ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
+          mapping-file: ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app.dSYM
           ios-version: 17
