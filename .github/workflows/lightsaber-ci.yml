@@ -117,7 +117,6 @@ jobs:
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
           app-file: androidApp/build/outputs/apk/debug/androidApp-debug.apk
-          android-api-level: 34
 
   e2e-test-iosApp:
     runs-on: macos-latest
@@ -129,6 +128,5 @@ jobs:
       - uses: mobile-dev-inc/action-maestro-cloud@v1.8.1
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-          app-file: ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
-          mapping-file: ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app.dSYM
-          ios-version: 17
+          app-file: ./iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
+          mapping-file: ./iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app.dSYM
