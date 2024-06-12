@@ -87,7 +87,7 @@ jobs:
           -xcconfig ${{ github.workspace }}/iosApp/Configuration/Config.xcconfig \
           OBJROOT=${{ github.workspace }}/iosApp/build/ios SYMROOT=${{ github.workspace }}/iosApp/build/ios \
           -sdk ${{ matrix.target }} \
-          ARCHS='arm64 i386' \
+          ARCHS='arm64 x86_64' \
           ONLY_ACTIVE_ARCH=NO
 
       - name: Clean up keychain and provisioning profile
