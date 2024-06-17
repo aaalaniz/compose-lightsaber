@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   build-shared:
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
@@ -23,7 +23,7 @@ jobs:
         run: ./gradlew shared:assemble -x compileIosMainKotlinMetadata
 
   build-androidApp:
-    runs-on: macos-latest
+    runs-on: macos-14
     needs: build-shared
     steps:
       - uses: actions/checkout@v3
@@ -33,7 +33,7 @@ jobs:
         run: ./gradlew androidApp:build
 
   build-iosApp:
-    runs-on: macos-latest
+    runs-on: macos-14
     strategy:
       matrix:
         configuration: [Debug, Release]
@@ -77,6 +77,13 @@ jobs:
       - name: Shared Pod Install
         run: ./gradlew podInstall
 
+      - name: List available Xcode versions
+        run: ls /Applications | grep Xcode
+#      - name: Set up Xcode version
+#        run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+      - name: Show current version of Xcode
+        run: xcodebuild -version
+
       - name: Build iOS App
         env:
           LIGHTSABER_TEAM_ID: ${{ secrets.LIGHTSABER_TEAM_ID }}
@@ -86,9 +93,7 @@ jobs:
           -configuration ${{ matrix.configuration }} \
           -xcconfig ${{ github.workspace }}/iosApp/Configuration/Config.xcconfig \
           OBJROOT=${{ github.workspace }}/iosApp/build/ios SYMROOT=${{ github.workspace }}/iosApp/build/ios \
-          -sdk ${{ matrix.target }} \
-          ARCHS='arm64 x86_64' \
-          ONLY_ACTIVE_ARCH=NO
+          -sdk ${{ matrix.target }}
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
@@ -97,7 +102,7 @@ jobs:
           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
 
   test-shared:
-    runs-on: macos-latest
+    runs-on: macos-14
     needs: build-shared
     steps:
       - uses: actions/checkout@v3
@@ -107,7 +112,7 @@ jobs:
         run: ./gradlew shared:cleanAllTests shared:allTests
 
   e2e-test-androidApp:
-    runs-on: macos-latest
+    runs-on: macos-14
     needs: build-androidApp
     steps:
       - uses: actions/checkout@v3
@@ -119,7 +124,7 @@ jobs:
           app-file: androidApp/build/outputs/apk/debug/androidApp-debug.apk
 
   e2e-test-iosApp:
-    runs-on: macos-latest
+    runs-on: macos-14
     needs: build-iosApp
     steps:
       - uses: actions/checkout@v3
