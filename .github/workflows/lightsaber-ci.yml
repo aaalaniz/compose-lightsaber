@@ -77,13 +77,6 @@ jobs:
       - name: Shared Pod Install
         run: ./gradlew podInstall
 
-      - name: List available Xcode versions
-        run: ls /Applications | grep Xcode
-      - name: Set up Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
-      - name: Show current version of Xcode
-        run: xcodebuild -version
-
       - name: Build iOS App
         env:
           LIGHTSABER_TEAM_ID: ${{ secrets.LIGHTSABER_TEAM_ID }}
@@ -135,3 +128,4 @@ jobs:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
           app-file: ./iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
           mapping-file: ./iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app.dSYM
+          ios-version: 17
