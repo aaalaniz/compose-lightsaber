@@ -52,5 +52,10 @@ runs:
           iosApp/build/ios/Release-iphonesimulator
 
     - name: Set Xcode version
-      run: sudo xcode-select -s /Applications/Xcode_15.3.app/Contents/Developer
+      run: |
+        if command -v xcode-select &> /dev/null; then
+          sudo xcode-select -s /Applications/Xcode_15.3.app/Contents/Developer
+        else
+          echo "xcode-select is not available"
+        fi
       shell: bash

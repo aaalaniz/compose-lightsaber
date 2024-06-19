@@ -132,12 +132,17 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
 
-      - name: Check for app file
-        run: test -e ./iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
-
       - name: List emulators
-        run: xcrun simctl list devices
+        run: maestro start-device --platform ios
+
+      - name: Install app
+        run: xcrun simctl install booted iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
+        
+      - name: Run Maestro tests
+        run: maestro test .maestro
+
 #      - uses: mobile-dev-inc/action-maestro-cloud@v1.8.1
+
 #        with:
 #          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
 #          app-file: ./iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
