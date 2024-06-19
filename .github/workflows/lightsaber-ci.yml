@@ -121,7 +121,7 @@ jobs:
       - name: Run Maestro tests
         uses: reactivecircus/android-emulator-runner@v2.31.0
         with:
-          api-level: 33
+          api-level: 27
           script: |
             adb install androidApp/build/outputs/apk/debug/androidApp-debug.apk
             maestro test .maestro
@@ -134,13 +134,17 @@ jobs:
       - uses: ./.github/actions/setup-lightsaber-ci
       - uses: ./.github/actions/setup-maestro
       - uses: futureware-tech/simulator-action@v3
+        id: ios-simulator
         with:
           model: 'iPhone 15'
           os: iOS
           os_version: 17.0
 
+      - name: Wait for the simulator to be ready
+        run: xcrun simctl bootstatus "${{ steps.ios-simulator.outputs.udid }}" -b
+
       - name: Install app
-        run: xcrun simctl install booted iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
+        run: xcrun simctl install "${{ steps.ios-simulator.outputs.udid }}" iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
         
       - name: Run Maestro tests
         run: maestro test .maestro
