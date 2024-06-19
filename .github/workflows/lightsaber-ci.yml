@@ -110,6 +110,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
+      - uses: ./.github/actions/setup-maestro
 
       - name: Enable KVM
         run: |
@@ -131,6 +132,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
+      - uses: ./.github/actions/setup-maestro
 
       - name: List emulators
         run: maestro start-device --platform ios
