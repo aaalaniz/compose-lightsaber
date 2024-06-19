@@ -1,0 +1,16 @@
+name: Setup Maestro 
+description: Download, install, and set Maestro on the current build path
+runs:
+  using: "composite"
+  steps:
+    - name: Install Maestro 
+      run: export MAESTRO_VERSION=1.36.0; curl -Ls "https://get.maestro.mobile.dev" | bash
+      shell: bash
+      
+    - name: Add maestro to PATH 
+      run: echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+      shell: bash
+      
+    - name: Check maestro 
+      run: maestro --version
+      shell: bash
