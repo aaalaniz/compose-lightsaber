@@ -134,6 +134,9 @@ jobs:
 
       - name: Check for app file
         run: test -e ./iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
+
+      - name: List emulators
+        run: xcrun simctl list devices
 #      - uses: mobile-dev-inc/action-maestro-cloud@v1.8.1
 #        with:
 #          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
