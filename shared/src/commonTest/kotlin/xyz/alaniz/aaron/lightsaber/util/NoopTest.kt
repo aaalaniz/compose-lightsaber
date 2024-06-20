@@ -4,5 +4,5 @@ import kotlin.test.Test
 
 class NoopTest {
     @Test
-    fun `noop does nothing`() = noop()
+    fun noopDoesNothing() = noop()
 }
