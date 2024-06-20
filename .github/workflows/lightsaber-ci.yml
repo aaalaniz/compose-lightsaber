@@ -145,6 +145,8 @@ jobs:
 
       - name: Install app
         run: xcrun simctl install "${{ steps.ios-simulator.outputs.udid }}" iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
-        
+
       - name: Run Maestro tests
+        env:
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: 60000
         run: maestro test .maestro
