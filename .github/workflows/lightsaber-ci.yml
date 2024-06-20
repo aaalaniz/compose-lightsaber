@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   build-shared:
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
@@ -23,7 +23,7 @@ jobs:
         run: ./gradlew shared:assemble -x compileIosMainKotlinMetadata
 
   build-androidApp:
-    runs-on: macos-latest
+    runs-on: macos-14
     needs: build-shared
     steps:
       - uses: actions/checkout@v3
@@ -33,7 +33,7 @@ jobs:
         run: ./gradlew androidApp:build
 
   build-iosApp:
-    runs-on: macos-latest
+    runs-on: macos-14
     strategy:
       matrix:
         configuration: [Debug, Release]
@@ -95,7 +95,7 @@ jobs:
           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
 
   test-shared:
-    runs-on: macos-latest
+    runs-on: macos-14
     needs: build-shared
     steps:
       - uses: actions/checkout@v3
@@ -104,29 +104,88 @@ jobs:
       - name: Unit Test Shared
         run: ./gradlew shared:cleanAllTests shared:allTests
 
-  e2e-test-androidApp:
-    runs-on: macos-latest
-    needs: build-androidApp
+  ui-test-ios-shared:
+    runs-on: macos-14
+    needs: build-shared
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
+      - uses: futureware-tech/simulator-action@v3
+        id: ios-simulator
+        with:
+          model: 'iPhone 15'
+          os: iOS
+          os_version: 17.0
+
+      - name: Wait for the simulator to be ready
+        run: xcrun simctl bootstatus "${{ steps.ios-simulator.outputs.udid }}" -b
+
+      - name: iOS UI Tests
+        run: ./gradlew :shared:iosSimulatorArm64Test
+
+  ui-test-android-shared:
+    runs-on: ubuntu-latest
+    needs: build-shared
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
 
-      - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
-        with:
-          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-          app-file: androidApp/build/outputs/apk/debug/androidApp-debug.apk
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
-# TODO Fix maestro tests on x86-64
-#  e2e-test-iosApp:
-#    runs-on: macos-latest
-#    needs: build-iosApp
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: ./.github/actions/setup-lightsaber-ci
-#
-#      - name: Check for app file
-#        run: test -e ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
-#      - uses: mobile-dev-inc/action-maestro-cloud@v1.1.0
-#        with:
-#          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-#          app-file: ./iosApp/build/ios/Release-iphonesimulator/Lightsaber.app
+      - name: Android UI Tests
+        uses: reactivecircus/android-emulator-runner@v2.31.0
+        with:
+          api-level: 27
+          script: |
+            ./gradlew :shared:connectedAndroidTest
+
+  e2e-test-androidApp:
+    runs-on: ubuntu-latest
+    needs: build-androidApp
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
+      - uses: ./.github/actions/setup-maestro
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run Maestro tests
+        uses: reactivecircus/android-emulator-runner@v2.31.0
+        with:
+          api-level: 27
+          script: |
+            adb install androidApp/build/outputs/apk/debug/androidApp-debug.apk
+            maestro test .maestro
+
+  e2e-test-iosApp:
+    runs-on: macos-14
+    needs: build-iosApp
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-lightsaber-ci
+      - uses: ./.github/actions/setup-maestro
+      - uses: futureware-tech/simulator-action@v3
+        id: ios-simulator
+        with:
+          model: 'iPhone 15'
+          os: iOS
+          os_version: 17.0
+
+      - name: Wait for the simulator to be ready
+        run: xcrun simctl bootstatus "${{ steps.ios-simulator.outputs.udid }}" -b
+
+      - name: Install app
+        run: xcrun simctl install "${{ steps.ios-simulator.outputs.udid }}" iosApp/build/ios/Debug-iphonesimulator/Lightsaber.app
+
+      - name: Run Maestro tests
+        run: |
+          export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000
+          maestro test .maestro

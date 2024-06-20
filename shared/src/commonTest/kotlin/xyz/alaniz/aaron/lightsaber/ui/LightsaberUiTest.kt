@@ -23,7 +23,7 @@ class LightsaberUiTest {
   )
 
   @Test
-  fun `given a deactivated lightsaber when the lightsaber is shown then the blade should not be visible`() =
+  fun givenDeactivatedLightsaber_whenLightsaberShown_thenBladeShouldNotBeVisible() =
     runLightsaberUiTest(initialState = greenDeactivatedLightsaberState) {
       lightsaber {
         seeHandle()
@@ -32,7 +32,7 @@ class LightsaberUiTest {
     }
 
   @Test
-  fun `given an activated lightsaber when the lightsaber is shown then the blade should be visible`() =
+  fun givenActivatedLightsaber_whenLightsaberShown_thenBladeShouldBeVisible() =
     runLightsaberUiTest(initialState = greenActivatedLightsaberState) {
       lightsaber {
         seeHandle()
