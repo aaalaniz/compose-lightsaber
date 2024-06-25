@@ -55,6 +55,7 @@ kotlin {
                 implementation(libs.circuitx.gesture.navigation)
                 implementation(libs.androidx.datastore.preferences.core)
                 implementation(libs.androidx.datastore.core.okio)
+                api(libs.kermit)
             }
         }
         commonTest {

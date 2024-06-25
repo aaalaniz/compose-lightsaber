@@ -19,8 +19,7 @@ jobs:
       - uses: ./.github/actions/setup-lightsaber-ci
 
       - name: Build Shared
-        # TODO Understand why compileIosMainKotlinMetadata fails every time
-        run: ./gradlew shared:assemble -x compileIosMainKotlinMetadata
+        run: ./gradlew shared:assemble
 
   build-androidApp:
     runs-on: macos-14
@@ -73,6 +72,13 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+      # Generate dummy framework to ensure that compose-resources are copied.
+      # See https://github.com/JetBrains/compose-multiplatform/issues/5011
+      - name: Generate dummy framework
+        run: |
+          mkdir -p ./shared/build/compose/cocoapods/compose-resources
+          ./gradlew generateDummyFramework
 
       - name: Shared Pod Install
         run: ./gradlew podInstall
@@ -189,3 +195,14 @@ jobs:
         run: |
           export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000
           maestro test .maestro
+
+      - name: Collect logs
+        if: failure()
+        run: xcrun simctl spawn "${{ steps.ios-simulator.outputs.udid }}" log collect --output ${{ github.workspace }}/${{ steps.ios-simulator.outputs.udid }}.logarchive
+
+      - name: Archive the device logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: device-logs
+          path: ${{ github.workspace }}/*.logarchive
