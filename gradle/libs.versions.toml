@@ -1,16 +1,16 @@
 [versions]
 core-splashscreen = "1.0.1"
-kotlin = "2.0.0"
+kotlin = "2.0.10"
 agp = "8.2.2"
 compose = "1.6.11"
 ksp = "2.0.0-1.0.22"
-kotlin-inject = "0.7.1"
-circuit = "0.22.2"
-androidx-activity-compose = "1.9.0"
+kotlin-inject = "0.7.2"
+circuit = "0.23.1"
+androidx-activity-compose = "1.9.2"
 androidx-appcompat = "1.7.0"
 androidx-core-ktx = "1.13.1"
 datastore-version = "1.1.1"
-compose-ui-test = "1.6.7"
+compose-ui-test = "1.7.1"
 kermit = "2.0.4"
 
 [libraries]
@@ -30,9 +30,7 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui" , name = "ui
 kermit = { group = "co.touchlab" , name = "kermit", version.ref = "kermit" }
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-plugin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-native-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
