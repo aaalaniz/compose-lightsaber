@@ -19,7 +19,7 @@ jobs:
       - uses: ./.github/actions/setup-lightsaber-ci
 
       - name: Build Shared
-        run: ./gradlew shared:assemble
+        run: ./gradlew shared:assemble -x compileIosMainKotlinMetadata
 
   build-androidApp:
     runs-on: macos-14
@@ -116,15 +116,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-lightsaber-ci
-      - uses: futureware-tech/simulator-action@v3
+      - uses: futureware-tech/simulator-action@v4
         id: ios-simulator
         with:
           model: 'iPhone 15'
           os: iOS
           os_version: 17.0
-
-      - name: Wait for the simulator to be ready
-        run: xcrun simctl bootstatus "${{ steps.ios-simulator.outputs.udid }}" -b
+          wait_for_boot: true
+          shutdown_after_job: false
 
       - name: iOS UI Tests
         run: ./gradlew :shared:iosSimulatorArm64Test

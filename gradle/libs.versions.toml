@@ -1,23 +1,26 @@
 [versions]
 core-splashscreen = "1.0.1"
-kotlin = "2.0.10"
-agp = "8.2.2"
+kotlin = "2.0.21"
+agp = "8.5.2"
 compose = "1.6.11"
-ksp = "2.0.0-1.0.22"
+ksp = "2.0.21-1.0.25"
 kotlin-inject = "0.7.2"
-circuit = "0.23.1"
-androidx-activity-compose = "1.9.2"
+circuit = "0.25.0"
+androidx-activity-compose = "1.9.3"
 androidx-appcompat = "1.7.0"
 androidx-core-ktx = "1.13.1"
 datastore-version = "1.1.1"
-compose-ui-test = "1.7.1"
+compose-ui-test = "1.7.4"
 kermit = "2.0.4"
+anvil-kotlin-inject = "0.0.5"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
 kotlin-inject-runtime-kmp = { module = "me.tatarka.inject:kotlin-inject-runtime-kmp", version.ref = "kotlin-inject" }
 kotlin-inject-ksp = { module = "me.tatarka.inject:kotlin-inject-compiler-ksp", version.ref = "kotlin-inject" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+circuit-codegen = { module = "com.slack.circuit:circuit-codegen", version.ref = "circuit" }
+circuit-codegen-annotations = { module = "com.slack.circuit:circuit-codegen-annotations", version.ref = "circuit" }
 circuit-foundation = { module = "com.slack.circuit:circuit-foundation", version.ref = "circuit" }
 circuitx-gesture-navigation = { module = "com.slack.circuit:circuitx-gesture-navigation", version.ref = "circuit" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
@@ -28,6 +31,9 @@ androidx-datastore-preferences-core = { group = "androidx.datastore", name = "da
 androidx-compose-ui-test-junit4-android = { group = "androidx.compose.ui" , name = "ui-test-junit4-android", version.ref = "compose-ui-test" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui" , name = "ui-test-manifest", version.ref = "compose-ui-test" }
 kermit = { group = "co.touchlab" , name = "kermit", version.ref = "kermit" }
+anvil-kotlin-inject-compiler = { group = "software.amazon.lastmile.kotlin.inject.anvil" , name = "compiler", version.ref = "anvil-kotlin-inject" }
+anvil-kotlin-inject-runtime = { group = "software.amazon.lastmile.kotlin.inject.anvil" , name = "runtime", version.ref = "anvil-kotlin-inject" }
+anvil-kotlin-inject-runtime-optional = { group = "software.amazon.lastmile.kotlin.inject.anvil" , name = "runtime-optional", version.ref = "anvil-kotlin-inject" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

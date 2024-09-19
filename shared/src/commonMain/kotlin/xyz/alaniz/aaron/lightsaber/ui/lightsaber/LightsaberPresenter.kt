@@ -1,34 +1,27 @@
 package xyz.alaniz.aaron.lightsaber.ui.lightsaber
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import com.slack.circuit.codegen.annotations.CircuitInject
 import xyz.alaniz.aaron.lightsaber.audio.SoundPlayer
 import xyz.alaniz.aaron.lightsaber.audio.SoundResource
-import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuit.runtime.presenter.presenterOf
-import com.slack.circuit.runtime.screen.Screen
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
-import xyz.alaniz.aaron.lightsaber.motion.SwingEvent
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import xyz.alaniz.aaron.lightsaber.data.SettingsRepository
-import xyz.alaniz.aaron.lightsaber.ui.settings.SettingsEvent
+import xyz.alaniz.aaron.lightsaber.motion.SwingDetector
 import xyz.alaniz.aaron.lightsaber.ui.settings.SettingsScreen
 import xyz.alaniz.aaron.lightsaber.util.noop
 
@@ -50,13 +43,14 @@ data class LightsaberState(
     val onEvent: (LightsaberEvent) -> Unit
 ) : CircuitUiState
 
+@CircuitInject(LightsaberScreen::class, AppScope::class)
 @Inject
 class LightsaberPresenter(
-    private val swingEvents: Flow<SwingEvent>,
+    private val swingDetector: SwingDetector,
     private val soundPlayer: SoundPlayer,
-    private val settingsScreen: SettingsScreen,
     private val settingsRepository: SettingsRepository,
-    private val navigator: Navigator
+    private val settingsScreen: Lazy<SettingsScreen>,
+    @Assisted private val navigator: Navigator
 ) :
     Presenter<LightsaberState> {
     private val lightsaberActivateSound =
@@ -98,7 +92,7 @@ class LightsaberPresenter(
                 }
                 BladeState.Activated -> {
                     soundPlayer.play(soundResource = lightsaberIdleSound, loop = true)
-                    swingEvents.collect {
+                    swingDetector.swings.collect {
 
                         /**
                          * Stop the idling sound, play a random swing sound but then, schedule the
@@ -141,28 +135,9 @@ class LightsaberPresenter(
                 LightsaberEvent.SettingsSelected -> {
                     playIdleSoundJob?.cancel()
                     soundPlayer.release()
-                    navigator.goTo(settingsScreen)
+                    navigator.goTo(settingsScreen.value)
                 }
             }
-        }
-    }
-}
-
-@Inject
-class LightsaberPresenterFactory(private val lightsaberPresenter: LightsaberPresenter) :
-    Presenter.Factory {
-
-    override fun create(
-        screen: Screen,
-        navigator: Navigator,
-        context: CircuitContext,
-    ): Presenter<*>? {
-        return when (screen) {
-            is LightsaberScreen -> {
-                presenterOf { lightsaberPresenter.present() }
-            }
-
-            else -> null
         }
     }
 }

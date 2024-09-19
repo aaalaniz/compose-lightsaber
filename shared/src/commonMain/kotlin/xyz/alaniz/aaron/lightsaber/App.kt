@@ -14,7 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import xyz.alaniz.aaron.lightsaber.di.ApplicationComponent
 
 @Composable
-fun App(initialScreen: Screen, createAppComponent: (CoroutineScope, Navigator) -> ApplicationComponent) {
+fun App(initialScreen: Screen, createAppComponent: (CoroutineScope) -> ApplicationComponent) {
     val scope = rememberCoroutineScope()
     val backstack = rememberSaveableBackStack(root = initialScreen)
     val navigator = rememberCircuitNavigator(backstack) {
@@ -22,7 +22,7 @@ fun App(initialScreen: Screen, createAppComponent: (CoroutineScope, Navigator) -
          * TODO handle root pops
          */
     }
-    val appComponent = remember { createAppComponent(scope, navigator) }
+    val appComponent = remember { createAppComponent(scope) }
 
     CircuitCompositionLocals(appComponent.circuit) {
         NavigableCircuitContent(

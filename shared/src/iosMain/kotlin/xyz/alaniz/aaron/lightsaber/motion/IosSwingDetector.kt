@@ -9,17 +9,22 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import me.tatarka.inject.annotations.Inject
 import platform.CoreMotion.CMMotionManager
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
+import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 import kotlin.math.abs
 
 private const val SWING_THRESHOLD = 2.5
 
 @OptIn(ExperimentalForeignApi::class)
 @Inject
+@SingleIn(AppScope::class)
+@ContributesBinding(AppScope::class)
 class IosSwingDetector(
     private val motionManager: CMMotionManager,
     private val motionQueue: MotionQueue
-) {
-    val swings: Flow<SwingEvent> = callbackFlow {
+) : SwingDetector {
+    override val swings: Flow<SwingEvent> = callbackFlow {
         memScoped {
             motionManager.deviceMotionUpdateInterval = 0.1
 
