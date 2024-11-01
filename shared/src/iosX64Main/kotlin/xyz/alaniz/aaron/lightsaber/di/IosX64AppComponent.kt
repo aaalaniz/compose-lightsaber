@@ -7,11 +7,21 @@ import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import software.amazon.lastmile.kotlin.inject.anvil.MergeComponent
 import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 
+/**
+ * TODO Remove this workaround when kotlin-anvil-inject 0.0.6 is released
+ */
 @Component
 @MergeComponent(AppScope::class)
 @SingleIn(AppScope::class)
-abstract class AndroidApplicationComponent(
+abstract class IosX64AppComponent(
     @get:Provides protected val appScope: CoroutineScope,
-    @get:Provides protected val dataStorePath: DataStorePath,
-    @get:Provides protected val appContext: AppContext,
-) : AndroidApplicationComponentMerged
+    @get:Provides protected val dataStorePath: DataStorePath
+) : IosX64AppComponentMerged
+
+actual fun createApplicationComponent(
+    appScope: CoroutineScope,
+    dataStorePath: DataStorePath
+): ApplicationComponent = IosX64AppComponent::class.create(
+    appScope = appScope,
+    dataStorePath = dataStorePath
+)

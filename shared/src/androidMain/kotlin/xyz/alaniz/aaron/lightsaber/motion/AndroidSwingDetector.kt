@@ -9,17 +9,21 @@ import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import me.tatarka.inject.annotations.Inject
-import xyz.alaniz.aaron.lightsaber.motion.SwingEvent
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
+import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 import kotlin.math.abs
 
 private const val SWING_THRESHOLD = 8
 
 @Inject
+@SingleIn(AppScope::class)
+@ContributesBinding(AppScope::class)
 class AndroidSwingDetector(
     private val sensorManager: SensorManager,
     private val accelerometer: Accelerometer
-) {
-    val swings: Flow<SwingEvent>
+) : SwingDetector {
+    override val swings: Flow<SwingEvent>
         get() = callbackFlow {
             val sensorEventListener = object : SensorEventListener {
                 override fun onSensorChanged(event: SensorEvent) {

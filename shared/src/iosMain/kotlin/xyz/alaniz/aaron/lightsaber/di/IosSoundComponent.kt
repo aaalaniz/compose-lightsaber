@@ -1,22 +1,15 @@
 package xyz.alaniz.aaron.lightsaber.di
 
-import xyz.alaniz.aaron.lightsaber.audio.IosSoundPlayer
-import xyz.alaniz.aaron.lightsaber.audio.SoundPlayer
-import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.KmpComponentCreate
 import me.tatarka.inject.annotations.Provides
 import platform.AVFAudio.AVAudioEngine
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
+import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 
-@Component
-abstract class IosSoundComponent {
-    internal val IosSoundPlayer.bind: SoundPlayer
-        @Provides get() = this
-
+@ContributesTo(AppScope::class)
+interface IosSoundComponent {
     @Provides
-    internal fun providesAvAudioEngine(): AVAudioEngine = AVAudioEngine()
-
-    companion object
+    @SingleIn(AppScope::class)
+    fun providesAvAudioEngine(): AVAudioEngine = AVAudioEngine()
 }
-
-@KmpComponentCreate
-expect fun IosSoundComponent.Companion.create(): IosSoundComponent

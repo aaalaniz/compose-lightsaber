@@ -9,10 +9,15 @@ import platform.AVFAudio.AVAudioFile
 import platform.AVFAudio.AVAudioPCMBuffer
 import platform.AVFAudio.AVAudioPlayerNode
 import platform.AVFAudio.AVAudioPlayerNodeBufferOptions
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
+import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 
 
 @Inject
 @OptIn(ExperimentalForeignApi::class)
+@ContributesBinding(AppScope::class)
+@SingleIn(AppScope::class)
 class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
     private lateinit var soundResourceToPlayerNodeMap: MutableMap<SoundResource,
             Pair<AVAudioPCMBuffer, AVAudioPlayerNode>>

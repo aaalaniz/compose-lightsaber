@@ -6,14 +6,13 @@ import androidx.compose.ui.window.ComposeUIViewController
 import co.touchlab.kermit.DefaultFormatter
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.NSLogWriter
-import co.touchlab.kermit.OSLogWriter
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
-import xyz.alaniz.aaron.lightsaber.di.IosApplicationComponent
-import xyz.alaniz.aaron.lightsaber.di.create
+import xyz.alaniz.aaron.lightsaber.di.DataStorePath
+import xyz.alaniz.aaron.lightsaber.di.createApplicationComponent
 import xyz.alaniz.aaron.lightsaber.di.dataStoreFileName
 import xyz.alaniz.aaron.lightsaber.ui.lightsaber.IosLightsaberScreen
 import kotlin.experimental.ExperimentalNativeApi
@@ -55,11 +54,10 @@ fun MainViewController() = ComposeUIViewController(configure = {
     setUnhandledExceptionHook {
         Logger.e(throwable = it) { "Unhandled exception: cause = ${it.cause} message = ${it.message}" }
     }
-    App(initialScreen = IosLightsaberScreen) { scope, navigator ->
-        IosApplicationComponent.create(
-            navigator = navigator,
+    App(initialScreen = IosLightsaberScreen) { scope ->
+        createApplicationComponent(
             appScope = scope,
-            dataStorePath = dataStorePath
+            dataStorePath = DataStorePath(dataStorePath)
         )
     }
 }

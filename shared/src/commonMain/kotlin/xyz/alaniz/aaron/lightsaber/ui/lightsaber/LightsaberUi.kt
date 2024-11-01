@@ -39,23 +39,19 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.slack.circuit.runtime.CircuitContext
-import com.slack.circuit.runtime.screen.Screen
-import com.slack.circuit.runtime.ui.Ui
-import com.slack.circuit.runtime.ui.ui
+import com.slack.circuit.codegen.annotations.CircuitInject
 import lightsaber.shared.generated.resources.Res
 import lightsaber.shared.generated.resources.lightsaber_handle
 import lightsaber.shared.generated.resources.lightsaber_screen_lightsaber_blade
 import lightsaber.shared.generated.resources.lightsaber_screen_lightsaber_handle
 import lightsaber.shared.generated.resources.lightsaber_screen_settings_icon
-import me.tatarka.inject.annotations.Inject
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 
 
-@OptIn(ExperimentalResourceApi::class)
+@CircuitInject(LightsaberScreen::class, AppScope::class)
 @Composable
 fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) {
     LightsaberTheme {
@@ -144,7 +140,6 @@ fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) 
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun SettingsIcon(modifier: Modifier = Modifier, onSettingsClicked: () -> Unit) {
     IconButton(onClick = {
@@ -157,7 +152,6 @@ private fun SettingsIcon(modifier: Modifier = Modifier, onSettingsClicked: () ->
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun LightsaberBlade(
     modifier: Modifier = Modifier,
@@ -209,21 +203,5 @@ private fun LightsaberBlade(
                 }
             }
     ) {
-    }
-}
-
-@Inject
-class LightsaberUiFactory : Ui.Factory {
-    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
-        return when (screen) {
-            is LightsaberScreen -> ui<LightsaberState> { state, modifier ->
-                Lightsaber(
-                    state,
-                    modifier
-                )
-            }
-
-            else -> null
-        }
     }
 }

@@ -5,16 +5,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
-import com.slack.circuit.runtime.CircuitContext
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuit.runtime.presenter.presenterOf
-import com.slack.circuit.runtime.screen.Screen
 import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import xyz.alaniz.aaron.lightsaber.data.SettingsRepository
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberBlue
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberGreen
@@ -35,10 +34,11 @@ data class SettingsState(
 ) :
     CircuitUiState
 
+@CircuitInject(SettingsScreen::class, AppScope::class)
 @Inject
 class SettingsPresenter(
     private val settingsRepository: SettingsRepository,
-    private val navigator: Navigator
+    @Assisted private val navigator: Navigator
 ) :
     Presenter<SettingsState> {
 
@@ -65,25 +65,6 @@ class SettingsPresenter(
                     )
                 }
             }
-        }
-    }
-}
-
-@Inject
-class SettingsPresenterFactory(private val settingsPresenter: SettingsPresenter) :
-    Presenter.Factory {
-
-    override fun create(
-        screen: Screen,
-        navigator: Navigator,
-        context: CircuitContext,
-    ): Presenter<*>? {
-        return when (screen) {
-            is SettingsScreen -> {
-                presenterOf { settingsPresenter.present() }
-            }
-
-            else -> null
         }
     }
 }

@@ -1,4 +1,3 @@
-import com.google.devtools.ksp.gradle.KspTaskMetadata
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
@@ -10,6 +9,12 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.plugin.parcelize)
     alias(libs.plugins.kotlin.native.cocoapods)
+}
+
+ksp {
+    arg("circuit.codegen.lenient", "true")
+    arg("circuit.codegen.mode", "kotlin_inject_anvil")
+    arg("kotlin-inject-anvil-contributing-annotations", "com.slack.circuit.codegen.annotations.CircuitInject")
 }
 
 kotlin {
@@ -51,11 +56,14 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(libs.kotlin.inject.runtime.kmp)
+                api(libs.circuit.codegen.annotations)
                 implementation(libs.circuit.foundation)
                 implementation(libs.circuitx.gesture.navigation)
                 implementation(libs.androidx.datastore.preferences.core)
                 implementation(libs.androidx.datastore.core.okio)
                 api(libs.kermit)
+                implementation(libs.anvil.kotlin.inject.runtime)
+                implementation(libs.anvil.kotlin.inject.runtime.optional)
             }
         }
         commonTest {
@@ -103,8 +111,22 @@ android {
  */
 dependencies {
     add("kspCommonMainMetadata", libs.kotlin.inject.ksp)
+    add("kspCommonMainMetadata", libs.anvil.kotlin.inject.compiler)
+    add("kspCommonMainMetadata", libs.circuit.codegen)
+
     add("kspAndroid", libs.kotlin.inject.ksp)
+    add("kspAndroid", libs.anvil.kotlin.inject.compiler)
+    add("kspAndroid", libs.circuit.codegen)
+
     add("kspIosX64", libs.kotlin.inject.ksp)
+    add("kspIosX64", libs.anvil.kotlin.inject.compiler)
+    add("kspIosX64", libs.circuit.codegen)
+
     add("kspIosArm64", libs.kotlin.inject.ksp)
+    add("kspIosArm64", libs.anvil.kotlin.inject.compiler)
+    add("kspIosArm64", libs.circuit.codegen)
+
     add("kspIosSimulatorArm64", libs.kotlin.inject.ksp)
+    add("kspIosSimulatorArm64", libs.anvil.kotlin.inject.compiler)
+    add("kspIosSimulatorArm64", libs.circuit.codegen)
 }

@@ -37,10 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.slack.circuit.runtime.CircuitContext
-import com.slack.circuit.runtime.screen.Screen
-import com.slack.circuit.runtime.ui.Ui
-import com.slack.circuit.runtime.ui.ui
+import com.slack.circuit.codegen.annotations.CircuitInject
 import lightsaber.shared.generated.resources.Res
 import lightsaber.shared.generated.resources.settings_screen_about_group
 import lightsaber.shared.generated.resources.settings_screen_app_bar_back
@@ -48,12 +45,12 @@ import lightsaber.shared.generated.resources.settings_screen_app_bar_title
 import lightsaber.shared.generated.resources.settings_screen_lightsaber_blade_color
 import lightsaber.shared.generated.resources.settings_screen_lightsaber_group
 import lightsaber.shared.generated.resources.settings_screen_version
-import me.tatarka.inject.annotations.Inject
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 
-@OptIn(ExperimentalResourceApi::class)
+@CircuitInject(SettingsScreen::class, AppScope::class)
 @Composable
 fun Settings(settingsState: SettingsState, modifier: Modifier = Modifier) {
     LightsaberTheme {
@@ -202,21 +199,5 @@ private fun LightsaberCircle(color: Color, modifier: Modifier = Modifier) {
         border = BorderStroke(4.dp, color),
         modifier = modifier.size(32.dp).blur(4.dp).clip(CircleShape)
     ) {
-    }
-}
-
-@Inject
-class SettingsUiFactory : Ui.Factory {
-    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
-        return when (screen) {
-            is SettingsScreen -> ui<SettingsState> { state, modifier ->
-                Settings(
-                    state,
-                    modifier
-                )
-            }
-
-            else -> null
-        }
     }
 }

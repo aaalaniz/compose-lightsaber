@@ -3,24 +3,19 @@ package xyz.alaniz.aaron.lightsaber.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
-import kotlinx.coroutines.CoroutineScope
-import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 import okio.Path.Companion.toPath
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
 
 const val dataStoreFileName = "lightsaber.preferences_pb"
 
-@Component
-@DataScope
-abstract class DatastoreComponent(
-    @get:Provides internal val scope: CoroutineScope,
-    private val dataStorePath: String) {
+@ContributesTo(AppScope::class)
+interface DatastoreComponent {
     @Provides
-    @DataScope
-    internal fun provideDatastorePreferences(): DataStore<Preferences> {
+    fun provideDatastorePreferences(dataStorePath: DataStorePath): DataStore<Preferences> {
         return PreferenceDataStoreFactory.createWithPath {
-            dataStorePath.toPath()
+            dataStorePath.value.toPath()
         }
     }
-    companion object
 }

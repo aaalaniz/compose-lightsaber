@@ -4,7 +4,7 @@ runs:
   using: "composite"
   steps:
     - name: Install Maestro 
-      run: export MAESTRO_VERSION=1.36.0; curl -Ls "https://get.maestro.mobile.dev" | bash
+      run: export MAESTRO_VERSION=1.39.0; curl -Ls "https://get.maestro.mobile.dev" | bash
       shell: bash
       
     - name: Add maestro to PATH 

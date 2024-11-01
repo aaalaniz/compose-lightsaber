@@ -7,9 +7,14 @@ import android.media.SoundPool.OnLoadCompleteListener
 import xyz.alaniz.aaron.lightsaber.di.AppContext
 import kotlinx.coroutines.suspendCancellableCoroutine
 import me.tatarka.inject.annotations.Inject
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
+import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 import kotlin.coroutines.resume
 
 @Inject
+@ContributesBinding(AppScope::class)
+@SingleIn(AppScope::class)
 class AndroidSoundPlayer(
     appContext: AppContext,
     private val context: Context = appContext.value,
