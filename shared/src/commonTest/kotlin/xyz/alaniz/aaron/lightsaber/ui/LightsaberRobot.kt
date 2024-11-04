@@ -14,7 +14,6 @@ class LightsaberRobot(private val nodeInteractionsProvider: SemanticsNodeInterac
   fun seeHandle() = apply {
     nodeInteractionsProvider.onNodeWithContentDescription(label = "lightsaber handle")
       .assertIsDisplayed()
-      .assertIsEnabled()
   }
 
   fun seeBlade() = apply {

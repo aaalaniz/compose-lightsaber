@@ -13,6 +13,7 @@ datastore-version = "1.1.1"
 compose-ui-test = "1.7.4"
 kermit = "2.0.4"
 anvil-kotlin-inject = "0.0.5"
+burst = "2.0.0"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
@@ -44,3 +45,4 @@ compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+burst = { id = "app.cash.burst", version.ref = "burst" }

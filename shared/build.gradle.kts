@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.plugin.parcelize)
     alias(libs.plugins.kotlin.native.cocoapods)
+    alias(libs.plugins.burst)
 }
 
 ksp {
