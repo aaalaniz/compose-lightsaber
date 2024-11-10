@@ -10,9 +10,9 @@ androidx-activity-compose = "1.9.3"
 androidx-appcompat = "1.7.0"
 androidx-core-ktx = "1.13.1"
 datastore-version = "1.1.1"
-compose-ui-test = "1.7.4"
+compose-ui-test = "1.7.5"
 kermit = "2.0.4"
-anvil-kotlin-inject = "0.0.5"
+anvil-kotlin-inject = "0.1.0"
 burst = "2.0.0"
 
 [libraries]
