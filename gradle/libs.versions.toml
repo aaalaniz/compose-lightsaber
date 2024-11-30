@@ -13,7 +13,7 @@ datastore-version = "1.1.1"
 compose-ui-test = "1.7.5"
 kermit = "2.0.4"
 anvil-kotlin-inject = "0.1.0"
-burst = "2.0.0"
+burst = "2.2.0"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
