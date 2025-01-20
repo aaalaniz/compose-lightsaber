@@ -1,9 +1,9 @@
 [versions]
 core-splashscreen = "1.0.1"
-kotlin = "2.1.0"
+kotlin = "2.1.10-RC2"
 agp = "8.7.3"
 compose = "1.6.11"
-ksp = "2.1.0-1.0.29"
+ksp = "2.1.10-RC-1.0.29"
 kotlin-inject = "0.7.2"
 circuit = "0.25.0"
 androidx-activity-compose = "1.9.3"
