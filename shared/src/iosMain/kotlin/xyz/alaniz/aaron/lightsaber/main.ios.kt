@@ -12,6 +12,7 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
 import xyz.alaniz.aaron.lightsaber.di.DataStorePath
+import xyz.alaniz.aaron.lightsaber.di.IosApplicationComponent
 import xyz.alaniz.aaron.lightsaber.di.createApplicationComponent
 import xyz.alaniz.aaron.lightsaber.di.dataStoreFileName
 import xyz.alaniz.aaron.lightsaber.ui.lightsaber.IosLightsaberScreen
