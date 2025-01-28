@@ -80,6 +80,10 @@ jobs:
           mkdir -p ./shared/build/compose/cocoapods/compose-resources
           ./gradlew generateDummyFramework
 
+      # Download native dependencies as a workaround for KT-74278.
+      - name: Download Native Dependencies
+        run: ./gradlew commonizeNativeDistribution
+
       - name: Shared Pod Install
         run: ./gradlew podInstall
 
