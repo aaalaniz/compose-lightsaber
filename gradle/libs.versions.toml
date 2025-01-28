@@ -12,7 +12,7 @@ androidx-core-ktx = "1.15.0"
 datastore-version = "1.1.2"
 compose-ui-test = "1.7.6"
 kermit = "2.0.4"
-anvil-kotlin-inject = "0.1.1"
+anvil-kotlin-inject = "0.1.2"
 burst = "2.2.0"
 
 [libraries]
