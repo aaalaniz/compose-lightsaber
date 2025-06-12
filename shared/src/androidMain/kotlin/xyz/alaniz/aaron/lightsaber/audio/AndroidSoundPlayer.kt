@@ -23,8 +23,8 @@ class AndroidSoundPlayer(
 
     private lateinit var soundPool: SoundPool
 
-    private data class SoundIds(val loadId: Int, val playId: Int? = null)
-    private lateinit var soundResourceToStreamIdMap: MutableMap<SoundResource, SoundIds>
+    private data class SoundIds(val loadId: Int, var playId: Int? = null)
+    private lateinit var soundResourceToStreamIdMap: Map<SoundResource, SoundIds>
 
     override suspend fun load(sounds: Set<SoundResource>) =
         suspendCancellableCoroutine { continuation ->
@@ -44,7 +44,7 @@ class AndroidSoundPlayer(
                     sound.name, "raw", context.packageName
                 )
                 SoundIds(loadId = soundPool.load(context, resourceId, 1))
-            }.toMutableMap()
+            }
 
             continuation.invokeOnCancellation { soundPool.setOnLoadCompleteListener(null) }
         }
@@ -63,7 +63,7 @@ class AndroidSoundPlayer(
             loopInt,
             1f
         )
-        soundResourceToStreamIdMap[soundResource] = soundIds.copy(playId = playId)
+        soundResourceToStreamIdMap[soundResource]?.playId = playId
     }
 
     override fun stop(soundResource: SoundResource) {
