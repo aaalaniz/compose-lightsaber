@@ -7,9 +7,7 @@ import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
-import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.screen.Screen
-import com.slack.circuitx.gesturenavigation.GestureNavigationDecoration
 import kotlinx.coroutines.CoroutineScope
 import xyz.alaniz.aaron.lightsaber.di.ApplicationComponent
 
@@ -25,10 +23,6 @@ fun App(initialScreen: Screen, createAppComponent: (CoroutineScope) -> Applicati
     val appComponent = remember { createAppComponent(scope) }
 
     CircuitCompositionLocals(appComponent.circuit) {
-        NavigableCircuitContent(
-            navigator = navigator, backStack = backstack, decoration = GestureNavigationDecoration {
-                navigator::pop
-            }
-        )
+        NavigableCircuitContent(navigator = navigator, backStack = backstack)
     }
 }
