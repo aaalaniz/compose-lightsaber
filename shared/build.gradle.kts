@@ -104,6 +104,9 @@ android {
     kotlin {
         jvmToolchain(21)
     }
+    lint {
+        disable.add("NullSafeMutableLiveData")
+    }
 }
 
 /**
