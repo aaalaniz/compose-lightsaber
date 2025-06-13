@@ -1,7 +1,7 @@
 [versions]
 core-splashscreen = "1.0.1"
 kotlin = "2.1.10"
-agp = "8.7.3"
+agp = "8.10.1"
 compose = "1.8.0"
 ksp = "2.1.10-1.0.30"
 kotlin-inject = "0.7.2"
