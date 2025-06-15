@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
+import dev.zacsweers.metro.AppScope
 import lightsaber.shared.generated.resources.Res
 import lightsaber.shared.generated.resources.settings_screen_about_group
 import lightsaber.shared.generated.resources.settings_screen_app_bar_back
@@ -48,7 +49,6 @@ import lightsaber.shared.generated.resources.settings_screen_lightsaber_group
 import lightsaber.shared.generated.resources.settings_screen_version
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberCustom
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 

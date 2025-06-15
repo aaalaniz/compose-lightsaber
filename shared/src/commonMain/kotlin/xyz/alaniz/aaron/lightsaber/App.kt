@@ -4,15 +4,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.slack.circuit.backstack.rememberSaveableBackStack
+import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuit.runtime.screen.Screen
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.CoroutineScope
-import xyz.alaniz.aaron.lightsaber.di.ApplicationComponent
+import xyz.alaniz.aaron.lightsaber.di.metro.CircuitProvider
 
 @Composable
-fun App(initialScreen: Screen, createAppComponent: (CoroutineScope) -> ApplicationComponent) {
+fun App(initialScreen: Screen, createAppComponent: (CoroutineScope) -> CircuitProvider) {
     val scope = rememberCoroutineScope()
     val backstack = rememberSaveableBackStack(root = initialScreen)
     val navigator = rememberCircuitNavigator(backstack) {

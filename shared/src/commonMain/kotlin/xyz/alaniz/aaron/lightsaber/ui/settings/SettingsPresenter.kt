@@ -10,10 +10,11 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.launch
-import me.tatarka.inject.annotations.Assisted
-import me.tatarka.inject.annotations.Inject
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import xyz.alaniz.aaron.lightsaber.data.SettingsRepository
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberBlue
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberCustom
@@ -42,6 +43,13 @@ class SettingsPresenter(
     @Assisted private val navigator: Navigator
 ) :
     Presenter<SettingsState> {
+
+    @AssistedFactory
+    fun interface Factory {
+        fun create(
+            @Assisted navigator: Navigator
+        ): SettingsPresenter
+    }
 
     private val bladeColorOptions = listOf(
         LightsaberGreen, LightsaberRed,

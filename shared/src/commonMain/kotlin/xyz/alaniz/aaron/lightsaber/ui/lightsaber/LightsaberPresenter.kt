@@ -13,13 +13,14 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import me.tatarka.inject.annotations.Assisted
-import me.tatarka.inject.annotations.Inject
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import xyz.alaniz.aaron.lightsaber.data.SettingsRepository
 import xyz.alaniz.aaron.lightsaber.motion.SwingDetector
 import xyz.alaniz.aaron.lightsaber.ui.settings.SettingsScreen
@@ -53,6 +54,14 @@ class LightsaberPresenter(
     @Assisted private val navigator: Navigator
 ) :
     Presenter<LightsaberState> {
+
+    @AssistedFactory
+    fun interface Factory {
+        fun create(
+            @Assisted navigator: Navigator
+        ): LightsaberPresenter
+    }
+
     private val lightsaberActivateSound =
         SoundResource(name = "lightsaber_activating", fileType = "m4a")
     private val lightsaberDeactivateSound =

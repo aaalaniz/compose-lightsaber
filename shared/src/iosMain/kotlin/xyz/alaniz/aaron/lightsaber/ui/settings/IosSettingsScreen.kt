@@ -1,9 +1,8 @@
 package xyz.alaniz.aaron.lightsaber.ui.settings
 
-import me.tatarka.inject.annotations.Inject
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.binding
 
-@Inject
-@ContributesBinding(AppScope::class)
+@ContributesBinding(scope = AppScope::class, binding = binding<SettingsScreen>())
 data object IosSettingsScreen : SettingsScreen

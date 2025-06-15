@@ -11,4 +11,5 @@ plugins {
     alias(libs.plugins.kotlin.plugin.parcelize).apply(false)
     alias(libs.plugins.kotlin.native.cocoapods).apply(false)
     alias(libs.plugins.burst).apply(false)
+    alias(libs.plugins.metro).apply(false)
 }
