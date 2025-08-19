@@ -36,7 +36,6 @@ data class SettingsState(
 ) :
     CircuitUiState
 
-@CircuitInject(SettingsScreen::class, AppScope::class)
 @Inject
 class SettingsPresenter(
     private val settingsRepository: SettingsRepository,
@@ -45,6 +44,7 @@ class SettingsPresenter(
     Presenter<SettingsState> {
 
     @AssistedFactory
+    @CircuitInject(SettingsScreen::class, AppScope::class)
     fun interface Factory {
         fun create(
             @Assisted navigator: Navigator

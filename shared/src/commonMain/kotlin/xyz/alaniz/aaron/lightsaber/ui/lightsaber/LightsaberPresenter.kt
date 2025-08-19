@@ -44,7 +44,6 @@ data class LightsaberState(
     val onEvent: (LightsaberEvent) -> Unit
 ) : CircuitUiState
 
-@CircuitInject(LightsaberScreen::class, AppScope::class)
 @Inject
 class LightsaberPresenter(
     private val swingDetector: SwingDetector,
@@ -56,6 +55,7 @@ class LightsaberPresenter(
     Presenter<LightsaberState> {
 
     @AssistedFactory
+    @CircuitInject(LightsaberScreen::class, AppScope::class)
     fun interface Factory {
         fun create(
             @Assisted navigator: Navigator
