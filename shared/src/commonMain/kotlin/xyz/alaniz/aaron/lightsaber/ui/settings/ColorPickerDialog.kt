@@ -15,6 +15,11 @@ import androidx.compose.ui.unit.dp
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
+import lightsaber.shared.generated.resources.Res
+import lightsaber.shared.generated.resources.color_picker_dialog_button_cancel
+import lightsaber.shared.generated.resources.color_picker_dialog_button_ok
+import lightsaber.shared.generated.resources.color_picker_dialog_title
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ColorPickerDialog(
@@ -25,7 +30,7 @@ fun ColorPickerDialog(
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        title = { Text(text = "Select a Color") },
+        title = { Text(text = stringResource(Res.string.color_picker_dialog_title)) },
         text = {
             Column {
                 HsvColorPicker(
@@ -52,12 +57,12 @@ fun ColorPickerDialog(
                     onDismissRequest()
                 }
             ) {
-                Text("OK")
+                Text(stringResource(Res.string.color_picker_dialog_button_ok))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text("Cancel")
+                Text(stringResource(Res.string.color_picker_dialog_button_cancel))
             }
         }
     )

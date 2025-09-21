@@ -182,9 +182,13 @@ fun LightsaberBladeColorDropdownMenu(
             var expanded = remember { mutableStateOf(false) }
             var selectedColor = remember { mutableStateOf(currentColor) }
             Box {
-                LightsaberCircle(color = selectedColor.value, modifier = Modifier.clickable {
-                    expanded.value = true
-                })
+                LightsaberCircle(
+                    color = selectedColor.value,
+                    modifier = Modifier.clickable {
+                        expanded.value = true
+                    },
+                    customColor = if (selectedColor.value == LightsaberCustom) currentColor else null
+                )
                 DropdownMenu(
                     expanded = expanded.value,
                     modifier = Modifier.width(64.dp),
@@ -201,7 +205,10 @@ fun LightsaberBladeColorDropdownMenu(
                                 expanded.value = false
                             },
                         ) {
-                            LightsaberCircle(color = item)
+                            LightsaberCircle(
+                                color = item,
+                                customColor = if (item == LightsaberCustom) currentColor else null
+                            )
                         }
                     }
                 }
@@ -211,21 +218,32 @@ fun LightsaberBladeColorDropdownMenu(
 }
 
 @Composable
-private fun LightsaberCircle(color: Color, modifier: Modifier = Modifier) {
+private fun LightsaberCircle(
+    color: Color,
+    modifier: Modifier = Modifier,
+    customColor: Color? = null
+) {
     val circleModifier = if (color == LightsaberCustom) {
-        modifier
-            .size(32.dp)
-            .clip(CircleShape)
-            .background(
-                Brush.sweepGradient(
-                    listOf(
-                        Color.Red,
-                        Color.Green,
-                        Color.Blue,
-                        Color.Red
+        if (customColor != null) {
+            modifier
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(customColor)
+        } else {
+            modifier
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(
+                    Brush.sweepGradient(
+                        listOf(
+                            Color.Red,
+                            Color.Green,
+                            Color.Blue,
+                            Color.Red
+                        )
                     )
                 )
-            )
+        }
     } else {
         modifier
     }
