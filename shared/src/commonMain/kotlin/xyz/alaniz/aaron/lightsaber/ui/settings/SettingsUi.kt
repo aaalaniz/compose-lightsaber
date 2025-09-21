@@ -35,6 +35,8 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -48,6 +50,7 @@ import lightsaber.shared.generated.resources.settings_screen_version
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberCustom
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 
 @CircuitInject(SettingsScreen::class, AppScope::class)
@@ -149,6 +152,18 @@ fun LightsaberBladeColorDropdownMenu(
     colors: List<Color>,
     onColorSelected: (Color) -> Unit
 ) {
+    val showDialog = remember { mutableStateOf(false) }
+
+    if (showDialog.value) {
+        ColorPickerDialog(
+            onDismissRequest = { showDialog.value = false },
+            onColorSelected = {
+                onColorSelected(it)
+                showDialog.value = false
+            }
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -177,9 +192,13 @@ fun LightsaberBladeColorDropdownMenu(
                     colors.forEach { item ->
                         DropdownMenuItem(
                             onClick = {
-                                selectedColor.value = item
+                                if (item == LightsaberCustom) {
+                                    showDialog.value = true
+                                } else {
+                                    selectedColor.value = item
+                                    onColorSelected(item)
+                                }
                                 expanded.value = false
-                                onColorSelected(item)
                             },
                         ) {
                             LightsaberCircle(color = item)
@@ -193,11 +212,28 @@ fun LightsaberBladeColorDropdownMenu(
 
 @Composable
 private fun LightsaberCircle(color: Color, modifier: Modifier = Modifier) {
+    val circleModifier = if (color == LightsaberCustom) {
+        modifier
+            .size(32.dp)
+            .clip(CircleShape)
+            .background(
+                Brush.sweepGradient(
+                    listOf(
+                        Color.Red,
+                        Color.Green,
+                        Color.Blue,
+                        Color.Red
+                    )
+                )
+            )
+    } else {
+        modifier
+    }
     Surface(
         shape = CircleShape,
         color = Color.White,
-        border = BorderStroke(4.dp, color),
-        modifier = modifier.size(32.dp).blur(4.dp).clip(CircleShape)
+        border = if (color != LightsaberCustom) BorderStroke(4.dp, color) else null,
+        modifier = circleModifier.size(32.dp).blur(4.dp).clip(CircleShape)
     ) {
     }
 }

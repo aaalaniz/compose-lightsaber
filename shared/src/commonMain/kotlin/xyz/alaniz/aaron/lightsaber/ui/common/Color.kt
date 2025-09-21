@@ -10,3 +10,4 @@ val LightsaberRed = Color(0xFFBF0710)
 val LightsaberYellow = Color(0xFFD2C083)
 val LightsaberBlue = Color(0xFFA3E5F5)
 val LightsaberPurple = Color(0xFFCA5CF4)
+val LightsaberCustom = Color.Unspecified

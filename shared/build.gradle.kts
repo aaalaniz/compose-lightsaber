@@ -66,6 +66,7 @@ kotlin {
                 api(libs.kermit)
                 implementation(libs.anvil.kotlin.inject.runtime)
                 implementation(libs.anvil.kotlin.inject.runtime.optional)
+                implementation(libs.compose.colorpicker)
             }
         }
         commonTest {
