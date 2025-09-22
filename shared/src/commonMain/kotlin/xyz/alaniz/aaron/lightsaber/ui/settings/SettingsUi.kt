@@ -27,6 +27,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -99,6 +100,39 @@ fun Settings(settingsState: SettingsState, modifier: Modifier = Modifier) {
                     TextOnlySetting(stringResource(Res.string.settings_screen_version), "0.1.0")
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun LightsaberCircle(
+    color: Color,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        shape = CircleShape,
+        color = if (color == LightsaberCustom) Color.Transparent else Color.White,
+        border = if (color != LightsaberCustom) BorderStroke(4.dp, color) else null,
+        modifier = modifier
+            .size(32.dp)
+            .blur(4.dp)
+            .clip(CircleShape)
+    ) {
+        if (color == LightsaberCustom) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.sweepGradient(
+                            listOf(
+                                Color.Red,
+                                Color.Green,
+                                Color.Blue,
+                                Color.Red
+                            )
+                        )
+                    )
+            )
         }
     }
 }
@@ -182,8 +216,10 @@ fun LightsaberBladeColorDropdownMenu(
             Spacer(Modifier.weight(1.0f))
             var expanded = remember { mutableStateOf(false) }
             Box {
-                LightsaberCircle(
-                    color = currentColor,
+                Icon(
+                    imageVector = Icons.Filled.Palette,
+                    contentDescription = "Custom Color",
+                    tint = if (currentColor == LightsaberCustom) currentColor else Color.White,
                     modifier = Modifier.clickable {
                         expanded.value = true
                     }
@@ -204,8 +240,10 @@ fun LightsaberBladeColorDropdownMenu(
                             },
                         ) {
                             if (item == LightsaberCustom) {
-                                LightsaberCircle(
-                                    color = currentColor,
+                                Icon(
+                                    imageVector = Icons.Filled.Palette,
+                                    contentDescription = "Custom Color",
+                                    tint = currentColor
                                 )
                             } else {
                                 LightsaberCircle(color = item)
@@ -218,35 +256,3 @@ fun LightsaberBladeColorDropdownMenu(
     }
 }
 
-@Composable
-private fun LightsaberCircle(
-    color: Color,
-    modifier: Modifier = Modifier,
-) {
-    Surface(
-        shape = CircleShape,
-        color = if (color == LightsaberCustom) Color.Transparent else Color.White,
-        border = if (color != LightsaberCustom) BorderStroke(4.dp, color) else null,
-        modifier = modifier
-            .size(32.dp)
-            .blur(4.dp)
-            .clip(CircleShape)
-    ) {
-        if (color == LightsaberCustom) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.sweepGradient(
-                            listOf(
-                                Color.Red,
-                                Color.Green,
-                                Color.Blue,
-                                Color.Red
-                            )
-                        )
-                    )
-            )
-        }
-    }
-}
