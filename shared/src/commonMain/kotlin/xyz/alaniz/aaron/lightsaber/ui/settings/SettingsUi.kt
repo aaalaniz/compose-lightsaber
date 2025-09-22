@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,8 +36,6 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.foundation.background
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -100,39 +97,6 @@ fun Settings(settingsState: SettingsState, modifier: Modifier = Modifier) {
                     TextOnlySetting(stringResource(Res.string.settings_screen_version), "0.1.0")
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun LightsaberCircle(
-    color: Color,
-    modifier: Modifier = Modifier,
-) {
-    Surface(
-        shape = CircleShape,
-        color = if (color == LightsaberCustom) Color.Transparent else Color.White,
-        border = if (color != LightsaberCustom) BorderStroke(4.dp, color) else null,
-        modifier = modifier
-            .size(32.dp)
-            .blur(4.dp)
-            .clip(CircleShape)
-    ) {
-        if (color == LightsaberCustom) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.sweepGradient(
-                            listOf(
-                                Color.Red,
-                                Color.Green,
-                                Color.Blue,
-                                Color.Red
-                            )
-                        )
-                    )
-            )
         }
     }
 }
@@ -216,14 +180,9 @@ fun LightsaberBladeColorDropdownMenu(
             Spacer(Modifier.weight(1.0f))
             var expanded = remember { mutableStateOf(false) }
             Box {
-                Icon(
-                    imageVector = Icons.Filled.Palette,
-                    contentDescription = "Custom Color",
-                    tint = if (currentColor == LightsaberCustom) currentColor else Color.White,
-                    modifier = Modifier.clickable {
-                        expanded.value = true
-                    }
-                )
+                LightsaberCircle(color = currentColor, modifier = Modifier.clickable {
+                    expanded.value = true
+                })
                 DropdownMenu(
                     expanded = expanded.value,
                     modifier = Modifier.width(64.dp),
@@ -243,7 +202,7 @@ fun LightsaberBladeColorDropdownMenu(
                                 Icon(
                                     imageVector = Icons.Filled.Palette,
                                     contentDescription = "Custom Color",
-                                    tint = currentColor
+                                    tint = if (currentColor == LightsaberCustom) currentColor else Color.White
                                 )
                             } else {
                                 LightsaberCircle(color = item)
@@ -256,3 +215,13 @@ fun LightsaberBladeColorDropdownMenu(
     }
 }
 
+@Composable
+private fun LightsaberCircle(color: Color, modifier: Modifier = Modifier) {
+    Surface(
+        shape = CircleShape,
+        color = Color.White,
+        border = BorderStroke(4.dp, color),
+        modifier = modifier.size(32.dp).blur(4.dp).clip(CircleShape)
+    ) {
+    }
+}
