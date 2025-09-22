@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -152,14 +153,14 @@ fun LightsaberBladeColorDropdownMenu(
     colors: List<Color>,
     onColorSelected: (Color) -> Unit
 ) {
-    val showDialog = remember { mutableStateOf(false) }
+    val showColorPickerDialog = remember { mutableStateOf(false) }
 
-    if (showDialog.value) {
+    if (showColorPickerDialog.value) {
         ColorPickerDialog(
-            onDismissRequest = { showDialog.value = false },
+            onDismissRequest = { showColorPickerDialog.value = false },
             onColorSelected = {
                 onColorSelected(it)
-                showDialog.value = false
+                showColorPickerDialog.value = false
             }
         )
     }
@@ -180,14 +181,12 @@ fun LightsaberBladeColorDropdownMenu(
             )
             Spacer(Modifier.weight(1.0f))
             var expanded = remember { mutableStateOf(false) }
-            var selectedColor = remember { mutableStateOf(currentColor) }
             Box {
                 LightsaberCircle(
-                    color = selectedColor.value,
+                    color = currentColor,
                     modifier = Modifier.clickable {
                         expanded.value = true
-                    },
-                    customColor = if (selectedColor.value == LightsaberCustom) currentColor else null
+                    }
                 )
                 DropdownMenu(
                     expanded = expanded.value,
@@ -197,18 +196,20 @@ fun LightsaberBladeColorDropdownMenu(
                         DropdownMenuItem(
                             onClick = {
                                 if (item == LightsaberCustom) {
-                                    showDialog.value = true
+                                    showColorPickerDialog.value = true
                                 } else {
-                                    selectedColor.value = item
                                     onColorSelected(item)
                                 }
                                 expanded.value = false
                             },
                         ) {
-                            LightsaberCircle(
-                                color = item,
-                                customColor = if (item == LightsaberCustom) currentColor else null
-                            )
+                            if (item == LightsaberCustom) {
+                                LightsaberCircle(
+                                    color = currentColor,
+                                )
+                            } else {
+                                LightsaberCircle(color = item)
+                            }
                         }
                     }
                 }
@@ -221,37 +222,31 @@ fun LightsaberBladeColorDropdownMenu(
 private fun LightsaberCircle(
     color: Color,
     modifier: Modifier = Modifier,
-    customColor: Color? = null
 ) {
-    val circleModifier = if (color == LightsaberCustom) {
-        if (customColor != null) {
-            modifier
-                .size(32.dp)
-                .clip(CircleShape)
-                .background(customColor)
-        } else {
-            modifier
-                .size(32.dp)
-                .clip(CircleShape)
-                .background(
-                    Brush.sweepGradient(
-                        listOf(
-                            Color.Red,
-                            Color.Green,
-                            Color.Blue,
-                            Color.Red
-                        )
-                    )
-                )
-        }
-    } else {
-        modifier
-    }
     Surface(
         shape = CircleShape,
-        color = Color.White,
+        color = if (color == LightsaberCustom) Color.Transparent else Color.White,
         border = if (color != LightsaberCustom) BorderStroke(4.dp, color) else null,
-        modifier = circleModifier.size(32.dp).blur(4.dp).clip(CircleShape)
+        modifier = modifier
+            .size(32.dp)
+            .blur(4.dp)
+            .clip(CircleShape)
     ) {
+        if (color == LightsaberCustom) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.sweepGradient(
+                            listOf(
+                                Color.Red,
+                                Color.Green,
+                                Color.Blue,
+                                Color.Red
+                            )
+                        )
+                    )
+            )
+        }
     }
 }

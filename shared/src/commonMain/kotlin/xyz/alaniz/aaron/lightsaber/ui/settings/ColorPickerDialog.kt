@@ -20,6 +20,7 @@ import lightsaber.shared.generated.resources.color_picker_dialog_button_cancel
 import lightsaber.shared.generated.resources.color_picker_dialog_button_ok
 import lightsaber.shared.generated.resources.color_picker_dialog_title
 import org.jetbrains.compose.resources.stringResource
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 
 @Composable
 fun ColorPickerDialog(
@@ -28,9 +29,10 @@ fun ColorPickerDialog(
 ) {
     val controller = rememberColorPickerController()
 
-    AlertDialog(
-        onDismissRequest = onDismissRequest,
-        title = { Text(text = stringResource(Res.string.color_picker_dialog_title)) },
+    LightsaberTheme {
+        AlertDialog(
+            onDismissRequest = onDismissRequest,
+            title = { Text(text = stringResource(Res.string.color_picker_dialog_title)) },
         text = {
             Column {
                 HsvColorPicker(
@@ -66,4 +68,5 @@ fun ColorPickerDialog(
             }
         }
     )
+    }
 }
