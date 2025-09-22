@@ -14,6 +14,7 @@ compose-ui-test = "1.8.2"
 kermit = "2.0.4"
 anvil-kotlin-inject = "0.1.6"
 burst = "2.2.0"
+colorpicker = "1.1.2"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
@@ -30,6 +31,7 @@ androidx-datastore-preferences-core = { group = "androidx.datastore", name = "da
 androidx-compose-ui-test-junit4-android = { group = "androidx.compose.ui" , name = "ui-test-junit4-android", version.ref = "compose-ui-test" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui" , name = "ui-test-manifest", version.ref = "compose-ui-test" }
 kermit = { group = "co.touchlab" , name = "kermit", version.ref = "kermit" }
+compose-colorpicker = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
 kotlin-inject-runtime-kmp = { module = "me.tatarka.inject:kotlin-inject-runtime-kmp", version.ref = "kotlin-inject" }
 kotlin-inject-ksp = { module = "me.tatarka.inject:kotlin-inject-compiler-ksp", version.ref = "kotlin-inject" }
 anvil-kotlin-inject-compiler = { group = "software.amazon.lastmile.kotlin.inject.anvil" , name = "compiler", version.ref = "anvil-kotlin-inject" }

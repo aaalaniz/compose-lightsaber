@@ -11,4 +11,9 @@
     <string name="settings_screen_lightsaber_blade_color">Blade Color</string>
     <string name="settings_screen_about_group">About</string>
     <string name="settings_screen_version">Version</string>
+
+    <!-- Color Picker Dialog -->
+    <string name="color_picker_dialog_title">Select a Color</string>
+    <string name="color_picker_dialog_button_ok">OK</string>
+    <string name="color_picker_dialog_button_cancel">Cancel</string>
 </resources>

@@ -26,6 +26,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +49,7 @@ import lightsaber.shared.generated.resources.settings_screen_version
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberCustom
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 
 @CircuitInject(SettingsScreen::class, AppScope::class)
@@ -149,6 +151,18 @@ fun LightsaberBladeColorDropdownMenu(
     colors: List<Color>,
     onColorSelected: (Color) -> Unit
 ) {
+    val showColorPickerDialog = remember { mutableStateOf(false) }
+
+    if (showColorPickerDialog.value) {
+        ColorPickerDialog(
+            onDismissRequest = { showColorPickerDialog.value = false },
+            onColorSelected = {
+                onColorSelected(it)
+                showColorPickerDialog.value = false
+            }
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -165,9 +179,8 @@ fun LightsaberBladeColorDropdownMenu(
             )
             Spacer(Modifier.weight(1.0f))
             var expanded = remember { mutableStateOf(false) }
-            var selectedColor = remember { mutableStateOf(currentColor) }
             Box {
-                LightsaberCircle(color = selectedColor.value, modifier = Modifier.clickable {
+                LightsaberCircle(color = currentColor, modifier = Modifier.clickable {
                     expanded.value = true
                 })
                 DropdownMenu(
@@ -177,12 +190,23 @@ fun LightsaberBladeColorDropdownMenu(
                     colors.forEach { item ->
                         DropdownMenuItem(
                             onClick = {
-                                selectedColor.value = item
+                                if (item == LightsaberCustom) {
+                                    showColorPickerDialog.value = true
+                                } else {
+                                    onColorSelected(item)
+                                }
                                 expanded.value = false
-                                onColorSelected(item)
                             },
                         ) {
-                            LightsaberCircle(color = item)
+                            if (item == LightsaberCustom) {
+                                Icon(
+                                    imageVector = Icons.Filled.Palette,
+                                    contentDescription = "Custom Color",
+                                    tint = if (currentColor == LightsaberCustom) currentColor else Color.White
+                                )
+                            } else {
+                                LightsaberCircle(color = item)
+                            }
                         }
                     }
                 }

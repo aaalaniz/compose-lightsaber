@@ -16,6 +16,7 @@ import me.tatarka.inject.annotations.Inject
 import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import xyz.alaniz.aaron.lightsaber.data.SettingsRepository
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberBlue
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberCustom
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberGreen
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberPurple
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberRed
@@ -45,7 +46,7 @@ class SettingsPresenter(
     private val bladeColorOptions = listOf(
         LightsaberGreen, LightsaberRed,
         LightsaberYellow, LightsaberBlue,
-        LightsaberPurple
+        LightsaberPurple, LightsaberCustom
     )
 
     @Composable
