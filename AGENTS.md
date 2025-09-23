@@ -251,6 +251,22 @@ data class LightsaberState(
 - Circuit testing support
 - Robot pattern for clean test interactions
 
+### End-to-End (E2E) Testing
+
+This project uses [maestro.dev](https://maestro.dev/) for E2E testing. The tests are located in the
+`.maestro` directory.
+
+To run the tests locally, use the following command:
+
+```bash
+maestro test .maestro
+```
+
+These tests are also run automatically on pull requests in the `e2e-test-androidApp` and
+`e2e-test-iosApp` GitHub Actions jobs.
+
+**Note**: The Maestro tests rely on accessibility labels to find UI elements.
+
 ## Build Configuration
 
 ### Gradle Setup
