@@ -35,22 +35,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import lightsaber.shared.generated.resources.Res
+import lightsaber.shared.generated.resources.lightsaber_color_blue
+import lightsaber.shared.generated.resources.lightsaber_color_custom
+import lightsaber.shared.generated.resources.lightsaber_color_green
+import lightsaber.shared.generated.resources.lightsaber_color_purple
+import lightsaber.shared.generated.resources.lightsaber_color_red
+import lightsaber.shared.generated.resources.lightsaber_color_yellow
 import lightsaber.shared.generated.resources.settings_screen_about_group
 import lightsaber.shared.generated.resources.settings_screen_app_bar_back
 import lightsaber.shared.generated.resources.settings_screen_app_bar_title
+import lightsaber.shared.generated.resources.settings_screen_custom_color_description
 import lightsaber.shared.generated.resources.settings_screen_lightsaber_blade_color
 import lightsaber.shared.generated.resources.settings_screen_lightsaber_group
+import lightsaber.shared.generated.resources.settings_screen_selected_color_description
 import lightsaber.shared.generated.resources.settings_screen_version
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberBlue
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberCustom
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberGreen
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberPurple
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberRed
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberYellow
 
 @CircuitInject(SettingsScreen::class, AppScope::class)
 @Composable
@@ -180,15 +195,27 @@ fun LightsaberBladeColorDropdownMenu(
             Spacer(Modifier.weight(1.0f))
             var expanded = remember { mutableStateOf(false) }
             Box {
-                LightsaberCircle(color = currentColor, modifier = Modifier.clickable {
-                    expanded.value = true
-                })
+                val colorName = colorName(color = currentColor)
+                val selectedColorDescription =
+                    stringResource(Res.string.settings_screen_selected_color_description)
+                LightsaberCircle(
+                    color = currentColor,
+                    modifier = Modifier
+                        .clickable {
+                            expanded.value = true
+                        }
+                        .semantics {
+                            contentDescription = "$selectedColorDescription: $colorName"
+                        }
+                )
                 DropdownMenu(
                     expanded = expanded.value,
                     modifier = Modifier.width(64.dp),
                     onDismissRequest = { expanded.value = false }) {
                     colors.forEach { item ->
+                        val itemName = colorName(color = item)
                         DropdownMenuItem(
+                            modifier = Modifier.semantics { contentDescription = itemName },
                             onClick = {
                                 if (item == LightsaberCustom) {
                                     showColorPickerDialog.value = true
@@ -201,7 +228,7 @@ fun LightsaberBladeColorDropdownMenu(
                             if (item == LightsaberCustom) {
                                 Icon(
                                     imageVector = Icons.Filled.Palette,
-                                    contentDescription = "Custom Color",
+                                    contentDescription = stringResource(Res.string.settings_screen_custom_color_description),
                                     tint = if (currentColor == LightsaberCustom) currentColor else Color.White
                                 )
                             } else {
@@ -216,12 +243,29 @@ fun LightsaberBladeColorDropdownMenu(
 }
 
 @Composable
+@OptIn(ExperimentalResourceApi::class)
+private fun colorName(color: Color): String {
+    return when (color) {
+        LightsaberGreen -> stringResource(Res.string.lightsaber_color_green)
+        LightsaberRed -> stringResource(Res.string.lightsaber_color_red)
+        LightsaberBlue -> stringResource(Res.string.lightsaber_color_blue)
+        LightsaberYellow -> stringResource(Res.string.lightsaber_color_yellow)
+        LightsaberPurple -> stringResource(Res.string.lightsaber_color_purple)
+        LightsaberCustom -> stringResource(Res.string.lightsaber_color_custom)
+        else -> ""
+    }
+}
+
+@Composable
 private fun LightsaberCircle(color: Color, modifier: Modifier = Modifier) {
     Surface(
         shape = CircleShape,
         color = Color.White,
         border = BorderStroke(4.dp, color),
-        modifier = modifier.size(32.dp).blur(4.dp).clip(CircleShape)
+        modifier = modifier
+            .size(32.dp)
+            .blur(4.dp)
+            .clip(CircleShape)
     ) {
     }
 }

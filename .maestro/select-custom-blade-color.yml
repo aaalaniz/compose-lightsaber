@@ -1,0 +1,10 @@
+appId: xyz.alaniz.aaron.lightsaber
+---
+- launchApp
+- tapOn: "settings icon"
+- tapOn: "Selected color: Green"
+- tapOn: "Custom"
+- tapOn: "OK"
+- tapOn: "exit settings"
+- tapOn: "lightsaber handle"
+- assertVisible: "lightsaber blade: Custom"

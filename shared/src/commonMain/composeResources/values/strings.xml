@@ -11,9 +11,19 @@
     <string name="settings_screen_lightsaber_blade_color">Blade Color</string>
     <string name="settings_screen_about_group">About</string>
     <string name="settings_screen_version">Version</string>
+    <string name="settings_screen_selected_color_description">Selected color</string>
+    <string name="settings_screen_custom_color_description">Custom Color</string>
 
     <!-- Color Picker Dialog -->
     <string name="color_picker_dialog_title">Select a Color</string>
     <string name="color_picker_dialog_button_ok">OK</string>
     <string name="color_picker_dialog_button_cancel">Cancel</string>
+
+    <!-- Blade Colors -->
+    <string name="lightsaber_color_green">Green</string>
+    <string name="lightsaber_color_red">Red</string>
+    <string name="lightsaber_color_blue">Blue</string>
+    <string name="lightsaber_color_yellow">Yellow</string>
+    <string name="lightsaber_color_purple">Purple</string>
+    <string name="lightsaber_color_custom">Custom</string>
 </resources>

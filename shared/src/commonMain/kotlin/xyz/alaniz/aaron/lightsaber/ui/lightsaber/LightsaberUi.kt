@@ -41,14 +41,27 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import lightsaber.shared.generated.resources.Res
+import lightsaber.shared.generated.resources.lightsaber_color_blue
+import lightsaber.shared.generated.resources.lightsaber_color_custom
+import lightsaber.shared.generated.resources.lightsaber_color_green
+import lightsaber.shared.generated.resources.lightsaber_color_purple
+import lightsaber.shared.generated.resources.lightsaber_color_red
+import lightsaber.shared.generated.resources.lightsaber_color_yellow
 import lightsaber.shared.generated.resources.lightsaber_handle
 import lightsaber.shared.generated.resources.lightsaber_screen_lightsaber_blade
 import lightsaber.shared.generated.resources.lightsaber_screen_lightsaber_handle
 import lightsaber.shared.generated.resources.lightsaber_screen_settings_icon
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberBlue
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberCustom
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberGreen
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberPurple
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberRed
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
+import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberYellow
 
 
 @CircuitInject(LightsaberScreen::class, AppScope::class)
@@ -163,10 +176,11 @@ private fun LightsaberBlade(
     val blurSize = 4.dp
     val lightsaberBladeDescription =
         stringResource(Res.string.lightsaber_screen_lightsaber_blade)
+    val colorName = colorName(color = bladeColor)
     Box(
         modifier = modifier
             .semantics {
-                contentDescription = lightsaberBladeDescription
+                contentDescription = "$lightsaberBladeDescription: $colorName"
             }
             .width(width = lightsaberBladeWidth + blurSize)
             .height(height = lightsaberBladeTotalHeight + blurSize)
@@ -203,5 +217,19 @@ private fun LightsaberBlade(
                 }
             }
     ) {
+    }
+}
+
+@Composable
+@OptIn(ExperimentalResourceApi::class)
+private fun colorName(color: Color): String {
+    return when (color) {
+        LightsaberGreen -> stringResource(Res.string.lightsaber_color_green)
+        LightsaberRed -> stringResource(Res.string.lightsaber_color_red)
+        LightsaberBlue -> stringResource(Res.string.lightsaber_color_blue)
+        LightsaberYellow -> stringResource(Res.string.lightsaber_color_yellow)
+        LightsaberPurple -> stringResource(Res.string.lightsaber_color_purple)
+        LightsaberCustom -> stringResource(Res.string.lightsaber_color_custom)
+        else -> ""
     }
 }
