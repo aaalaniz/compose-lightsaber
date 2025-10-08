@@ -25,10 +25,10 @@ kotlin {
         instrumentedTestVariant {
             sourceSetTree.set(KotlinSourceSetTree.test)
 
-            dependencies {
-                implementation(libs.androidx.compose.ui.test.junit4.android)
-                debugImplementation(libs.androidx.compose.ui.test.manifest)
-            }
+//            dependencies {
+//                implementation(libs.androidx.compose.ui.test.junit4.android)
+//                debugImplementation(libs.androidx.compose.ui.test.manifest)
+//            }
         }
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         unitTestVariant.sourceSetTree.set(KotlinSourceSetTree.unitTest)
