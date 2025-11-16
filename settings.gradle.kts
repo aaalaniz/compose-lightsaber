@@ -1,7 +1,6 @@
 rootProject.name = "Lightsaber"
 
-include(":androidApp")
-include(":shared")
+include(":android:app")
 
 pluginManagement {
     repositories {
