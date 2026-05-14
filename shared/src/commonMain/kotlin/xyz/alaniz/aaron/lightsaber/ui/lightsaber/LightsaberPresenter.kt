@@ -16,7 +16,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.AssistedFactory
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -44,7 +44,7 @@ data class LightsaberState(
     val onEvent: (LightsaberEvent) -> Unit
 ) : CircuitUiState
 
-@Inject
+@AssistedInject
 class LightsaberPresenter(
     private val swingDetector: SwingDetector,
     private val soundPlayer: SoundPlayer,

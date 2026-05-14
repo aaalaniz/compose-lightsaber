@@ -13,7 +13,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 import xyz.alaniz.aaron.lightsaber.data.SettingsRepository
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberBlue
@@ -36,7 +36,7 @@ data class SettingsState(
 ) :
     CircuitUiState
 
-@Inject
+@AssistedInject
 class SettingsPresenter(
     private val settingsRepository: SettingsRepository,
     @Assisted private val navigator: Navigator

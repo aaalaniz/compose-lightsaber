@@ -1,19 +1,19 @@
 [versions]
 core-splashscreen = "1.0.1"
-kotlin = "2.3.0-Beta1"
-agp = "8.10.1"
+kotlin = "2.3.21"
+agp = "8.13.2"
 compose = "1.8.2"
 ksp = "2.2.20-2.0.4"
-circuit = "0.30.0"
+circuit = "0.33.1"
 androidx-activity-compose = "1.10.1"
 androidx-appcompat = "1.7.1"
 androidx-core-ktx = "1.16.0"
 datastore-version = "1.1.7"
 compose-ui-test = "1.9.3"
 kermit = "2.0.4"
-burst = "2.2.0"
+burst = "2.12.2"
 colorpicker = "1.1.2"
-metro = "0.6.9"
+metro = "1.1.1"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
