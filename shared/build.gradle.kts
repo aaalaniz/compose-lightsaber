@@ -24,11 +24,6 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         instrumentedTestVariant {
             sourceSetTree.set(KotlinSourceSetTree.test)
-
-//            dependencies {
-//                implementation(libs.androidx.compose.ui.test.junit4.android)
-//                debugImplementation(libs.androidx.compose.ui.test.manifest)
-//            }
         }
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         unitTestVariant.sourceSetTree.set(KotlinSourceSetTree.unitTest)
@@ -81,6 +76,11 @@ kotlin {
                 api(libs.androidx.core.ktx)
             }
         }
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(libs.androidx.compose.ui.test.junit4.android)
+            }
+        }
     }
 }
 
@@ -116,4 +116,5 @@ dependencies {
     add("kspIosX64", libs.circuit.codegen)
     add("kspIosArm64", libs.circuit.codegen)
     add("kspIosSimulatorArm64", libs.circuit.codegen)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
