@@ -4,48 +4,48 @@ runs:
   using: "composite"
   steps:
     - name: Setup JDK 17
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: 17
         distribution: zulu
         cache: 'gradle'
     - name: Shared Build Cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         key: build-shared-${{ github.sha }}
         path: |
           shared/build
 
     - name: Android App Build Cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         key: build-android-${{ github.sha }}
         path: |
           androidApp/build
 
     - name: iOS App Debug iphoneos Build Cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         key: build-ios-debug-iphoneos-${{ github.sha }}
         path: |
           iosApp/build/ios/Debug-iphoneos
 
     - name: iOS App Release iphoneos Build Cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         key: build-ios-release-iphoneos-${{ github.sha }}
         path: |
           iosApp/build/ios/Release-iphoneos
 
     - name: iOS App Debug iphonesimulator Build Cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         key: build-ios-debug-iphonesimulator-${{ github.sha }}
         path: |
           iosApp/build/ios/Debug-iphonesimulator
 
     - name: iOS App Release iphonesimulator Build Cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         key: build-ios-release-iphonesimulator-${{ github.sha }}
         path: |
