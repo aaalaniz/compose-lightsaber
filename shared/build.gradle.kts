@@ -46,12 +46,11 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation(compose.materialIconsExtended)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
+                implementation(libs.compose.runtime)
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.material)
+                implementation(libs.compose.material.icons.extended)
+                implementation(libs.compose.resources)
                 api(libs.circuit.codegen.annotations)
                 implementation(libs.circuit.foundation)
                 implementation(libs.circuitx.gesture.navigation)
@@ -64,8 +63,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.uiTest)
+                implementation(libs.compose.ui.test)
             }
         }
         androidMain {
