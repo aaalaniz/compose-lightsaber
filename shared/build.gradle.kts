@@ -28,8 +28,16 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         unitTestVariant.sourceSetTree.set(KotlinSourceSetTree.unitTest)
     }
-    iosArm64()
-    iosSimulatorArm64()
+    iosArm64 {
+        binaries.all {
+            disableNativeCache = true
+        }
+    }
+    iosSimulatorArm64 {
+        binaries.all {
+            disableNativeCache = true
+        }
+    }
 
     cocoapods {
         version = "1.0.0"

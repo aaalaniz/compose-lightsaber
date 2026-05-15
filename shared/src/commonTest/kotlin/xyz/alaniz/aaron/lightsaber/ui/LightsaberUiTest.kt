@@ -3,7 +3,7 @@ package xyz.alaniz.aaron.lightsaber.ui
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import app.cash.burst.Burst
 import app.cash.burst.burstValues
 import xyz.alaniz.aaron.lightsaber.fixtures.LightsaberColor
