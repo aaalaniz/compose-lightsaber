@@ -270,8 +270,8 @@ These tests are also run automatically on pull requests in the `e2e-test-android
 
 ### Gradle Setup
 
-- **Kotlin 2.2.10** with Compose compiler plugin
-- **KSP 2.2.10-2.0.2** for Circuit and Metro code generation
+- **Kotlin 2.3.21** with Compose compiler plugin
+- **KSP 2.2.20-2.0.4** for Circuit and Metro code generation
 - **Metro 1.1.1** for dependency injection
 - **CocoaPods** integration for iOS dependencies
 
