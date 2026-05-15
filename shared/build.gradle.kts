@@ -82,6 +82,9 @@ kotlin {
             }
         }
     }
+    sourceSets.androidUnitTest.dependencies {
+        implementation(kotlin("test"))
+    }
 }
 
 android {
