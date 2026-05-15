@@ -28,14 +28,12 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         unitTestVariant.sourceSetTree.set(KotlinSourceSetTree.unitTest)
     }
-    iosArm64 {
+    iosArm64()
+    iosSimulatorArm64()
+
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>().configureEach {
         binaries.all {
-            disableNativeCache = true
-        }
-    }
-    iosSimulatorArm64 {
-        binaries.all {
-            disableNativeCache = true
+            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
         }
     }
 
