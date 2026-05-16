@@ -28,6 +28,7 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         unitTestVariant.sourceSetTree.set(KotlinSourceSetTree.unitTest)
     }
+    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
@@ -119,6 +120,7 @@ android {
 dependencies {
     add("kspCommonMainMetadata", libs.circuit.codegen)
     add("kspAndroid", libs.circuit.codegen)
+    add("kspIosX64", libs.circuit.codegen)
     add("kspIosArm64", libs.circuit.codegen)
     add("kspIosSimulatorArm64", libs.circuit.codegen)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
