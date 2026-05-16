@@ -41,7 +41,7 @@ kotlin {
         version = "1.0.0"
         summary = "A toy Lightsaber app built with Compose Multiplatform"
         homepage = "https://github.com/aaalaniz/compose-lightsaber"
-        ios.deploymentTarget = "14.1"
+        ios.deploymentTarget = "15.0"
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "shared"
