@@ -99,7 +99,7 @@ jobs:
           -configuration ${{ matrix.configuration }} \
           -xcconfig ${{ github.workspace }}/iosApp/Configuration/Config.xcconfig \
           OBJROOT=${{ github.workspace }}/iosApp/build/ios SYMROOT=${{ github.workspace }}/iosApp/build/ios \
-          -sdk ${{ matrix.target }}
+          -sdk ${{ matrix.target }} ONLY_ACTIVE_ARCH=YES
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
