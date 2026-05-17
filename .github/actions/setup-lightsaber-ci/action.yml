@@ -51,10 +51,24 @@ runs:
         path: |
           iosApp/build/ios/Release-iphonesimulator
 
+    - name: List Xcode versions
+      run: |
+        ls -d /Applications/Xcode*
+      shell: bash
+
     - name: Set Xcode version
       run: |
         if command -v xcode-select &> /dev/null; then
-          sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+          # Try Xcode 16.0 if it exists, otherwise fall back to latest Xcode.app
+          if [ -d "/Applications/Xcode_16.0.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_16.0.app/Contents/Developer
+          elif [ -d "/Applications/Xcode_16.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+          else
+            echo "Xcode 16 not found, listing available versions:"
+            ls -d /Applications/Xcode*
+            sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          fi
         else
           echo "xcode-select is not available"
         fi
