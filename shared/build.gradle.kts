@@ -38,6 +38,11 @@ kotlin {
                 "-Xmin-ios-version=18.0",
                 "-Xoverride-konan-properties=minVersion.ios=18.0;minVersionSinceXcode15.ios=18.0"
             )
+            @Suppress("DEPRECATION")
+            disableNativeCache(
+                version = org.jetbrains.kotlin.gradle.plugin.mpp.DisableCacheInKotlinVersion.KOTLIN_2_3_21,
+                reason = "Stale caches built for iOS 14.0 missing required symbols"
+            )
         }
     }
 
