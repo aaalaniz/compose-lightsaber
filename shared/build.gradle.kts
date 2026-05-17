@@ -35,8 +35,8 @@ kotlin {
         binaries.all {
             freeCompilerArgs += listOf(
                 "-Xdisable-phases=VerifyBitcode",
-                "-Xmin-ios-version=26.0",
-                "-Xoverride-konan-properties=minVersion.ios=26.0;minVersionSinceXcode15.ios=26.0"
+                "-Xmin-ios-version=18.5",
+                "-Xoverride-konan-properties=minVersion.ios=18.5;minVersionSinceXcode15.ios=18.5"
             )
         }
     }
@@ -45,7 +45,7 @@ kotlin {
         version = "1.0.0"
         summary = "A toy Lightsaber app built with Compose Multiplatform"
         homepage = "https://github.com/aaalaniz/compose-lightsaber"
-        ios.deploymentTarget = "26.0"
+        ios.deploymentTarget = "18.5"
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "shared"

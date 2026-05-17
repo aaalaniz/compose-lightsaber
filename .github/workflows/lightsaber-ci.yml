@@ -21,13 +21,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-lightsaber-ci
 
-      - name: Debug Environment
-        run: |
-          xcodebuild -showsdks
-          xcrun simctl list runtimes
-          ls -d /Applications/Xcode*
-        shell: bash
-
       - name: Build Shared
         run: ./gradlew shared:assemble -x compileIosMainKotlinMetadata
 
@@ -139,7 +132,7 @@ jobs:
         with:
           model: 'iPhone 15'
           os: iOS
-          os_version: 26.0
+          os_version: 26.4
           wait_for_boot: true
           shutdown_after_job: false
 
@@ -204,7 +197,7 @@ jobs:
         with:
           model: 'iPhone 15'
           os: iOS
-          os_version: 26.0
+          os_version: 26.4
 
       - name: Wait for the simulator to be ready
         run: xcrun simctl bootstatus "${{ steps.ios-simulator.outputs.udid }}" -b

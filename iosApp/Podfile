@@ -1,6 +1,6 @@
 target 'iosApp' do
   use_frameworks!
-  platform :ios, '26.0'
+  platform :ios, '18.5'
   pod 'shared', :path => '../shared'
 end
 
