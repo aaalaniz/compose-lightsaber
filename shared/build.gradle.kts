@@ -33,8 +33,11 @@ kotlin {
 
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>().configureEach {
         binaries.all {
-            freeCompilerArgs += listOf("-Xdisable-phases=VerifyBitcode", "-Xcache-kind=none")
-            linkerOpts("-platform_version", "ios-simulator", "15.0", "15.0")
+            freeCompilerArgs += listOf(
+                "-Xdisable-phases=VerifyBitcode",
+                "-Xmin-ios-version=15.0",
+                "-Xoverride-konan-properties=minVersion.ios=15.0;minVersionSinceXcode15.ios=15.0"
+            )
         }
     }
 
