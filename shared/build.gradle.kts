@@ -34,6 +34,7 @@ kotlin {
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>().configureEach {
         binaries.all {
             freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
+            linkerOpts("-ios_deployment_target", "15.0")
         }
     }
 
