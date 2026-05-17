@@ -33,13 +33,8 @@ kotlin {
 
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>().configureEach {
         binaries.all {
-            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
+            freeCompilerArgs += listOf("-Xdisable-phases=VerifyBitcode", "-Xcache-kind=none")
             linkerOpts("-platform_version", "ios-simulator", "15.0", "15.0")
-            @Suppress("DEPRECATION")
-            disableNativeCache(
-                version = "2.3.21",
-                reason = "Stale caches built for iOS 14.0 missing required symbols"
-            )
         }
     }
 
