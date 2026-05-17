@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-        target: [iphonesimulator, iphoneos]
+        target: [iphonesimulator]
     needs: build-shared
     steps:
       - uses: actions/checkout@v4

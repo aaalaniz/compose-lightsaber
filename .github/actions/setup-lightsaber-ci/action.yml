@@ -54,7 +54,7 @@ runs:
     - name: Set Xcode version
       run: |
         if command -v xcode-select &> /dev/null; then
-          sudo xcode-select -s /Applications/Xcode_26.0.app/Contents/Developer
+          sudo xcode-select -s /Applications/Xcode_26.4.1.app/Contents/Developer
         else
           echo "xcode-select is not available"
         fi
