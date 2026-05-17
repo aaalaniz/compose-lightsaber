@@ -35,7 +35,11 @@ kotlin {
         binaries.all {
             freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
             linkerOpts("-platform_version", "ios-simulator", "15.0", "15.0")
-            disableNativeCache = true
+            @Suppress("DEPRECATION")
+            disableNativeCache(
+                version = "2.3.21",
+                reason = "Stale caches built for iOS 14.0 missing required symbols"
+            )
         }
     }
 
