@@ -35,6 +35,7 @@ kotlin {
         binaries.all {
             freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
             linkerOpts("-platform_version", "ios-simulator", "15.0", "15.0")
+            disableNativeCache = true
         }
     }
 
