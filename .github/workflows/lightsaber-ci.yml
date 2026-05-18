@@ -130,7 +130,7 @@ jobs:
       - uses: futureware-tech/simulator-action@v4
         id: ios-simulator
         with:
-          model: 'iPhone 15'
+          model: 'iPhone 17'
           os: iOS
           os_version: 26.4
           wait_for_boot: true
@@ -195,7 +195,7 @@ jobs:
       - uses: futureware-tech/simulator-action@v4
         id: ios-simulator
         with:
-          model: 'iPhone 15'
+          model: 'iPhone 17'
           os: iOS
           os_version: 26.4
 
