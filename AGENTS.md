@@ -41,7 +41,15 @@ compose-lightsaber/
 │   │   ├── ContentView.swift      # SwiftUI wrapper for Compose
 │   │   └── iOSApp.swift          # iOS app entry point
 │   └── Podfile                   # CocoaPods dependencies
-├── shared/                        # Shared multiplatform module
+├── shared/                        # Umbrella multiplatform module
+├── core/                          # Core utility modules
+│   ├── ui/
+│   ├── data/
+│   ├── audio/
+│   └── motion/
+├── feature/                       # Feature modules
+│   ├── lightsaber/
+│   └── settings/
 │   ├── src/
 │   │   ├── androidMain/          # Android-specific implementations
 │   │   ├── iosMain/              # iOS-specific implementations
@@ -54,7 +62,7 @@ compose-lightsaber/
 
 ## Core Components
 
-### 1. UI Layer (`shared/src/commonMain/kotlin/xyz/alaniz/aaron/lightsaber/ui/`)
+### 1. UI Layer (`core:ui`, `feature:lightsaber`, `feature:settings`)
 
 #### Screens
 
@@ -72,7 +80,7 @@ compose-lightsaber/
 - **LightsaberPresenter**: Manages lightsaber state, sound effects, and motion detection
 - **SettingsPresenter**: Handles settings state and persistence
 
-### 2. Data Layer (`shared/src/commonMain/kotlin/xyz/alaniz/aaron/lightsaber/data/`)
+### 2. Data Layer (`core:data`)
 
 #### Models
 
@@ -87,7 +95,7 @@ data class LightsaberSettings(
 - **SettingsRepository**: Manages persistent user settings using DataStore
 - **RealSettingsRepository**: Implementation with reactive StateFlow
 
-### 3. Audio System (`shared/src/commonMain/kotlin/xyz/alaniz/aaron/lightsaber/audio/`)
+### 3. Audio System (`core:audio`)
 
 #### Platform Abstractions
 
@@ -107,7 +115,7 @@ data class LightsaberSettings(
 - `lightsaber_hum1/2/3.m4a` - Swing movement sounds
 - `lightsaber_clash1/2/3.m4a` - Combat clash sounds
 
-### 4. Motion Detection (`shared/src/commonMain/kotlin/xyz/alaniz/aaron/lightsaber/motion/`)
+### 4. Motion Detection (`core:motion`)
 
 #### Common Interface
 

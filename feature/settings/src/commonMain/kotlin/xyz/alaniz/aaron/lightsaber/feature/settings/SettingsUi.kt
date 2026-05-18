@@ -1,5 +1,5 @@
-import xyz.alaniz.aaron.lightsaber.ui.components.ColorPickerDialog
 package xyz.alaniz.aaron.lightsaber.feature.settings
+import xyz.alaniz.aaron.lightsaber.ui.components.ColorPickerDialog
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -41,13 +41,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dev.zacsweers.metro.AppScope
-import lightsaber.shared.generated.resources.Res
-import lightsaber.shared.generated.resources.settings_screen_about_group
-import lightsaber.shared.generated.resources.settings_screen_app_bar_back
-import lightsaber.shared.generated.resources.settings_screen_app_bar_title
-import lightsaber.shared.generated.resources.settings_screen_lightsaber_blade_color
-import lightsaber.shared.generated.resources.settings_screen_lightsaber_group
-import lightsaber.shared.generated.resources.settings_screen_version
+import lightsaber.feature.settings.generated.resources.Res
+import lightsaber.feature.settings.generated.resources.settings_screen_about_group
+import lightsaber.feature.settings.generated.resources.settings_screen_app_bar_back
+import lightsaber.feature.settings.generated.resources.settings_screen_app_bar_title
+import lightsaber.feature.settings.generated.resources.settings_screen_lightsaber_blade_color
+import lightsaber.feature.settings.generated.resources.settings_screen_lightsaber_group
+import lightsaber.feature.settings.generated.resources.settings_screen_version
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberCustom

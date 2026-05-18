@@ -2,6 +2,7 @@ plugins {
     id("lightsaber.kmp.library")
     id("lightsaber.kmp.compose")
     id("lightsaber.kmp.circuit")
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 android { namespace = "xyz.alaniz.aaron.lightsaber.feature.lightsaber" }
 kotlin {

@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.dp
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
-import lightsaber.shared.generated.resources.Res
-import lightsaber.shared.generated.resources.color_picker_dialog_button_cancel
-import lightsaber.shared.generated.resources.color_picker_dialog_button_ok
-import lightsaber.shared.generated.resources.color_picker_dialog_title
+import lightsaber.core.ui.generated.resources.Res
+import lightsaber.core.ui.generated.resources.color_picker_dialog_button_cancel
+import lightsaber.core.ui.generated.resources.color_picker_dialog_button_ok
+import lightsaber.core.ui.generated.resources.color_picker_dialog_title
 import org.jetbrains.compose.resources.stringResource
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 

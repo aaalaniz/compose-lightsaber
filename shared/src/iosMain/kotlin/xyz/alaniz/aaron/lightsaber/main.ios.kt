@@ -13,7 +13,7 @@ import platform.Foundation.NSUserDomainMask
 import xyz.alaniz.aaron.lightsaber.di.DataStorePath
 import xyz.alaniz.aaron.lightsaber.di.metro.IosApplicationGraph
 import xyz.alaniz.aaron.lightsaber.di.metro.dataStoreFileName
-import xyz.alaniz.aaron.lightsaber.ui.lightsaber.IosLightsaberScreen
+import xyz.alaniz.aaron.lightsaber.feature.lightsaber.IosLightsaberScreen
 import kotlin.experimental.ExperimentalNativeApi
 
 @OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)

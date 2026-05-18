@@ -1,10 +1,11 @@
 plugins {
-    \`kotlin-dsl\`
+    `kotlin-dsl`
 }
 group = "xyz.alaniz.aaron.lightsaber.buildlogic"
 dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.21")
+    implementation("org.jetbrains.kotlin.plugin.parcelize:org.jetbrains.kotlin.plugin.parcelize.gradle.plugin:2.3.21")
     implementation("com.android.tools.build:gradle:8.13.2")
     implementation("org.jetbrains.compose:compose-gradle-plugin:1.11.0")
     implementation("org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin:2.3.21")

@@ -8,6 +8,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kermit)
+                api(project(":core:ui"))
                 api(libs.circuit.codegen.annotations)
                 implementation(libs.circuit.foundation)
             }

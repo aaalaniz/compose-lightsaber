@@ -1,4 +1,4 @@
-package xyz.alaniz.aaron.lightsaber.ui.settings
+package xyz.alaniz.aaron.lightsaber.feature.settings
 
 import android.os.Parcelable
 import dev.zacsweers.metro.AppScope

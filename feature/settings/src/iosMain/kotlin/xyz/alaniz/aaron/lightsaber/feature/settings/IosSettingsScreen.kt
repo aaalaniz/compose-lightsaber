@@ -1,4 +1,4 @@
-package xyz.alaniz.aaron.lightsaber.ui.settings
+package xyz.alaniz.aaron.lightsaber.feature.settings
 
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.AppScope

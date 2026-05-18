@@ -17,6 +17,7 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                 apply("com.google.devtools.ksp")
                 apply("dev.zacsweers.metro")
                 apply("org.jetbrains.kotlin.plugin.parcelize")
+                apply("org.jetbrains.kotlin.plugin.parcelize")
             }
             extensions.configure<KotlinMultiplatformExtension> {
                 androidTarget {
@@ -37,7 +38,7 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                 jvmToolchain(21)
             }
             extensions.configure<LibraryExtension> {
-                compileSdk = 35
+                compileSdk = (findProperty("android.compileSdk") as String).toInt()
                 defaultConfig {
                     minSdk = 24
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

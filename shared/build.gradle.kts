@@ -42,6 +42,8 @@ kotlin {
                 implementation(libs.compose.material)
                 implementation(libs.compose.material.icons.extended)
                 implementation(libs.compose.resources)
+                implementation(libs.androidx.datastore.preferences.core)
+                implementation(libs.androidx.datastore.core.okio)
                 api(libs.circuit.codegen.annotations)
                 implementation(libs.circuit.foundation)
                 implementation(libs.circuitx.gesture.navigation)
