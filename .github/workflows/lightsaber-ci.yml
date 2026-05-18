@@ -16,7 +16,7 @@ env:
 
 jobs:
   build-shared:
-    runs-on: macos-14
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-lightsaber-ci
@@ -25,7 +25,7 @@ jobs:
         run: ./gradlew shared:assemble -x compileIosMainKotlinMetadata
 
   build-androidApp:
-    runs-on: macos-14
+    runs-on: macos-26
     needs: build-shared
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
         run: ./gradlew androidApp:build
 
   build-iosApp:
-    runs-on: macos-14
+    runs-on: macos-26
     strategy:
       matrix:
         configuration: [Debug, Release]
@@ -94,12 +94,20 @@ jobs:
         env:
           LIGHTSABER_TEAM_ID: ${{ secrets.LIGHTSABER_TEAM_ID }}
         run: |
+          if [ "${{ matrix.target }}" == "iphoneos" ]; then
+            DESTINATION="generic/platform=iOS"
+            ONLY_ACTIVE_ARCH="NO"
+          else
+            DESTINATION="platform=iOS Simulator,name=iPhone 17"
+            ONLY_ACTIVE_ARCH="YES"
+          fi
+          
           xcodebuild -workspace ${{ github.workspace }}/iosApp/iosApp.xcworkspace \
           -scheme iosApp \
           -configuration ${{ matrix.configuration }} \
           -xcconfig ${{ github.workspace }}/iosApp/Configuration/Config.xcconfig \
           OBJROOT=${{ github.workspace }}/iosApp/build/ios SYMROOT=${{ github.workspace }}/iosApp/build/ios \
-          -sdk ${{ matrix.target }}
+          -sdk ${{ matrix.target }} -destination "$DESTINATION" ONLY_ACTIVE_ARCH="$ONLY_ACTIVE_ARCH"
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
@@ -108,7 +116,7 @@ jobs:
           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
 
   test-shared:
-    runs-on: macos-14
+    runs-on: macos-26
     needs: build-shared
     steps:
       - uses: actions/checkout@v4
@@ -122,7 +130,7 @@ jobs:
         run: ./gradlew shared:cleanAllTests shared:allTests
 
   ui-test-ios-shared:
-    runs-on: macos-14
+    runs-on: macos-26
     needs: build-shared
     steps:
       - uses: actions/checkout@v4
@@ -130,9 +138,9 @@ jobs:
       - uses: futureware-tech/simulator-action@v4
         id: ios-simulator
         with:
-          model: 'iPhone 15'
+          model: 'iPhone 17'
           os: iOS
-          os_version: 17.0
+          os_version: 26.4
           wait_for_boot: true
           shutdown_after_job: false
 
@@ -186,7 +194,7 @@ jobs:
             maestro test .maestro
 
   e2e-test-iosApp:
-    runs-on: macos-14
+    runs-on: macos-26
     needs: build-iosApp
     steps:
       - uses: actions/checkout@v4
@@ -195,9 +203,9 @@ jobs:
       - uses: futureware-tech/simulator-action@v4
         id: ios-simulator
         with:
-          model: 'iPhone 15'
+          model: 'iPhone 17'
           os: iOS
-          os_version: 17.0
+          os_version: 26.4
 
       - name: Wait for the simulator to be ready
         run: xcrun simctl bootstatus "${{ steps.ios-simulator.outputs.udid }}" -b

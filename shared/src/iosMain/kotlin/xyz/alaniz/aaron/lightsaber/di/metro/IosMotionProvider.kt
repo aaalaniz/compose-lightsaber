@@ -1,15 +1,15 @@
-package xyz.alaniz.aaron.lightsaber.di
+package xyz.alaniz.aaron.lightsaber.di.metro
 
-import me.tatarka.inject.annotations.Provides
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Provides
+import dev.zacsweers.metro.SingleIn
+import dev.zacsweers.metro.AppScope
 import platform.CoreMotion.CMMotionManager
 import platform.Foundation.NSOperationQueue
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
-import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 import xyz.alaniz.aaron.lightsaber.motion.MotionQueue
 
 @ContributesTo(AppScope::class)
-interface IosMotionComponent {
+interface IosMotionProvider {
     @Provides
     @SingleIn(AppScope::class)
     fun providesMotionManager(): CMMotionManager = CMMotionManager()

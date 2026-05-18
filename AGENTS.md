@@ -21,7 +21,7 @@ effects, motion-based swing detection, and customizable blade colors.
 
 - **UI Framework**: Compose Multiplatform
 - **Architecture**: Circuit 
-- **Dependency Injection**: kotlin-inject 
+- **Dependency Injection**: Metro
 - **State Management**: Kotlin StateFlow + DataStore for persistence
 - **Audio**: Platform-specific sound players (MediaPlayer on Android, AVAudioPlayer on iOS)
 - **Motion Detection**: Platform-specific accelerometer implementations
@@ -121,38 +121,38 @@ data class LightsaberSettings(
 
 ### 5. Dependency Injection (`shared/src/commonMain/kotlin/xyz/alaniz/aaron/lightsaber/di/`)
 
-#### kotlin-inject with Anvil Architecture
+#### Metro Architecture
 
-The project uses **kotlin-inject** as the core DI framework with **anvil-kotlin-inject** for
-advanced component composition and code generation.
+The project uses **Metro** as the core DI framework. Metro provides a Dagger-like API for Kotlin Multiplatform with compile-time safety and Anvil-like contribution capabilities.
 
-##### Common Components
+##### Common Components (`shared/src/commonMain/kotlin/xyz/alaniz/aaron/lightsaber/di/metro/`)
 
-- **ApplicationComponent**: Provides Circuit framework setup
-- **DatastoreComponent**: Configures persistent storage with DataStore
+- **CircuitProvider**: Provides Circuit framework setup
+- **DatastoreProvider**: Configures persistent storage with DataStore
 
 ##### Platform-Specific Components
 
-**Android** (`shared/src/androidMain/kotlin/xyz/alaniz/aaron/lightsaber/di/`):
+**Android** (`shared/src/androidMain/kotlin/xyz/alaniz/aaron/lightsaber/di/metro/`):
 
-- **AndroidApplicationComponent**: Main Android DI component using `@MergeComponent`
-- **AndroidSoundComponent**: Audio system bindings for Android
-- **AndroidMotionComponent**: Motion detection bindings for Android
+- **AndroidApplicationGraph**: Main Android DI graph using `@DependencyGraph`
+- **AndroidSoundProvider**: Audio system bindings for Android
+- **AndroidMotionProvider**: Motion detection bindings for Android
 
-**iOS** (`shared/src/iosMain/kotlin/xyz/alaniz/aaron/lightsaber/di/`):
+**iOS** (`shared/src/iosMain/kotlin/xyz/alaniz/aaron/lightsaber/di/metro/`):
 
-- **IosApplicationComponent**: Main iOS DI component using `@MergeComponent`
-- **IosSoundComponent**: Audio system bindings for iOS
-- **IosMotionComponent**: Motion detection bindings for iOS
+- **IosApplicationGraph**: Main iOS DI graph using `@DependencyGraph`
+- **IosSoundProvider**: Audio system bindings for iOS
+- **IosMotionProvider**: Motion detection bindings for iOS
 
 ##### Key Annotations Used
 
 - `@Inject`: Marks classes for dependency injection
-- `@ContributesTo(AppScope::class)`: Contributes bindings to the application scope
+- `@Provides`: Defines a provider function for a dependency
+- `@ContributesTo(AppScope::class)`: Contributes providers or subcomponents to the application scope
 - `@ContributesBinding(AppScope::class)`: Binds implementations to interfaces
-- `@MergeComponent`: Merges all contributed components into a single component
+- `@DependencyGraph`: Defines the root of a dependency graph
 - `@SingleIn(AppScope::class)`: Ensures singleton instances within app scope
-- `@Assisted`: For factory-style injection (used with Circuit)
+- `@Assisted`, `@AssistedFactory`, `@AssistedInject`: For assisted injection (used with Circuit)
 
 ## State Management
 
@@ -164,14 +164,13 @@ The app uses Circuit's unidirectional data flow:
 Screen → Presenter → State → UI → Events → Presenter
 ```
 
-#### Circuit Integration with kotlin-inject
+#### Circuit Integration with Metro
 
-Circuit code generation is configured to work with kotlin-inject:
+Circuit code generation is configured to work with Metro:
 
 ```kotlin
 ksp {
-    arg("circuit.codegen.mode", "kotlin_inject_anvil")
-    arg("kotlin-inject-anvil-contributing-annotations", "com.slack.circuit.codegen.annotations.CircuitInject")
+    arg("circuit.codegen.mode", "metro")
 }
 ```
 
@@ -271,27 +270,22 @@ These tests are also run automatically on pull requests in the `e2e-test-android
 
 ### Gradle Setup
 
-- **Kotlin 2.2.10** with Compose compiler plugin
-- **KSP 2.2.10-2.0.2** for Circuit and anvil-kotlin-inject code generation
-- **kotlin-inject 0.7.2** for dependency injection runtime
-- **anvil-kotlin-inject 0.1.6** for component composition
+- **Kotlin 2.3.21** with Compose compiler plugin
+- **KSP 2.2.20-2.0.4** for Circuit and Metro code generation
+- **Metro 1.1.1** for dependency injection
 - **CocoaPods** integration for iOS dependencies
 
-### kotlin-inject Configuration
+### Metro Configuration
 
-The build is configured to use kotlin-inject with anvil for enhanced DI capabilities:
+The build is configured to use Metro for DI:
 
 ```kotlin
-dependencies {
-    implementation(libs.kotlin.inject.runtime.kmp)
-    implementation(libs.anvil.kotlin.inject.runtime)
-    implementation(libs.anvil.kotlin.inject.runtime.optional)
-    
-    add("kspCommonMainMetadata", libs.anvil.kotlin.inject.compiler)
-    add("kspAndroid", libs.anvil.kotlin.inject.compiler)
-    add("kspIosX64", libs.anvil.kotlin.inject.compiler)
-    add("kspIosArm64", libs.anvil.kotlin.inject.compiler)
-    add("kspIosSimulatorArm64", libs.anvil.kotlin.inject.compiler)
+plugins {
+    alias(libs.plugins.metro)
+}
+
+ksp {
+    arg("circuit.codegen.mode", "metro")
 }
 ```
 
@@ -301,7 +295,7 @@ Centralized dependency management for:
 
 - Compose Multiplatform versions
 - Circuit framework versions
-- kotlin-inject and anvil-kotlin-inject versions
+- Metro versions
 - Android/iOS specific dependencies
 - Testing framework versions
 
@@ -328,31 +322,26 @@ Centralized dependency management for:
 ### Code Generation
 
 - **Circuit**: Auto-generates presenter and UI factories via KSP
-- **kotlin-inject + Anvil**: Generates dependency injection components and bindings
+- **Metro**: Generates dependency injection components and bindings
 - **KMP Resources**: Processes multiplatform resources
 
 ## Dependency Injection Benefits
 
-### Why kotlin-inject with Anvil?
+### Why Metro?
 
-**kotlin-inject** provides:
+**Metro** provides:
 
-- ✅ Compile-time safety with zero runtime overhead
+- ✅ Compile-time safety with Dagger-like verification
 - ✅ Excellent Kotlin Multiplatform support
 - ✅ Clean, annotation-based API
 - ✅ Full type safety with assisted injection support
-
-**anvil-kotlin-inject** adds:
-
-- ✅ Component merging and composition (`@MergeComponent`)
-- ✅ Automatic binding contribution (`@ContributesTo`, `@ContributesBinding`)
-- ✅ Scoped dependency management (`@SingleIn`)
-- ✅ Enhanced modularity and code organization
+- ✅ Modular design with automatic binding contribution (`@ContributesBinding`)
+- ✅ Efficient code generation using KSP
 
 ### DI Architecture Highlights
 
-1. **Modular Design**: Each platform has its own components that contribute to the merged
-   application component
+1. **Modular Design**: Each platform has its own providers that contribute to the merged
+   application graph
 2. **Scope Management**: `AppScope` ensures proper singleton behavior across the application
 3. **Platform Abstraction**: Common interfaces with platform-specific implementations
 4. **Circuit Integration**: Seamless integration with Circuit's factory-based presenter system

@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
+import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -10,12 +12,11 @@ plugins {
     alias(libs.plugins.kotlin.plugin.parcelize)
     alias(libs.plugins.kotlin.native.cocoapods)
     alias(libs.plugins.burst)
+    alias(libs.plugins.metro)
 }
 
 ksp {
-    arg("circuit.codegen.lenient", "true")
-    arg("circuit.codegen.mode", "kotlin_inject_anvil")
-    arg("kotlin-inject-anvil-contributing-annotations", "com.slack.circuit.codegen.annotations.CircuitInject")
+    arg("circuit.codegen.mode", "metro")
 }
 
 kotlin {
@@ -23,24 +24,24 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         instrumentedTestVariant {
             sourceSetTree.set(KotlinSourceSetTree.test)
-
-            dependencies {
-                implementation(libs.androidx.compose.ui.test.junit4.android)
-                debugImplementation(libs.androidx.compose.ui.test.manifest)
-            }
         }
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         unitTestVariant.sourceSetTree.set(KotlinSourceSetTree.unitTest)
     }
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
+
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>().configureEach {
+        binaries.all {
+            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
+        }
+    }
 
     cocoapods {
         version = "1.0.0"
         summary = "A toy Lightsaber app built with Compose Multiplatform"
         homepage = "https://github.com/aaalaniz/compose-lightsaber"
-        ios.deploymentTarget = "14.1"
+        ios.deploymentTarget = "15.0"
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "shared"
@@ -51,29 +52,24 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation(compose.materialIconsExtended)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
-                implementation(libs.kotlin.inject.runtime.kmp)
+                implementation(libs.compose.runtime)
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.material)
+                implementation(libs.compose.material.icons.extended)
+                implementation(libs.compose.resources)
                 api(libs.circuit.codegen.annotations)
                 implementation(libs.circuit.foundation)
                 implementation(libs.circuitx.gesture.navigation)
                 implementation(libs.androidx.datastore.preferences.core)
                 implementation(libs.androidx.datastore.core.okio)
                 api(libs.kermit)
-                implementation(libs.anvil.kotlin.inject.runtime)
-                implementation(libs.anvil.kotlin.inject.runtime.optional)
                 implementation(libs.compose.colorpicker)
             }
         }
         commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.uiTest)
+                implementation(libs.compose.ui.test)
             }
         }
         androidMain {
@@ -83,6 +79,14 @@ kotlin {
                 api(libs.androidx.core.ktx)
             }
         }
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(libs.androidx.compose.ui.test.junit4.android)
+            }
+        }
+    }
+    sourceSets.androidUnitTest.dependencies {
+        implementation(kotlin("test"))
     }
 }
 
@@ -108,28 +112,14 @@ android {
 }
 
 /**
- * Generate kotlin-inject component code for each platform
+ * Generate Circuit graph dependencies for each platform
  *
  * https://github.com/google/ksp/issues/567
  */
 dependencies {
-    add("kspCommonMainMetadata", libs.kotlin.inject.ksp)
-    add("kspCommonMainMetadata", libs.anvil.kotlin.inject.compiler)
     add("kspCommonMainMetadata", libs.circuit.codegen)
-
-    add("kspAndroid", libs.kotlin.inject.ksp)
-    add("kspAndroid", libs.anvil.kotlin.inject.compiler)
     add("kspAndroid", libs.circuit.codegen)
-
-    add("kspIosX64", libs.kotlin.inject.ksp)
-    add("kspIosX64", libs.anvil.kotlin.inject.compiler)
-    add("kspIosX64", libs.circuit.codegen)
-
-    add("kspIosArm64", libs.kotlin.inject.ksp)
-    add("kspIosArm64", libs.anvil.kotlin.inject.compiler)
     add("kspIosArm64", libs.circuit.codegen)
-
-    add("kspIosSimulatorArm64", libs.kotlin.inject.ksp)
-    add("kspIosSimulatorArm64", libs.anvil.kotlin.inject.compiler)
     add("kspIosSimulatorArm64", libs.circuit.codegen)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

@@ -5,6 +5,14 @@ and [Circuit](https://slackhq.github.io/circuit/).
 
 ![](assets/mobile-screenshot.png)
 
+## Tech Stack
+
+* [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) - Declarative UI for Kotlin
+* [Circuit](https://slackhq.github.io/circuit/) - A Kotlin Multiplatform framework for building Compose-driven applications
+* [Metro](https://github.com/ZacSweers/metro) - A Dagger-like dependency injection library for Kotlin Multiplatform
+* [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) - Reactive data persistence
+* [Kermit](https://github.com/touchlab/Kermit) - Kotlin Multiplatform logging
+
 ## Acknowledgements
 
 * Although I created the app icon myself, I referenced this [icon](https://www.flaticon.com/free-icon/lightsaber_2034751?related_id=2034798&origin=search)

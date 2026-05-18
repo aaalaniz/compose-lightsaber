@@ -1,7 +1,10 @@
 package xyz.alaniz.aaron.lightsaber.audio
 
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
+import dev.zacsweers.metro.AppScope
 import kotlinx.cinterop.ExperimentalForeignApi
-import me.tatarka.inject.annotations.Inject
 import platform.Foundation.NSBundle
 import platform.Foundation.NSURL
 import platform.AVFAudio.AVAudioEngine
@@ -9,10 +12,6 @@ import platform.AVFAudio.AVAudioFile
 import platform.AVFAudio.AVAudioPCMBuffer
 import platform.AVFAudio.AVAudioPlayerNode
 import platform.AVFAudio.AVAudioPlayerNodeBufferOptions
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
-import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
-
 
 @Inject
 @OptIn(ExperimentalForeignApi::class)

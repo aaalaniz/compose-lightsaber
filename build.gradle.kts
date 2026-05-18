@@ -11,4 +11,15 @@ plugins {
     alias(libs.plugins.kotlin.plugin.parcelize).apply(false)
     alias(libs.plugins.kotlin.native.cocoapods).apply(false)
     alias(libs.plugins.burst).apply(false)
+    alias(libs.plugins.metro).apply(false)
+}
+tasks.register("printNativeCacheVersions") {
+    doLast {
+        try {
+            val clazz = Class.forName("org.jetbrains.kotlin.gradle.plugin.mpp.DisableCacheInKotlinVersion")
+            clazz.enumConstants.forEach { println(it) }
+        } catch (e: Exception) {
+            println("Class not found: ${e.message}")
+        }
+    }
 }

@@ -40,6 +40,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
+import dev.zacsweers.metro.AppScope
 import lightsaber.shared.generated.resources.Res
 import lightsaber.shared.generated.resources.lightsaber_handle
 import lightsaber.shared.generated.resources.lightsaber_screen_lightsaber_blade
@@ -47,7 +48,6 @@ import lightsaber.shared.generated.resources.lightsaber_screen_lightsaber_handle
 import lightsaber.shared.generated.resources.lightsaber_screen_settings_icon
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 
 

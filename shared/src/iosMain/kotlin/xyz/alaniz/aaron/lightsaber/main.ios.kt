@@ -1,22 +1,22 @@
 package xyz.alaniz.aaron.lightsaber
 
-import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.window.ComposeUIViewController
 import co.touchlab.kermit.DefaultFormatter
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.NSLogWriter
+import dev.zacsweers.metro.createGraphFactory
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
 import xyz.alaniz.aaron.lightsaber.di.DataStorePath
-import xyz.alaniz.aaron.lightsaber.di.createApplicationComponent
-import xyz.alaniz.aaron.lightsaber.di.dataStoreFileName
+import xyz.alaniz.aaron.lightsaber.di.metro.IosApplicationGraph
+import xyz.alaniz.aaron.lightsaber.di.metro.dataStoreFileName
 import xyz.alaniz.aaron.lightsaber.ui.lightsaber.IosLightsaberScreen
 import kotlin.experimental.ExperimentalNativeApi
 
-@OptIn(ExperimentalForeignApi::class, ExperimentalComposeApi::class, ExperimentalNativeApi::class)
+@OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
 fun MainViewController() = ComposeUIViewController(configure = {}) {
     val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
@@ -38,12 +38,12 @@ fun MainViewController() = ComposeUIViewController(configure = {}) {
      * Log unhandled exceptions.
      */
     setUnhandledExceptionHook {
-        Logger.e(throwable = it) { "Unhandled exception: cause = ${it.cause} message = ${it.message}" }
+        Logger.e(throwable = it) {
+            "Unhandled exception: cause = ${it.cause} message = ${it.message}"
+        }
     }
     App(initialScreen = IosLightsaberScreen) { scope ->
-        createApplicationComponent(
-            appScope = scope,
-            dataStorePath = DataStorePath(dataStorePath)
-        )
+        createGraphFactory<IosApplicationGraph.Factory>()
+            .create(appScope = scope, dataStorePath = DataStorePath(dataStorePath))
     }
 }

@@ -1,6 +1,6 @@
 package xyz.alaniz.aaron.lightsaber.audio
 
-import org.junit.Test
+import kotlin.test.Test
 
 /**
  * TODO Implement the test suite

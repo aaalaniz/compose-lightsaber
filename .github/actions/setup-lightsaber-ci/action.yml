@@ -3,10 +3,10 @@ description: Setup Lightsaber CI
 runs:
   using: "composite"
   steps:
-    - name: Setup JDK 17
+    - name: Setup JDK 21
       uses: actions/setup-java@v4
       with:
-        java-version: 17
+        java-version: 21
         distribution: zulu
         cache: 'gradle'
     - name: Shared Build Cache
@@ -54,7 +54,7 @@ runs:
     - name: Set Xcode version
       run: |
         if command -v xcode-select &> /dev/null; then
-          sudo xcode-select -s /Applications/Xcode_15.3.app/Contents/Developer
+          sudo xcode-select -s /Applications/Xcode_26.4.1.app/Contents/Developer
         else
           echo "xcode-select is not available"
         fi

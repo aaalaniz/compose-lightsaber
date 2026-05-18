@@ -4,12 +4,12 @@ import android.content.Context
 import android.media.AudioManager
 import android.media.SoundPool
 import android.media.SoundPool.OnLoadCompleteListener
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.SingleIn
 import xyz.alaniz.aaron.lightsaber.di.AppContext
 import kotlinx.coroutines.suspendCancellableCoroutine
-import me.tatarka.inject.annotations.Inject
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
-import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 import kotlin.coroutines.resume
 
 @Inject
