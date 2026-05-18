@@ -1,0 +1,5 @@
+<resources>
+    <string name="color_picker_dialog_title">Select a Color</string>
+    <string name="color_picker_dialog_button_ok">OK</string>
+    <string name="color_picker_dialog_button_cancel">Cancel</string>
+</resources>

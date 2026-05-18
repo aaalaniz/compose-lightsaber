@@ -1,0 +1,8 @@
+<resources>
+    <string name="settings_screen_app_bar_title">Settings</string>
+    <string name="settings_screen_app_bar_back">back</string>
+    <string name="settings_screen_lightsaber_group">Lightsaber</string>
+    <string name="settings_screen_lightsaber_blade_color">Blade Color</string>
+    <string name="settings_screen_about_group">About</string>
+    <string name="settings_screen_version">Version</string>
+</resources>
