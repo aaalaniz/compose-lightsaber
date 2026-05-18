@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-        target: [iphonesimulator]
+        target: [iphonesimulator, iphoneos]
     needs: build-shared
     steps:
       - uses: actions/checkout@v4
@@ -94,12 +94,18 @@ jobs:
         env:
           LIGHTSABER_TEAM_ID: ${{ secrets.LIGHTSABER_TEAM_ID }}
         run: |
+          if [ "${{ matrix.target }}" == "iphoneos" ]; then
+            DESTINATION="generic/platform=iOS"
+          else
+            DESTINATION="generic/platform=iOS Simulator"
+          fi
+          
           xcodebuild -workspace ${{ github.workspace }}/iosApp/iosApp.xcworkspace \
           -scheme iosApp \
           -configuration ${{ matrix.configuration }} \
           -xcconfig ${{ github.workspace }}/iosApp/Configuration/Config.xcconfig \
           OBJROOT=${{ github.workspace }}/iosApp/build/ios SYMROOT=${{ github.workspace }}/iosApp/build/ios \
-          -sdk ${{ matrix.target }} -arch arm64 ONLY_ACTIVE_ARCH=YES
+          -sdk ${{ matrix.target }} -destination "$DESTINATION" ONLY_ACTIVE_ARCH=NO
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
