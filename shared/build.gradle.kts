@@ -33,11 +33,7 @@ kotlin {
 
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>().configureEach {
         binaries.all {
-            freeCompilerArgs += listOf(
-                "-Xdisable-phases=VerifyBitcode",
-                "-Xmin-ios-version=18.5",
-                "-Xoverride-konan-properties=minVersion.ios=18.5;minVersionSinceXcode15.ios=18.5"
-            )
+            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
         }
     }
 
@@ -45,7 +41,7 @@ kotlin {
         version = "1.0.0"
         summary = "A toy Lightsaber app built with Compose Multiplatform"
         homepage = "https://github.com/aaalaniz/compose-lightsaber"
-        ios.deploymentTarget = "18.5"
+        ios.deploymentTarget = "15.0"
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "shared"
