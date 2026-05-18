@@ -97,11 +97,9 @@ jobs:
           if [ "${{ matrix.target }}" == "iphoneos" ]; then
             DESTINATION="generic/platform=iOS"
             ONLY_ACTIVE_ARCH="NO"
-            EXTRA_ARGS=""
           else
-            DESTINATION="generic/platform=iOS Simulator"
+            DESTINATION="platform=iOS Simulator,name=iPhone 17"
             ONLY_ACTIVE_ARCH="YES"
-            EXTRA_ARGS="-arch arm64"
           fi
           
           xcodebuild -workspace ${{ github.workspace }}/iosApp/iosApp.xcworkspace \
@@ -109,7 +107,7 @@ jobs:
           -configuration ${{ matrix.configuration }} \
           -xcconfig ${{ github.workspace }}/iosApp/Configuration/Config.xcconfig \
           OBJROOT=${{ github.workspace }}/iosApp/build/ios SYMROOT=${{ github.workspace }}/iosApp/build/ios \
-          -sdk ${{ matrix.target }} -destination "$DESTINATION" ONLY_ACTIVE_ARCH="$ONLY_ACTIVE_ARCH" $EXTRA_ARGS
+          -sdk ${{ matrix.target }} -destination "$DESTINATION" ONLY_ACTIVE_ARCH="$ONLY_ACTIVE_ARCH"
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
