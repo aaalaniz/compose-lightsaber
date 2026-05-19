@@ -7,9 +7,9 @@ import dev.zacsweers.metro.ContributesTo
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.ElementsIntoSet
 import xyz.alaniz.aaron.lightsaber.feature.lightsaber.LightsaberPresenterFactory
-import xyz.alaniz.aaron.lightsaber.feature.lightsaber.LightsaberUiFactory
+import xyz.alaniz.aaron.lightsaber.feature.lightsaber.LightsaberFactory
 import xyz.alaniz.aaron.lightsaber.feature.settings.SettingsPresenterFactory
-import xyz.alaniz.aaron.lightsaber.feature.settings.SettingsUiFactory
+import xyz.alaniz.aaron.lightsaber.feature.settings.SettingsFactory
 
 @ContributesTo(AppScope::class)
 interface CircuitMultibinds {
@@ -23,7 +23,7 @@ interface CircuitMultibinds {
     @Provides
     @ElementsIntoSet
     fun provideUiFactories(
-        lightsaber: LightsaberUiFactory,
-        settings: SettingsUiFactory
+        lightsaber: LightsaberFactory,
+        settings: SettingsFactory
     ): Set<Ui.Factory> = setOf(lightsaber, settings)
 }
