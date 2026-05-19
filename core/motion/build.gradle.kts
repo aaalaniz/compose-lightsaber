@@ -10,7 +10,7 @@ kotlin {
                 implementation(libs.kermit)
                 api(project(":core:ui"))
                 api(libs.circuit.codegen.annotations)
-                api(libs.circuit.foundation)
+                implementation(libs.circuit.foundation)
             }
         }
     }

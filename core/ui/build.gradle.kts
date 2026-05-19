@@ -15,7 +15,7 @@ kotlin {
                 implementation(libs.compose.resources)
                 api(libs.compose.colorpicker)
                 api(libs.circuit.codegen.annotations)
-                api(libs.circuit.foundation)
+                implementation(libs.circuit.foundation)
             }
         }
     }

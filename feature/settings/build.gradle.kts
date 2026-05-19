@@ -18,7 +18,7 @@ kotlin {
                 implementation(libs.compose.material.icons.extended)
                 implementation(libs.compose.resources)
                 api(libs.circuit.codegen.annotations)
-                api(libs.circuit.foundation)
+                implementation(libs.circuit.foundation)
             }
         }
     }
