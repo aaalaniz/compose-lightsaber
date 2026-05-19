@@ -8,9 +8,9 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":core:ui"))
-                implementation(libs.androidx.datastore.preferences.core)
-                implementation(libs.androidx.datastore.core.okio)
-                implementation(libs.circuit.foundation)
+                api(libs.androidx.datastore.preferences.core)
+                api(libs.androidx.datastore.core.okio)
+                api(libs.circuit.foundation)
                 api(libs.circuit.codegen.annotations)
             }
         }

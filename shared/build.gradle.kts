@@ -31,6 +31,12 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+        add("kspCommonMainMetadata", project(":feature:lightsaber"))
+        add("kspCommonMainMetadata", project(":feature:settings"))
+        add("kspCommonMainMetadata", project(":core:motion"))
+        add("kspCommonMainMetadata", project(":core:audio"))
+        add("kspCommonMainMetadata", project(":core:data"))
+        add("kspCommonMainMetadata", project(":core:ui"))
                 api(project(":core:ui"))
                 api(project(":core:data"))
                 api(project(":core:audio"))
@@ -45,19 +51,31 @@ kotlin {
                 implementation(libs.androidx.datastore.preferences.core)
                 implementation(libs.androidx.datastore.core.okio)
                 api(libs.circuit.codegen.annotations)
-                implementation(libs.circuit.foundation)
+                api(libs.circuit.foundation)
                 implementation(libs.circuitx.gesture.navigation)
                 api(libs.kermit)
             }
         }
         commonTest {
             dependencies {
+        add("kspCommonMainMetadata", project(":feature:lightsaber"))
+        add("kspCommonMainMetadata", project(":feature:settings"))
+        add("kspCommonMainMetadata", project(":core:motion"))
+        add("kspCommonMainMetadata", project(":core:audio"))
+        add("kspCommonMainMetadata", project(":core:data"))
+        add("kspCommonMainMetadata", project(":core:ui"))
                 implementation(libs.kotlin.test)
                 implementation(libs.compose.ui.test)
             }
         }
         androidMain {
             dependencies {
+        add("kspCommonMainMetadata", project(":feature:lightsaber"))
+        add("kspCommonMainMetadata", project(":feature:settings"))
+        add("kspCommonMainMetadata", project(":core:motion"))
+        add("kspCommonMainMetadata", project(":core:audio"))
+        add("kspCommonMainMetadata", project(":core:data"))
+        add("kspCommonMainMetadata", project(":core:ui"))
                 api(libs.androidx.activity.compose)
                 api(libs.androidx.appcompat)
                 api(libs.androidx.core.ktx)
@@ -65,6 +83,12 @@ kotlin {
         }
         val androidInstrumentedTest by getting {
             dependencies {
+        add("kspCommonMainMetadata", project(":feature:lightsaber"))
+        add("kspCommonMainMetadata", project(":feature:settings"))
+        add("kspCommonMainMetadata", project(":core:motion"))
+        add("kspCommonMainMetadata", project(":core:audio"))
+        add("kspCommonMainMetadata", project(":core:data"))
+        add("kspCommonMainMetadata", project(":core:ui"))
                 implementation(libs.androidx.compose.ui.test.junit4.android)
             }
         }
@@ -77,5 +101,11 @@ android {
 }
 
 dependencies {
+        add("kspCommonMainMetadata", project(":feature:lightsaber"))
+        add("kspCommonMainMetadata", project(":feature:settings"))
+        add("kspCommonMainMetadata", project(":core:motion"))
+        add("kspCommonMainMetadata", project(":core:audio"))
+        add("kspCommonMainMetadata", project(":core:data"))
+        add("kspCommonMainMetadata", project(":core:ui"))
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

@@ -11,7 +11,7 @@ kotlin {
                 implementation(libs.kermit)
                 implementation(libs.compose.resources)
                 api(libs.circuit.codegen.annotations)
-                implementation(libs.circuit.foundation)
+                api(libs.circuit.foundation)
             }
         }
     }

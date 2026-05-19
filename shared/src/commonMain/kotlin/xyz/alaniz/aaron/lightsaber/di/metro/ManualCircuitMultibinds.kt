@@ -12,7 +12,8 @@ import xyz.alaniz.aaron.lightsaber.feature.settings.SettingsPresenterFactory
 import xyz.alaniz.aaron.lightsaber.feature.settings.SettingsUiFactory
 
 @ContributesTo(AppScope::class)
-interface CircuitMultibinds {
+interface ManualCircuitMultibinds {
+
     @Provides
     @ElementsIntoSet
     fun providePresenterFactories(
