@@ -25,9 +25,9 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
     override suspend fun load(sounds: Set<SoundResource>) {
         soundResourceToPlayerNodeMap = sounds.associateWith { soundResource ->
             val playerNode = AVAudioPlayerNode()
-            val path = Res.getUri("${soundResource.directory}/${soundResource.name}.${soundResource.fileType}")
+            val uri = Res.getUri("${soundResource.directory}/${soundResource.name}.${soundResource.fileType}")
             val audioFile =
-                AVAudioFile(forReading = NSURL(fileURLWithPath = path), error = null)
+                AVAudioFile(forReading = requireNotNull(NSURL.URLWithString(uri)), error = null)
             val buffer = AVAudioPCMBuffer(
                 pCMFormat = audioFile.processingFormat,
                 frameCapacity = audioFile.length.toUInt()
