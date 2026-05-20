@@ -5,7 +5,7 @@ import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
 import dev.zacsweers.metro.AppScope
 import kotlinx.cinterop.ExperimentalForeignApi
-import platform.Foundation.NSBundle
+import xyz.alaniz.aaron.lightsaber.core.audio.resources.Res
 import platform.Foundation.NSURL
 import platform.AVFAudio.AVAudioEngine
 import platform.AVFAudio.AVAudioFile
@@ -25,15 +25,9 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
     override suspend fun load(sounds: Set<SoundResource>) {
         soundResourceToPlayerNodeMap = sounds.associateWith { soundResource ->
             val playerNode = AVAudioPlayerNode()
-            val filePath = requireNotNull(
-                NSBundle.mainBundle.pathForResource(
-                    name = soundResource.name,
-                    ofType = soundResource.fileType,
-                    inDirectory = "compose-resources/composeResources/lightsaber.shared.generated.resources/${soundResource.directory}"
-                )
-            )
+            val path = Res.getUri("${soundResource.directory}/${soundResource.name}.${soundResource.fileType}")
             val audioFile =
-                AVAudioFile(forReading = NSURL(fileURLWithPath = filePath), error = null)
+                AVAudioFile(forReading = NSURL(fileURLWithPath = path), error = null)
             val buffer = AVAudioPCMBuffer(
                 pCMFormat = audioFile.processingFormat,
                 frameCapacity = audioFile.length.toUInt()
