@@ -98,7 +98,7 @@ jobs:
             DESTINATION="generic/platform=iOS"
             ONLY_ACTIVE_ARCH="NO"
           else
-            DESTINATION="platform=iOS Simulator,name=iPhone 16"
+            DESTINATION="platform=iOS Simulator,name=iPhone 17"
             ONLY_ACTIVE_ARCH="YES"
           fi
           
@@ -138,7 +138,7 @@ jobs:
       - uses: futureware-tech/simulator-action@v4
         id: ios-simulator
         with:
-          model: 'iPhone 16'
+          model: 'iPhone 17'
           os: iOS
           os_version: 26.4
           wait_for_boot: true
@@ -203,7 +203,7 @@ jobs:
       - uses: futureware-tech/simulator-action@v4
         id: ios-simulator
         with:
-          model: 'iPhone 16'
+          model: 'iPhone 17'
           os: iOS
           os_version: 26.4
 
