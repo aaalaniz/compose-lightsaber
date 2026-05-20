@@ -36,6 +36,14 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                     }
                 }
                 jvmToolchain(21)
+
+                sourceSets.configureEach {
+                    if (name.endsWith("Test") || name == "commonTest") {
+                        dependencies {
+                            implementation(kotlin("test"))
+                        }
+                    }
+                }
             }
             extensions.configure<LibraryExtension> {
                 compileSdk = (findProperty("android.compileSdk") as String).toInt()

@@ -40,10 +40,10 @@ class AndroidSoundPlayer(
             soundPool.setOnLoadCompleteListener(onLoadListener)
 
             soundResourceToStreamIdMap = sounds.associateWith { sound ->
-                val assetPath =
-                    "composeResources/xyz.alaniz.aaron.lightsaber.core.audio.resources/${sound.directory}/${sound.name}.${sound.fileType}"
-                val afd = context.assets.openFd(assetPath)
-                SoundIds(loadId = soundPool.load(afd, 1))
+                val resourceId = context.resources.getIdentifier(
+                    sound.name, "raw", context.packageName
+                )
+                SoundIds(loadId = soundPool.load(context, resourceId, 1))
             }
 
             continuation.invokeOnCancellation { soundPool.setOnLoadCompleteListener(null) }
