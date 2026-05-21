@@ -216,15 +216,17 @@ jobs:
       - name: Run Maestro tests
         run: |
           export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000
-          maestro test .maestro
+          maestro record --local .maestro/activate-and-deactive.yml || true
 
       - name: Collect logs
         if: failure()
         run: xcrun simctl spawn "${{ steps.ios-simulator.outputs.udid }}" log collect --output ${{ github.workspace }}/${{ steps.ios-simulator.outputs.udid }}.logarchive
 
-      - name: Archive the device logs
+      - name: Archive the device logs and video
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: device-logs
-          path: ${{ github.workspace }}/*.logarchive
+          name: device-logs-and-video
+          path: |
+            ${{ github.workspace }}/*.logarchive
+            .maestro/*.mp4

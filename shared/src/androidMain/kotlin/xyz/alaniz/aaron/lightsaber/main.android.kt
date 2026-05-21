@@ -7,7 +7,7 @@ import xyz.alaniz.aaron.lightsaber.di.AppContext
 import xyz.alaniz.aaron.lightsaber.di.DataStorePath
 import xyz.alaniz.aaron.lightsaber.di.metro.AndroidApplicationGraph
 import xyz.alaniz.aaron.lightsaber.di.metro.dataStoreFileName
-import xyz.alaniz.aaron.lightsaber.ui.lightsaber.AndroidLightsaberScreen
+import xyz.alaniz.aaron.lightsaber.feature.lightsaber.AndroidLightsaberScreen
 
 @Composable
 fun MainView(appContext: Context) {

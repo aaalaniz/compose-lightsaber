@@ -45,3 +45,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+## Module Architecture
+
+The codebase has been refactored into a scalable modular architecture:
+
+* **`build-logic`**: Contains Gradle convention plugins (`lightsaber.kmp.library`, `lightsaber.kmp.compose`, and `lightsaber.kmp.circuit`) for centralized build configuration.
+* **`core:*` modules**: Foundation and common utility modules including `core:ui` (Theme, Color, components), `core:data` (Datastore, repositories), `core:audio` (Sound playback), and `core:motion` (Swing detection).
+* **`feature:*` modules**: Independent feature modules such as `feature:lightsaber` and `feature:settings` which contain specific UI logic, presenters, screens, and localized compose resources.
+* **`shared`**: The umbrella module that aggregates features and exposes the root Dependency Injection graphs and application entry points to platform-specific apps.
+* **`androidApp` & `iosApp`**: Platform-specific executable modules.

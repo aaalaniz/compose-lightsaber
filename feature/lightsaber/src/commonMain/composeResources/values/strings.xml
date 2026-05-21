@@ -1,0 +1,5 @@
+<resources>
+    <string name="lightsaber_screen_settings_icon">settings icon</string>
+    <string name="lightsaber_screen_lightsaber_blade">lightsaber blade</string>
+    <string name="lightsaber_screen_lightsaber_handle">lightsaber handle</string>
+</resources>
