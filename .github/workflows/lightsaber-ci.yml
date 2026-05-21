@@ -217,8 +217,11 @@ jobs:
         run: |
           export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000
           # Start recording in the background
-          xcrun simctl io "${{ steps.ios-simulator.outputs.udid }}" record-video --codec h264 --force ${{ github.workspace }}/simulator-recording.mp4 &
+          xcrun simctl io "${{ steps.ios-simulator.outputs.udid }}" recordVideo --codec=h264 --force "${{ github.workspace }}/simulator-recording.mp4" &
           RECORDING_PID=$!
+          
+          # Give it a moment to start
+          sleep 5
           
           # Run tests
           maestro test .maestro
