@@ -216,7 +216,7 @@ jobs:
       - name: Run Maestro tests
         run: |
           export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000
-          maestro record .maestro/activate-and-deactive.yml || true
+          maestro record --local .maestro/activate-and-deactive.yml || true
 
       - name: Collect logs
         if: failure()
