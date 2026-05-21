@@ -216,7 +216,24 @@ jobs:
       - name: Run Maestro tests
         run: |
           export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000
-          maestro test .maestro --format mp4 --output "${{ github.workspace }}/maestro-recording.mp4"
+          # Start recording in the background
+          xcrun simctl io "${{ steps.ios-simulator.outputs.udid }}" recordVideo --codec=h264 --force "${{ github.workspace }}/simulator-recording.mp4" &
+          RECORDING_PID=$!
+          
+          # Ensure recording is stopped even if the script fails
+          stop_recording() {
+            echo "Stopping recording (PID: $RECORDING_PID)..."
+            kill -SIGINT $RECORDING_PID
+            # Wait for simctl to finalize the video
+            sleep 10
+          }
+          trap stop_recording EXIT
+          
+          # Give it a moment to initialize
+          sleep 10
+          
+          # Run tests
+          maestro test .maestro
 
       - name: Collect logs
         if: failure()
@@ -229,4 +246,4 @@ jobs:
           name: device-logs-and-video
           path: |
             ${{ github.workspace }}/*.logarchive
-            ${{ github.workspace }}/maestro-recording.mp4
+            ${{ github.workspace }}/simulator-recording.mp4
