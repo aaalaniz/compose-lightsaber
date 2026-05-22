@@ -48,7 +48,11 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
         }.toMutableMap()
 
         audioEngine.prepare()
-        audioEngine.startAndReturnError(outError = null)
+        runCatching {
+            audioEngine.startAndReturnError(outError = null)
+        }.onFailure {
+            println("Failed to start audio engine: $it")
+        }
     }
 
     override fun play(soundResource: SoundResource, loop: Boolean) {

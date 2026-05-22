@@ -114,7 +114,7 @@ fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) 
                         contentDescription = stringResource(Res.string.lightsaber_screen_lightsaber_handle),
                         Modifier
                             .clickable(
-                                interactionSource = MutableInteractionSource(),
+                                interactionSource = remember { MutableInteractionSource() },
                                 indication = null,
                                 enabled = bladeState != BladeState.Initializing
                             ) {
