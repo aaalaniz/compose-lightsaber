@@ -54,6 +54,7 @@ import xyz.alaniz.aaron.lightsaber.ui.common.LightsaberTheme
 @CircuitInject(LightsaberScreen::class, AppScope::class)
 @Composable
 fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) {
+    val interactionSource = remember { MutableInteractionSource() }
     LightsaberTheme {
         Scaffold {
             Box(
@@ -114,7 +115,7 @@ fun Lightsaber(lightsaberState: LightsaberState, modifier: Modifier = Modifier) 
                         contentDescription = stringResource(Res.string.lightsaber_screen_lightsaber_handle),
                         Modifier
                             .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
+                                interactionSource = interactionSource,
                                 indication = null,
                                 enabled = bladeState != BladeState.Initializing
                             ) {
