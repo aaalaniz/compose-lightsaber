@@ -216,7 +216,7 @@ jobs:
       - name: Run Maestro tests
         run: |
           export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000
-          maestro record --local .maestro/activate-and-deactive.yml
+          maestro test .maestro
 
       - name: Collect logs
         if: failure()
@@ -230,3 +230,4 @@ jobs:
           path: |
             ${{ github.workspace }}/*.logarchive
             ~/.maestro/tests/**/*.mp4
+            ~/.maestro/tests/**/*.png
