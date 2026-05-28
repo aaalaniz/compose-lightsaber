@@ -26,6 +26,7 @@ kotlin {
             export(project(":feature:lightsaber"))
             export(project(":feature:settings"))
         }
+        extraSpecAttributes["resources"] = "['build/compose/cocoapods/compose-resources/*']"
     }
 
     sourceSets {
