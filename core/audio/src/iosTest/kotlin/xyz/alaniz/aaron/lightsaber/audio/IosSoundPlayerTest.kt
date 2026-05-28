@@ -17,4 +17,14 @@ class IosSoundPlayerTest {
             iosSoundPlayer.play(soundResource = soundResource, loop = false)
         }
     }
+
+    @Test
+    fun `print uri`() = kotlinx.coroutines.runBlocking {
+        try {
+            val uri = xyz.alaniz.aaron.lightsaber.core.audio.resources.Res.getUri("${soundResource.directory}/${soundResource.name}.${soundResource.fileType}")
+            println("DEBUG URI: $uri")
+        } catch (e: Exception) {
+            println("DEBUG URI ERROR: ${e.message}")
+        }
+    }
 }

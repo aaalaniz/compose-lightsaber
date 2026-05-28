@@ -26,8 +26,12 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
         soundResourceToPlayerNodeMap = sounds.associateWith { soundResource ->
             val playerNode = AVAudioPlayerNode()
             val uri = Res.getUri("${soundResource.directory}/${soundResource.name}.${soundResource.fileType}")
-            val audioFile =
-                AVAudioFile(forReading = requireNotNull(NSURL.URLWithString(uri)), error = null)
+            
+            // Res.getUri returns a raw path on iOS (e.g. /var/containers/...) instead of a file:// URI.
+            // NSURL.URLWithString returns nil for raw paths, so we must fallback to fileURLWithPath.
+            val url = NSURL.URLWithString(uri) ?: NSURL(fileURLWithPath = uri)
+            val audioFile = AVAudioFile(forReading = url, error = null)
+            
             val buffer = AVAudioPCMBuffer(
                 pCMFormat = audioFile.processingFormat,
                 frameCapacity = audioFile.length.toUInt()
