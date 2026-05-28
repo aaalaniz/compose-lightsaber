@@ -23,40 +23,50 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
     private val playingSounds: MutableSet<SoundResource> = mutableSetOf()
 
     override suspend fun load(sounds: Set<SoundResource>) {
-        soundResourceToPlayerNodeMap = sounds.associateWith { soundResource ->
-            val playerNode = AVAudioPlayerNode()
-            val uri = Res.getUri("${soundResource.directory}/${soundResource.name}.${soundResource.fileType}")
-            val audioFile =
-                AVAudioFile(forReading = requireNotNull(NSURL.URLWithString(uri)), error = null)
-            val buffer = AVAudioPCMBuffer(
-                pCMFormat = audioFile.processingFormat,
-                frameCapacity = audioFile.length.toUInt()
-            )
-            audioFile.readIntoBuffer(
-                buffer = buffer,
-                frameCount = buffer.frameCapacity,
-                error = null
-            )
+        soundResourceToPlayerNodeMap = sounds.mapNotNull { soundResource ->
+            try {
+                val playerNode = AVAudioPlayerNode()
+                val uriStr = Res.getUri("${soundResource.directory}/${soundResource.name}.${soundResource.fileType}")
+                val url = NSURL.URLWithString(uriStr) ?: NSURL(fileURLWithPath = uriStr.removePrefix("file://"))
+                val audioFile = AVAudioFile(forReading = url, error = null)
+                
+                if (audioFile == null) return@mapNotNull null
+                
+                val buffer = AVAudioPCMBuffer(
+                    pCMFormat = audioFile.processingFormat,
+                    frameCapacity = audioFile.length.toUInt()
+                )
+                
+                if (buffer == null) return@mapNotNull null
+                
+                audioFile.readIntoBuffer(
+                    buffer = buffer,
+                    frameCount = buffer.frameCapacity,
+                    error = null
+                )
 
-            audioEngine.attachNode(playerNode)
-            audioEngine.connect(
-                playerNode,
-                audioEngine.mainMixerNode,
-                audioFile.processingFormat
-            )
-            buffer to playerNode
-        }.toMutableMap()
+                audioEngine.attachNode(playerNode)
+                audioEngine.connect(
+                    playerNode,
+                    audioEngine.mainMixerNode,
+                    audioFile.processingFormat
+                )
+                soundResource to (buffer to playerNode)
+            } catch (e: Exception) {
+                // If Res.getUri throws MissingResourceException or anything else fails, skip this sound
+                null
+            }
+        }.toMap().toMutableMap()
 
         audioEngine.prepare()
         audioEngine.startAndReturnError(outError = null)
     }
 
     override fun play(soundResource: SoundResource, loop: Boolean) {
-        check(::soundResourceToPlayerNodeMap.isInitialized) {
-            "Cannot play without loading sound resources."
-        }
+        if (!::soundResourceToPlayerNodeMap.isInitialized) return
         if (playingSounds.contains(soundResource)) return
-        val (buffer, playerNode) = requireNotNull(soundResourceToPlayerNodeMap[soundResource])
+        val playerNodeData = soundResourceToPlayerNodeMap[soundResource] ?: return
+        val (buffer, playerNode) = playerNodeData
         val options: AVAudioPlayerNodeBufferOptions = if (loop) 1u else 0u
 
         playingSounds.add(soundResource)
@@ -71,7 +81,9 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
     }
 
     override fun stop(soundResource: SoundResource) {
-        val (_, playerNode) = requireNotNull(soundResourceToPlayerNodeMap[soundResource])
+        if (!::soundResourceToPlayerNodeMap.isInitialized) return
+        val playerNodeData = soundResourceToPlayerNodeMap[soundResource] ?: return
+        val (_, playerNode) = playerNodeData
 
         playerNode.stop()
     }
