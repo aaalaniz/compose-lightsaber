@@ -215,7 +215,7 @@ jobs:
 
       - name: Run Maestro tests
         run: |
-          export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000
+          export MAESTRO_DRIVER_STARTUP_TIMEOUT=180000
           maestro test .maestro
 
       - name: Collect logs
