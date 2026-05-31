@@ -25,13 +25,37 @@ class IosSoundPlayer(private val audioEngine: AVAudioEngine) : SoundPlayer {
     override suspend fun load(sounds: Set<SoundResource>) {
         soundResourceToPlayerNodeMap = sounds.associateWith { soundResource ->
             val playerNode = AVAudioPlayerNode()
-            val uri = Res.getUri("${soundResource.directory}/${soundResource.name}.${soundResource.fileType}")
+            val uriString = try {
+                Res.getUri("${soundResource.directory}/${soundResource.name}.${soundResource.fileType}")
+            } catch (e: Exception) {
+                val mainBundle = platform.Foundation.NSBundle.mainBundle
+                val searchPaths = listOf(
+                    "compose-resources/raw",
+                    "compose-resources/composeResources/lightsaber.shared.generated.resources/files/raw",
+                    "compose-resources/lightsaber.shared.generated.resources/files/raw"
+                )
+                
+                var fallbackPath: String? = null
+                for (searchPath in searchPaths) {
+                    val bundlePath = mainBundle.pathForResource(
+                        name = soundResource.name,
+                        ofType = soundResource.fileType,
+                        inDirectory = searchPath
+                    )
+                    if (bundlePath != null) {
+                        fallbackPath = "file://$bundlePath"
+                        break
+                    }
+                }
+                
+                fallbackPath ?: throw IllegalStateException("Failed to find resource ${soundResource.name}.${soundResource.fileType}", e)
+            }
             
             // Res.getUri may return a string starting with "file://".
             // If the path contains spaces (like in CI's "iOS 26.4.simruntime"), NSURL.URLWithString returns nil.
             // Passing a string starting with "file://" to fileURLWithPath creates an invalid "file:///file://..." URL.
             // The safest approach is to strip the prefix and use fileURLWithPath.
-            val path = uri.removePrefix("file://")
+            val path = uriString.removePrefix("file://")
             val url = NSURL(fileURLWithPath = path)
             val audioFile = AVAudioFile(forReading = url, error = null)
             
