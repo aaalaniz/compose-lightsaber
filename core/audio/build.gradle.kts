@@ -3,6 +3,7 @@ plugins {
 }
 lightsaber {
     circuit = true
+    compose = true
 }
 android {
     namespace = "xyz.alaniz.aaron.lightsaber.core.audio"
