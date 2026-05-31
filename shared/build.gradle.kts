@@ -80,3 +80,8 @@ android {
 dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
+
+compose.resources {
+    generateResClass = always
+}
+
