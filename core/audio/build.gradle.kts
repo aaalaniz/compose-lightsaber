@@ -3,8 +3,10 @@ plugins {
 }
 lightsaber {
     circuit = true
-    compose = true
-    packageOfResClass = "xyz.alaniz.aaron.lightsaber.core.audio.resources"
+    resources {
+        publicResClass = true
+        packageOfResClass = "xyz.alaniz.aaron.lightsaber.core.audio.resources"
+    }
 }
 android {
     namespace = "xyz.alaniz.aaron.lightsaber.core.audio"

@@ -21,18 +21,13 @@ open class LightsaberModuleExtension @Inject constructor(private val project: Pr
             field = value
             if (value) project.pluginManager.apply("org.jetbrains.kotlin.plugin.parcelize")
         }
-    var packageOfResClass: String? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                // Ensure compose is applied first
-                if (!compose) {
-                    compose = true
-                }
-                val composeExt = project.extensions.getByType(ComposeExtension::class.java)
-                val resourcesExt = composeExt.extensions.getByType(ResourcesExtension::class.java)
-                resourcesExt.publicResClass = true
-                resourcesExt.packageOfResClass = value
-            }
+
+    fun resources(action: org.gradle.api.Action<ResourcesExtension>) {
+        if (!compose) {
+            compose = true
         }
+        val composeExt = project.extensions.getByType(ComposeExtension::class.java)
+        val resourcesExt = composeExt.extensions.getByType(ResourcesExtension::class.java)
+        action.execute(resourcesExt)
+    }
 }
