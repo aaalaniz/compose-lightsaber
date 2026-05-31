@@ -1,10 +1,14 @@
 plugins {
     id("lightsaber.kmp.library")
+    id("lightsaber.kmp.compose")
     id("lightsaber.kmp.circuit")
 }
 android {
     namespace = "xyz.alaniz.aaron.lightsaber.core.audio"
-    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/composeResources/files")
+}
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "xyz.alaniz.aaron.lightsaber.core.audio.resources"
 }
 kotlin {
     sourceSets {
