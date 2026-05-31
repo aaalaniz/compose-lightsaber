@@ -1,14 +1,15 @@
 plugins {
-    id("lightsaber.kmp.library")
-    id("lightsaber.kmp.compose")
-    id("lightsaber.kmp.circuit")
+    id("lightsaber.module")
+}
+lightsaber {
+    circuit = true
+    resources {
+        publicResClass = true
+        packageOfResClass = "xyz.alaniz.aaron.lightsaber.core.audio.resources"
+    }
 }
 android {
     namespace = "xyz.alaniz.aaron.lightsaber.core.audio"
-}
-compose.resources {
-    publicResClass = true
-    packageOfResClass = "xyz.alaniz.aaron.lightsaber.core.audio.resources"
 }
 kotlin {
     sourceSets {

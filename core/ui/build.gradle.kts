@@ -1,7 +1,9 @@
 plugins {
-    id("lightsaber.kmp.library")
-    id("lightsaber.kmp.compose")
-    id("lightsaber.kmp.circuit")
+    id("lightsaber.module")
+}
+lightsaber {
+    compose = true
+    circuit = true
 }
 android { namespace = "xyz.alaniz.aaron.lightsaber.core.ui" }
 kotlin {

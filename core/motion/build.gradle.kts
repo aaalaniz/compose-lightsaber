@@ -1,6 +1,8 @@
 plugins {
-    id("lightsaber.kmp.library")
-    id("lightsaber.kmp.circuit")
+    id("lightsaber.module")
+}
+lightsaber {
+    circuit = true
 }
 android { namespace = "xyz.alaniz.aaron.lightsaber.core.motion" }
 kotlin {
