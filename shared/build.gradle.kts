@@ -2,11 +2,13 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
-    id("lightsaber.kmp.library")
-    id("lightsaber.kmp.compose")
-    id("lightsaber.kmp.circuit")
+    id("lightsaber.module")
     alias(libs.plugins.kotlin.native.cocoapods)
     alias(libs.plugins.burst)
+}
+lightsaber {
+    compose = true
+    circuit = true
 }
 
 kotlin {

@@ -32,5 +32,9 @@ gradlePlugin {
             id = "lightsaber.kmp.circuit"
             implementationClass = "convention.KmpCircuitConventionPlugin"
         }
+        create("module") {
+            id = "lightsaber.module"
+            implementationClass = "convention.LightsaberModuleConventionPlugin"
+        }
     }
 }
