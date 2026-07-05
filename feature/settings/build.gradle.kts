@@ -1,7 +1,7 @@
 plugins {
-    id("lightsaber.module")
+    id("xyz.alaniz.aaron.ccmp")
 }
-lightsaber {
+ccmp {
     compose = true
     circuit = true
     parcelize = true
@@ -19,8 +19,7 @@ kotlin {
                 implementation(libs.compose.material)
                 implementation(libs.compose.material.icons.extended)
                 implementation(libs.compose.resources)
-                api(libs.circuit.codegen.annotations)
-                implementation(libs.circuit.foundation)
+
             }
         }
     }

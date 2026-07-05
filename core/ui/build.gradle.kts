@@ -1,9 +1,9 @@
 plugins {
-    id("lightsaber.module")
+    id("xyz.alaniz.aaron.ccmp")
 }
-lightsaber {
+ccmp {
     compose = true
-    circuit = true
+
 }
 android { namespace = "xyz.alaniz.aaron.lightsaber.core.ui" }
 kotlin {
@@ -16,7 +16,6 @@ kotlin {
                 implementation(libs.compose.material.icons.extended)
                 implementation(libs.compose.resources)
                 api(libs.compose.colorpicker)
-                api(libs.circuit.codegen.annotations)
                 implementation(libs.circuit.foundation)
             }
         }

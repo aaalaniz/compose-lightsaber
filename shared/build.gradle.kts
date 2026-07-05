@@ -2,11 +2,11 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
-    id("lightsaber.module")
+    id("xyz.alaniz.aaron.ccmp")
     alias(libs.plugins.kotlin.native.cocoapods)
     alias(libs.plugins.burst)
 }
-lightsaber {
+ccmp {
     compose = true
     circuit = true
 }
@@ -46,8 +46,7 @@ kotlin {
                 implementation(libs.compose.resources)
                 implementation(libs.androidx.datastore.preferences.core)
                 implementation(libs.androidx.datastore.core.okio)
-                api(libs.circuit.codegen.annotations)
-                implementation(libs.circuit.foundation)
+
                 implementation(libs.circuitx.gesture.navigation)
                 api(libs.kermit)
             }

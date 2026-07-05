@@ -1,9 +1,7 @@
 plugins {
-    id("lightsaber.module")
+    id("xyz.alaniz.aaron.ccmp")
 }
-lightsaber {
-    circuit = true
-}
+
 android { namespace = "xyz.alaniz.aaron.lightsaber.core.data" }
 kotlin {
     sourceSets {
@@ -11,9 +9,9 @@ kotlin {
             dependencies {
                 api(project(":core:ui"))
                 implementation(libs.androidx.datastore.preferences.core)
-                implementation(libs.androidx.datastore.core.okio)
                 implementation(libs.circuit.foundation)
-                api(libs.circuit.codegen.annotations)
+                implementation(libs.androidx.datastore.core.okio)
+
             }
         }
     }
