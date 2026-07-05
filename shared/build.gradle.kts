@@ -46,8 +46,7 @@ kotlin {
                 implementation(libs.compose.resources)
                 implementation(libs.androidx.datastore.preferences.core)
                 implementation(libs.androidx.datastore.core.okio)
-                api(libs.circuit.codegen.annotations)
-                implementation(libs.circuit.foundation)
+
                 implementation(libs.circuitx.gesture.navigation)
                 api(libs.kermit)
             }

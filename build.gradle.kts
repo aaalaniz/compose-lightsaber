@@ -1,5 +1,5 @@
 plugins {
-    id("xyz.alaniz.aaron.ccmp") version "0.1.0" apply false
+    id("xyz.alaniz.aaron.ccmp") version "0.3.0" apply false
     alias(libs.plugins.kotlin.native.cocoapods).apply(false)
     alias(libs.plugins.burst).apply(false)
 }

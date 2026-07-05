@@ -2,7 +2,7 @@ plugins {
     id("xyz.alaniz.aaron.ccmp")
 }
 ccmp {
-    circuit = true
+
     resources {
         publicResClass = true
         packageOfResClass = "xyz.alaniz.aaron.lightsaber.core.audio.resources"
@@ -17,9 +17,9 @@ kotlin {
             dependencies {
                 api(project(":core:ui"))
                 implementation(libs.kermit)
-                implementation(libs.compose.resources)
-                api(libs.circuit.codegen.annotations)
                 implementation(libs.circuit.foundation)
+                implementation(libs.compose.resources)
+
             }
         }
     }
