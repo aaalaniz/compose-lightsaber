@@ -1,7 +1,7 @@
 plugins {
-    id("lightsaber.module")
+    id("xyz.alaniz.aaron.ccmp")
 }
-lightsaber {
+ccmp {
     circuit = true
 }
 android { namespace = "xyz.alaniz.aaron.lightsaber.core.motion" }

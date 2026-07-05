@@ -2,11 +2,11 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
-    id("lightsaber.module")
+    id("xyz.alaniz.aaron.ccmp")
     alias(libs.plugins.kotlin.native.cocoapods)
     alias(libs.plugins.burst)
 }
-lightsaber {
+ccmp {
     compose = true
     circuit = true
 }

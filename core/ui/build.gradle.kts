@@ -1,7 +1,7 @@
 plugins {
-    id("lightsaber.module")
+    id("xyz.alaniz.aaron.ccmp")
 }
-lightsaber {
+ccmp {
     compose = true
     circuit = true
 }
