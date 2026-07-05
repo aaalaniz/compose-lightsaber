@@ -9,6 +9,7 @@ import dev.zacsweers.metro.Provides
 import okio.Path.Companion.toPath
 import xyz.alaniz.aaron.lightsaber.di.DataStorePath
 
+@Suppress("TopLevelPropertyNaming")
 const val dataStoreFileName = "lightsaber.preferences_pb"
 
 @ContributesTo(AppScope::class)

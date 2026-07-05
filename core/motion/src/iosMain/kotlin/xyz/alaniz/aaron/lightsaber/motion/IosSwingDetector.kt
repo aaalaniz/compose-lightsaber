@@ -16,6 +16,7 @@ import kotlin.math.abs
 
 private const val SWING_THRESHOLD = 2.5
 
+@Suppress("MagicNumber")
 @OptIn(ExperimentalForeignApi::class)
 @Inject
 @SingleIn(AppScope::class)

@@ -18,6 +18,7 @@ private const val SWING_THRESHOLD = 8
 
 @Inject
 @SingleIn(AppScope::class)
+@Suppress("EmptyFunctionBlock")
 @ContributesBinding(AppScope::class)
 class AndroidSwingDetector(
     private val sensorManager: SensorManager,

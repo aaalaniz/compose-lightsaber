@@ -15,6 +15,8 @@ kermit = "2.0.4"
 burst = "2.12.2"
 colorpicker = "1.1.2"
 metro = "1.1.1"
+detekt = "1.23.8"
+dependency-analysis = "1.33.0"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
@@ -51,3 +53,5 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 burst = { id = "app.cash.burst", version.ref = "burst" }
 metro = { id = "dev.zacsweers.metro", version.ref = "metro" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependency-analysis" }

@@ -9,6 +9,7 @@ import xyz.alaniz.aaron.lightsaber.di.metro.AndroidApplicationGraph
 import xyz.alaniz.aaron.lightsaber.di.metro.dataStoreFileName
 import xyz.alaniz.aaron.lightsaber.feature.lightsaber.AndroidLightsaberScreen
 
+@Suppress("FunctionNaming")
 @Composable
 fun MainView(appContext: Context) {
     val dataStorePath = appContext.filesDir.resolve(dataStoreFileName).absolutePath

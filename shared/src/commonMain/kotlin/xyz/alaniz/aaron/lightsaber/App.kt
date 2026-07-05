@@ -11,6 +11,7 @@ import com.slack.circuit.runtime.screen.Screen
 import kotlinx.coroutines.CoroutineScope
 import xyz.alaniz.aaron.lightsaber.di.metro.CircuitProvider
 
+@Suppress("FunctionNaming")
 @Composable
 fun App(initialScreen: Screen, createAppComponent: (CoroutineScope) -> CircuitProvider) {
     val scope = rememberCoroutineScope()

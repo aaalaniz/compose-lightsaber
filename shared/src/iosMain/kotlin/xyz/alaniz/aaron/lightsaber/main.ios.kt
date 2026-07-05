@@ -16,6 +16,7 @@ import xyz.alaniz.aaron.lightsaber.di.metro.dataStoreFileName
 import xyz.alaniz.aaron.lightsaber.feature.lightsaber.IosLightsaberScreen
 import kotlin.experimental.ExperimentalNativeApi
 
+@Suppress("FunctionNaming")
 @OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
 fun MainViewController() = ComposeUIViewController(configure = {}) {
     val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(

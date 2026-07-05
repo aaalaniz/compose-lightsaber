@@ -1,0 +1,16 @@
+naming:
+  FunctionNaming:
+    active: false
+  TopLevelPropertyNaming:
+    active: false
+  InvalidPackageDeclaration:
+    active: false
+empty-blocks:
+  EmptyFunctionBlock:
+    active: false
+style:
+  MagicNumber:
+    active: false
+complexity:
+  LongMethod:
+    active: false
