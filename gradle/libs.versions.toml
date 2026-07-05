@@ -16,7 +16,7 @@ burst = "2.12.2"
 colorpicker = "1.1.2"
 metro = "1.1.1"
 detekt = "1.23.8"
-dependency-analysis = "1.33.0"
+dependency-analysis = "3.16.0"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
