@@ -7,6 +7,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                api(project(":core:platform"))
                 api(project(":core:ui"))
                 implementation(libs.androidx.datastore.preferences.core)
                 implementation(libs.circuit.foundation)

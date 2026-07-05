@@ -34,6 +34,7 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":core:ui"))
+                api(project(":core:platform"))
                 api(project(":core:data"))
                 api(project(":core:audio"))
                 api(project(":core:motion"))

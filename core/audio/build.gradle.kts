@@ -15,7 +15,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":core:ui"))
+                api(project(":core:platform"))
                 implementation(libs.kermit)
                 implementation(libs.circuit.foundation)
                 implementation(libs.compose.resources)
