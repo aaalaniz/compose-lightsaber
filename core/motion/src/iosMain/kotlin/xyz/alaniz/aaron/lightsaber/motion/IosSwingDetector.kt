@@ -15,8 +15,9 @@ import dev.zacsweers.metro.AppScope
 import kotlin.math.abs
 
 private const val SWING_THRESHOLD = 2.5
+private const val UPDATE_INTERVAL = 0.1
+private const val FALLBACK_ACCELERATION = 0.0
 
-@Suppress("MagicNumber")
 @OptIn(ExperimentalForeignApi::class)
 @Inject
 @SingleIn(AppScope::class)
@@ -27,12 +28,12 @@ class IosSwingDetector(
 ) : SwingDetector {
     override val swings: Flow<SwingEvent> = callbackFlow {
         memScoped {
-            motionManager.deviceMotionUpdateInterval = 0.1
+            motionManager.deviceMotionUpdateInterval = UPDATE_INTERVAL
 
             motionManager.startAccelerometerUpdatesToQueue(queue = motionQueue.value) { data, _ ->
                     val accelerometerData = data?.acceleration?.ptr?.pointed
-                    val x = abs(accelerometerData?.x ?: 0.0)
-                    val y = abs(accelerometerData?.y ?: 0.0)
+                    val x = abs(accelerometerData?.x ?: FALLBACK_ACCELERATION)
+                    val y = abs(accelerometerData?.y ?: FALLBACK_ACCELERATION)
 
                     if (x > SWING_THRESHOLD && y > SWING_THRESHOLD) {
                         trySendBlocking(SwingEvent)

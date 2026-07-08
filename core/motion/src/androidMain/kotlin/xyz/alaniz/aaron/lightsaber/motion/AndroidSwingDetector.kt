@@ -18,7 +18,6 @@ private const val SWING_THRESHOLD = 8
 
 @Inject
 @SingleIn(AppScope::class)
-@Suppress("EmptyFunctionBlock")
 @ContributesBinding(AppScope::class)
 class AndroidSwingDetector(
     private val sensorManager: SensorManager,
@@ -36,7 +35,9 @@ class AndroidSwingDetector(
                     }
                 }
 
-                override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+                override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+                    // no-op
+                }
             }
             sensorManager.registerListener(
                 sensorEventListener,

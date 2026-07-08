@@ -12,13 +12,12 @@ import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
 import xyz.alaniz.aaron.lightsaber.di.DataStorePath
 import xyz.alaniz.aaron.lightsaber.di.metro.IosApplicationGraph
-import xyz.alaniz.aaron.lightsaber.di.metro.dataStoreFileName
+import xyz.alaniz.aaron.lightsaber.di.metro.DATA_STORE_FILE_NAME
 import xyz.alaniz.aaron.lightsaber.feature.lightsaber.IosLightsaberScreen
 import kotlin.experimental.ExperimentalNativeApi
 
-@Suppress("FunctionNaming")
 @OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
-fun MainViewController() = ComposeUIViewController(configure = {}) {
+fun mainViewController() = ComposeUIViewController(configure = {}) {
     val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
         inDomain = NSUserDomainMask,
@@ -26,7 +25,7 @@ fun MainViewController() = ComposeUIViewController(configure = {}) {
         create = false,
         error = null,
     )
-    val dataStorePath = requireNotNull(documentDirectory).path + "/$dataStoreFileName"
+    val dataStorePath = requireNotNull(documentDirectory).path + "/$DATA_STORE_FILE_NAME"
 
     /**
      * Use NSLogWriter so that logs are available to pull off the simulator in CI.

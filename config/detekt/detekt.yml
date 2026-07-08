@@ -1,16 +1,25 @@
 naming:
   FunctionNaming:
-    active: false
+    active: true
+    ignoreAnnotated: ['Composable']
   TopLevelPropertyNaming:
-    active: false
+    active: true
+    constantPattern: '[A-Z][_a-zA-Z0-9]*'
   InvalidPackageDeclaration:
-    active: false
+    active: true
+
 empty-blocks:
   EmptyFunctionBlock:
-    active: false
+    active: true
+
 style:
   MagicNumber:
-    active: false
+    active: true
+    ignorePropertyDeclaration: true
+
 complexity:
   LongMethod:
-    active: false
+    active: true
+  LongParameterList:
+    active: true
+    ignoreAnnotated: ['Composable']
