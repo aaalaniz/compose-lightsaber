@@ -184,32 +184,50 @@ fun LightsaberBladeColorDropdownMenu(
                 LightsaberCircle(color = currentColor, modifier = Modifier.clickable {
                     expanded.value = true
                 })
-                DropdownMenu(
+                LightsaberColorMenu(
                     expanded = expanded.value,
-                    modifier = Modifier.width(64.dp),
-                    onDismissRequest = { expanded.value = false }) {
-                    colors.forEach { item ->
-                        DropdownMenuItem(
-                            onClick = {
-                                if (item == LightsaberCustom) {
-                                    showColorPickerDialog.value = true
-                                } else {
-                                    onColorSelected(item)
-                                }
-                                expanded.value = false
-                            },
-                        ) {
-                            if (item == LightsaberCustom) {
-                                Icon(
-                                    imageVector = Icons.Filled.Palette,
-                                    contentDescription = "Custom Color",
-                                    tint = if (currentColor == LightsaberCustom) currentColor else Color.White
-                                )
-                            } else {
-                                LightsaberCircle(color = item)
-                            }
+                    colors = colors,
+                    currentColor = currentColor,
+                    onDismiss = { expanded.value = false },
+                    onColorSelected = { item ->
+                        if (item == LightsaberCustom) {
+                            showColorPickerDialog.value = true
+                        } else {
+                            onColorSelected(item)
                         }
+                        expanded.value = false
                     }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun LightsaberColorMenu(
+    expanded: Boolean,
+    colors: List<Color>,
+    currentColor: Color,
+    onDismiss: () -> Unit,
+    onColorSelected: (Color) -> Unit
+) {
+    DropdownMenu(
+        expanded = expanded,
+        modifier = Modifier.width(64.dp),
+        onDismissRequest = onDismiss
+    ) {
+        colors.forEach { item ->
+            DropdownMenuItem(
+                onClick = { onColorSelected(item) },
+            ) {
+                if (item == LightsaberCustom) {
+                    Icon(
+                        imageVector = Icons.Filled.Palette,
+                        contentDescription = "Custom Color",
+                        tint = if (currentColor == LightsaberCustom) currentColor else Color.White
+                    )
+                } else {
+                    LightsaberCircle(color = item)
                 }
             }
         }

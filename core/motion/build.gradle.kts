@@ -7,9 +7,10 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                api(project(":core:platform"))
                 implementation(libs.kermit)
+                api(libs.circuit.codegen.annotations)
                 implementation(libs.circuit.foundation)
-                api(project(":core:ui"))
 
             }
         }

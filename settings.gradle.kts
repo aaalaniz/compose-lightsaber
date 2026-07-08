@@ -10,6 +10,7 @@ rootProject.name = "Lightsaber"
 include(":androidApp")
 include(":shared")
 include(":core:ui")
+include(":core:platform")
 include(":core:data")
 include(":core:audio")
 include(":core:motion")

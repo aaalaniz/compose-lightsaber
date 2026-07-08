@@ -26,6 +26,7 @@ import xyz.alaniz.aaron.lightsaber.motion.SwingDetector
 import xyz.alaniz.aaron.lightsaber.feature.settings.SettingsScreen
 import xyz.alaniz.aaron.lightsaber.util.noop
 
+private const val IDLE_SOUND_DELAY_MS = 500L
 sealed interface LightsaberEvent : CircuitUiEvent {
     data object LightsaberActivating : LightsaberEvent
     data object LightsaberActivated : LightsaberEvent
@@ -113,7 +114,7 @@ class LightsaberPresenter(
                         soundPlayer.play(soundResource = swingSounds.random(), loop = false)
                         playIdleSoundJob?.cancel()
                         playIdleSoundJob = launch {
-                            delay(500)
+                            delay(IDLE_SOUND_DELAY_MS)
                             if (isActive) {
                                 soundPlayer.play(soundResource = lightsaberIdleSound, loop = true)
                             }

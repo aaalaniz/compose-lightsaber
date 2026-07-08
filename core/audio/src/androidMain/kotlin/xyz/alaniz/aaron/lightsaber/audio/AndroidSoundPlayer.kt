@@ -40,8 +40,8 @@ class AndroidSoundPlayer(
             soundPool.setOnLoadCompleteListener(onLoadListener)
 
             soundResourceToStreamIdMap = sounds.associateWith { sound ->
-                val assetPath =
-                    "composeResources/xyz.alaniz.aaron.lightsaber.core.audio.resources/${sound.directory}/${sound.name}.${sound.fileType}"
+                val assetPath = "composeResources/xyz.alaniz.aaron.lightsaber.core.audio.resources/" +
+                        "${sound.directory}/${sound.name}.${sound.fileType}"
                 val afd = context.assets.openFd(assetPath)
                 SoundIds(loadId = soundPool.load(afd, 1))
             }

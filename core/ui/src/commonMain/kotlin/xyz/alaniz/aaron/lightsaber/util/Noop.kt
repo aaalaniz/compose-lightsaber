@@ -1,3 +1,5 @@
 package xyz.alaniz.aaron.lightsaber.util
 
-fun noop() {}
+fun noop() {
+    // no-op
+}

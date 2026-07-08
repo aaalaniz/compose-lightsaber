@@ -35,7 +35,9 @@ class AndroidSwingDetector(
                     }
                 }
 
-                override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+                override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+                    // no-op
+                }
             }
             sensorManager.registerListener(
                 sensorEventListener,

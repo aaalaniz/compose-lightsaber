@@ -7,5 +7,7 @@ import kotlin.test.Test
  */
 class AndroidSoundPlayerTest {
     @Test
-    fun `play without loading should fail`() {}
+    fun `play without loading should fail`() {
+        // TODO
+    }
 }

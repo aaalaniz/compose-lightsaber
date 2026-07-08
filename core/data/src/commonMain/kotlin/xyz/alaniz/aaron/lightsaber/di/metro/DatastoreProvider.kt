@@ -9,7 +9,7 @@ import dev.zacsweers.metro.Provides
 import okio.Path.Companion.toPath
 import xyz.alaniz.aaron.lightsaber.di.DataStorePath
 
-const val dataStoreFileName = "lightsaber.preferences_pb"
+const val DATA_STORE_FILE_NAME = "lightsaber.preferences_pb"
 
 @ContributesTo(AppScope::class)
 interface DatastoreProvider {
